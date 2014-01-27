@@ -18,6 +18,12 @@ namespace MedicationsShortagesDashboard.Models
         public string drugName { get; set; }
         public StatusCondition status { get; set; }
         public string sourceURL { get; set; }
+
+        public Shortage(string name, StatusCondition stat, string source) {
+            drugName = name;
+            status = stat;
+            sourceURL = source;
+        }
     }
 
     public class ShortageDbContext : DbContext

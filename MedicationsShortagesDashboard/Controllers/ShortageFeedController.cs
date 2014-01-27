@@ -15,7 +15,8 @@ namespace MedicationsShortagesDashboard.Controllers
         public string Index()
         {
             XmlReader reader = XmlReader.Create("http://www.ashp.org/rss/shortages/#current");
-            List<string> things = new List<String>();
+            List<string> rssElements = new List<String>();
+            String tag = "";
 
             while (reader.Read())
             {
@@ -23,10 +24,11 @@ namespace MedicationsShortagesDashboard.Controllers
                 {
                     case XmlNodeType.Element:
                         //writer.WriteStartElement(reader.Name);
+                        tag = reader.Name;
                         break;
                     case XmlNodeType.Text:
                         //writer.WriteString(reader.Value);
-                        things.Add(reader.Value);
+                        rssElements.Add(tag + ": " + reader.Value);
                         break;
                     case XmlNodeType.XmlDeclaration:
                     case XmlNodeType.ProcessingInstruction:
@@ -42,8 +44,8 @@ namespace MedicationsShortagesDashboard.Controllers
             }
             String returnStr = "<u>stuff</u>";
 
-            foreach(String thing in things) {
-                returnStr = returnStr + "<br>" + thing;
+            foreach(String rssElement in rssElements) {
+                returnStr = returnStr + "<br>" + rssElement;
             }
             return returnStr;
         }

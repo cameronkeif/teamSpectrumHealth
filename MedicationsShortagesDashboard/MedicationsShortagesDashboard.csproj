@@ -168,7 +168,7 @@
     </Compile>
     <Compile Include="Models\Shortage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utilities\rssFeedParser.cs" />
+    <Compile Include="Utilities\RssFeedParser.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />

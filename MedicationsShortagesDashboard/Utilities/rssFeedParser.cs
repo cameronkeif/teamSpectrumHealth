@@ -11,32 +11,30 @@ namespace MedicationsShortagesDashboard.Utilities
     {
         public static List<Shortage> parseAshpFeed(string URL, StatusCondition status)
         {
-            XmlReader reader = XmlReader.Create(URL);
+            XmlReader reader = XmlReader.Create(URL); // Creates an XML reader from the given ASHP URL
             List<Shortage> shortages = new List<Shortage>();
-            String tag = String.Empty, link = String.Empty, drugName = String.Empty;
+            String drugName = String.Empty; // Used to keep track of the drug name for the entry being parsed
 
-            //TODO clean up this. I think it can be made better -CK
+            // Each drug shortage is listed under the <item> tag.
+            // Move to first <item>
+            reader.ReadToFollowing("item");
             while (reader.Read())
             {
-                switch (reader.NodeType)
+                if (reader.NodeType.Equals(XmlNodeType.Element))
                 {
-                    case XmlNodeType.Element:
-                        tag = reader.Name;
-                        break;
-                    case XmlNodeType.Text:
-                        if (tag.Equals("category"))
-                        {
-                            drugName = reader.Value.Replace("Shortage Bulletin", String.Empty);
-                        }
-                        if (tag.Equals("link"))
-                        {
-                            // The top of the feed also contains links. Need to ensure these links are actually for drug shortage information
-                            if (!String.IsNullOrEmpty(drugName))
-                            {
-                                shortages.Add(new Shortage(drugName, status, reader.Value));
-                            }
-                        }
-                        break;
+                    // Name of the drug
+                    if (reader.Name.Equals("title"))
+                    {
+                        // Need to hang on to this, don't have URL yet...
+                        drugName = reader.ReadElementContentAsString().Replace("Shortage Bulletin", String.Empty);
+                    }
+
+                    // Source URL of the drug shortage.
+                    if (reader.Name.Equals("link"))
+                    {
+                        shortages.Add(new Shortage(drugName, status, reader.ReadElementContentAsString()));
+                    }
+                        
                 }
             }
 

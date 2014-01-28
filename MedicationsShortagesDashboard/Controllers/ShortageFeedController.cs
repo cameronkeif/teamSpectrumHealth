@@ -15,18 +15,19 @@ namespace MedicationsShortagesDashboard.Controllers
 
         public string Index()
         {
-            String returnStr = "<u>WARNING</u><br>";
+            String returnStr = "<u>WARNING</u><br><table border=\"1\">";
             List<Shortage> shortages = parseAshpFeed("http://www.ashp.org/rss/shortages/#current", StatusCondition.WARNING); // Parse the shortage feed
             foreach(Shortage shortage in shortages) {
-                returnStr = returnStr + shortage.drugName + "-" + shortage.status.ToString() + "-" + shortage.sourceURL + "<br>";
+                returnStr += "<tr><td>" + shortage.drugName + "</td><td>" + shortage.status.ToString() + "</td><td>" + shortage.sourceURL + "</td></tr>";
             }
 
-            returnStr += "<br><br><u>SEVERE</u><br>";
+            returnStr += "</table><br><br><u>SEVERE</u><br><table border=\"1\">";
 
             shortages = parseAshpFeed("http://www.ashp.org/rss/notavailable/#notavailable", StatusCondition.SEVERE); // Parse the shortage feed
             foreach(Shortage shortage in shortages) {
-                returnStr = returnStr + shortage.drugName + "-" + shortage.status.ToString() + "-" + shortage.sourceURL + "<br>";
+                returnStr += "<tr><td>" + shortage.drugName + "</td><td>" + shortage.status.ToString() + "</td><td>" + shortage.sourceURL + "</td></tr>";
             }
+            returnStr += "</table>";
             return returnStr;
         }
 

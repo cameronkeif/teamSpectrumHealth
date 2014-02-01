@@ -19,9 +19,8 @@ namespace MedicationsShortagesDashboard.Models
         public StatusCondition status { get; set; }
         public string sourceURL { get; set; }
 
-        public Shortage(string name, StatusCondition stat, string source) {
+        public Shortage(string name, string source) {
             drugName = name;
-            status = stat;
             sourceURL = source;
         }
     }

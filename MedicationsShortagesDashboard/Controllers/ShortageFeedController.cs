@@ -25,19 +25,12 @@ namespace MedicationsShortagesDashboard.Controllers
         /// <returns>HTML string</returns>
         public string Index()
         {
+            string returnStr = "<table>";
             XmlReader reader = XmlReader.Create("http://www.ashp.org/rss/shortages/#current");
             List<Shortage> shortages = RssFeedParser.ParseAshpFeed(reader); // Parse the shortage feed
             foreach (Shortage shortage in shortages) 
             {
-                returnStr += "<tr><td>" + shortage.drugName + "</td><td>" + shortage.status.ToString() + "</td><td>" + shortage.sourceURL + "</td></tr>";
-            }
-
-            returnStr += "</table><br><br><u>SEVERE</u><br><table border=\"1\">";
-
-            shortages = RssFeedParser.ParseAshpFeed("http://www.ashp.org/rss/notavailable/#notavailable", StatusCondition.SEVERE); // Parse the shortage feed
-            foreach (Shortage shortage in shortages) 
-            {
-                returnStr += "<tr><td>" + shortage.drugName + "</td><td>" + shortage.status.ToString() + "</td><td>" + shortage.sourceURL + "</td></tr>";
+                returnStr += "<tr><td>" + shortage.drugName + "</td><td>" + shortage.sourceURL + "</td></tr>";
             }
 
             returnStr += "</table>";

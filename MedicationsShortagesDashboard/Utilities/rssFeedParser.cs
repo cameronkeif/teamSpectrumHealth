@@ -43,7 +43,7 @@ namespace MedicationsShortagesDashboard.Utilities
                     // Source URL of the drug shortage.
                     if (reader.Name.Equals("link"))
                     {
-                        shortages.Add(new Shortage(drugName, status, reader.ReadElementContentAsString()));
+                        shortages.Add(new Shortage(drugName, reader.ReadElementContentAsString()));
                     }                                       
                 }
             }

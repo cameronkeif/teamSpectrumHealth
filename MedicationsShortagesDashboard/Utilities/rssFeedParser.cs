@@ -19,12 +19,10 @@ namespace MedicationsShortagesDashboard.Utilities
         /// <summary>
         /// Parses the ASHP RSS feed
         /// </summary>
-        /// <param name="url">The URL of the feed</param>
-        /// <param name="status">The status condition for the entries in this feed.</param>
+        /// <param name="reader">The XML reader containing the XML to parse.</param>
         /// <returns>A list of Shortages generated from the feed</returns>
-        public static List<Shortage> ParseAshpFeed(string url, StatusCondition status)
+        public static List<Shortage> ParseAshpFeed(XmlReader reader)
         {
-            XmlReader reader = XmlReader.Create(url); // Creates an XML reader from the given ASHP URL
             List<Shortage> shortages = new List<Shortage>();
             string drugName = string.Empty; // Used to keep track of the drug name for the entry being parsed
 

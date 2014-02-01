@@ -37,7 +37,7 @@ namespace MedicationsShortagesDashboard.Utilities
                     if (reader.Name.Equals("title"))
                     {
                         // Need to hang on to this, don't have URL yet...
-                        drugName = reader.ReadElementContentAsString().Replace("Shortage Bulletin", string.Empty);
+                        drugName = reader.ReadElementContentAsString();
                     }
 
                     // Source URL of the drug shortage.

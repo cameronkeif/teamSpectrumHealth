@@ -25,8 +25,9 @@ namespace MedicationsShortagesDashboard.Controllers
         /// <returns>HTML string</returns>
         public string Index()
         {
+            XmlReader reader = XmlReader.Create("http://www.ashp.org/rss/shortages/#current");
             string returnStr = "<table>";
-            List<PendingShortage> shortages = RssFeedParser.ParseAshpFeed("http://www.ashp.org/rss/shortages/#current"); // Parse the shortage feed
+            List<PendingShortage> shortages = RssFeedParser.ParseAshpFeed(reader); // Parse the shortage feed
             foreach (PendingShortage shortage in shortages) 
             {
                 returnStr += "<tr><td>" + shortage.DrugName + "</td><td>" + shortage.SourceURL + "</td></tr>";

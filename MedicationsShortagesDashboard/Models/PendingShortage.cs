@@ -70,5 +70,10 @@ namespace MedicationsShortagesDashboard.Models
                 this.sourceURL = value;
             }
         }
+
+        public bool Equals(PendingShortage s)
+        {
+            return this.drugName.Equals(s.DrugName) & this.sourceURL.Equals(s.SourceURL);
+        }
     }
 }

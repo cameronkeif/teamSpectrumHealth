@@ -21,32 +21,40 @@ namespace MedicationsShortagesDashboard.Utilities
         /// </summary>
         /// <param name="reader">The XML reader containing the XML to parse.</param>
         /// <returns>A list of Shortages generated from the feed</returns>
-        public static List<PendingShortage> ParseAshpFeed(string source)
+        public static List<PendingShortage> ParseAshpFeed(XmlReader reader)
         {
-            XmlReader reader = XmlReader.Create(source);
             List<PendingShortage> shortages = new List<PendingShortage>();
             string drugName = string.Empty; // Used to keep track of the drug name for the entry being parsed
 
             // Each drug shortage is listed under the <item> tag.
             // Move to first <item>
-            reader.ReadToFollowing("item");
-            while (reader.Read())
+            try
             {
-                if (reader.NodeType.Equals(XmlNodeType.Element))
-                {
-                    // Name of the drug
-                    if (reader.Name.Equals("title"))
-                    {
-                        // Need to hang on to this, don't have URL yet...
-                        drugName = reader.ReadElementContentAsString();
-                    }
+                reader.ReadToFollowing("item");
 
-                    // Source URL of the drug shortage.
-                    if (reader.Name.Equals("link"))
+                while (reader.Read())
+                {
+                    if (reader.NodeType.Equals(XmlNodeType.Element))
                     {
-                        shortages.Add(new PendingShortage(drugName, reader.ReadElementContentAsString()));
-                    }                                       
+                        // Name of the drug
+                        if (reader.Name.Equals("title"))
+                        {
+                            // Need to hang on to this, don't have URL yet...
+                            drugName = reader.ReadElementContentAsString().Trim();
+                        }
+
+                        // Source URL of the drug shortage.
+                        if (reader.Name.Equals("link"))
+                        {
+                            shortages.Add(new PendingShortage(drugName, reader.ReadElementContentAsString().Trim()));
+                        }
+                    }
                 }
+            }
+            catch (XmlException e) 
+            {
+                // The XML is not properly formed, just return what we've got.
+                Console.WriteLine(e.Message);
             }
 
             return shortages;        

@@ -21,8 +21,9 @@ namespace MedicationsShortagesDashboard.Utilities
         /// </summary>
         /// <param name="reader">The XML reader containing the XML to parse.</param>
         /// <returns>A list of Shortages generated from the feed</returns>
-        public static List<PendingShortage> ParseAshpFeed(XmlReader reader)
+        public static List<PendingShortage> ParseAshpFeed(string source)
         {
+            XmlReader reader = XmlReader.Create(source);
             List<PendingShortage> shortages = new List<PendingShortage>();
             string drugName = string.Empty; // Used to keep track of the drug name for the entry being parsed
 

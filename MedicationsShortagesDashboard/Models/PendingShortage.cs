@@ -62,12 +62,12 @@ namespace MedicationsShortagesDashboard.Models
         {
             get
             {
-                return this.SourceURL;
+                return this.sourceURL;
             }
 
             set
             {
-                this.SourceURL = value;
+                this.sourceURL = value;
             }
         }
     }

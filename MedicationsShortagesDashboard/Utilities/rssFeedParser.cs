@@ -21,9 +21,9 @@ namespace MedicationsShortagesDashboard.Utilities
         /// </summary>
         /// <param name="reader">The XML reader containing the XML to parse.</param>
         /// <returns>A list of Shortages generated from the feed</returns>
-        public static List<Shortage> ParseAshpFeed(XmlReader reader)
+        public static List<PendingShortage> ParseAshpFeed(XmlReader reader)
         {
-            List<Shortage> shortages = new List<Shortage>();
+            List<PendingShortage> shortages = new List<PendingShortage>();
             string drugName = string.Empty; // Used to keep track of the drug name for the entry being parsed
 
             // Each drug shortage is listed under the <item> tag.
@@ -43,7 +43,7 @@ namespace MedicationsShortagesDashboard.Utilities
                     // Source URL of the drug shortage.
                     if (reader.Name.Equals("link"))
                     {
-                        shortages.Add(new Shortage(drugName, reader.ReadElementContentAsString()));
+                        shortages.Add(new PendingShortage(drugName, reader.ReadElementContentAsString()));
                     }                                       
                 }
             }

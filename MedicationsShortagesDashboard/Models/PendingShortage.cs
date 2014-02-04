@@ -21,12 +21,6 @@ namespace MedicationsShortagesDashboard.Models
     public class PendingShortage
     {
         /// <summary>
-        /// ID of drug
-        /// </summary>
-        [Key]
-        private int id;
-
-        /// <summary>
         /// Name of the drug.
         /// </summary>
         [Column("DRUG_NAME")]
@@ -51,19 +45,13 @@ namespace MedicationsShortagesDashboard.Models
         }
 
         /// <summary>
-        /// Gets or sets id
+        /// Initializes a new instance of the <see cref="PendingShortage"/>
+        /// class without parameters
         /// </summary>
-        public int Id
+        public PendingShortage()
         {
-            get
-            {
-                return this.id;
-            }
-
-            set
-            {
-                this.id = value;
-            }
+            this.drugName = string.Empty;
+            this.sourceURL = string.Empty;
         }
 
         /// <summary>
@@ -86,6 +74,7 @@ namespace MedicationsShortagesDashboard.Models
         /// <summary>
         /// Gets or sets the source URL
         /// </summary>
+        [Key]
         [Column("SOURCE_URL")]
         public string SourceURL
         {

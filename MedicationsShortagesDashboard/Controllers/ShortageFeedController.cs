@@ -7,6 +7,7 @@ namespace MedicationsShortagesDashboard.Controllers
 {
     using System;
     using System.Collections.Generic;
+    using System.Data.Entity.Infrastructure;
     using System.Linq;
     using System.Web;
     using System.Web.Mvc;
@@ -29,9 +30,13 @@ namespace MedicationsShortagesDashboard.Controllers
             
             List<PendingShortage> shortages = RssFeedParser.ParseAshpFeed(reader); // Parse the shortage feed
             PendingShortageDBContext db = new PendingShortageDBContext(); // This will be handled restfully later.
-            foreach (PendingShortage shortage in shortages) 
+
+            foreach (PendingShortage shortage in shortages)
             {
-                db.PendingShortages.Add(shortage);
+                if (db.PendingShortages.FirstOrDefault(i => i.SourceURL == shortage.SourceURL) == null)
+                {
+                    db.PendingShortages.Add(shortage);
+                }
             }
 
             db.SaveChanges();

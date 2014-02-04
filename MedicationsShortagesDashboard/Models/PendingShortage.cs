@@ -8,6 +8,8 @@ namespace MedicationsShortagesDashboard.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity;
     using System.Linq;
     using System.Web;
@@ -15,16 +17,25 @@ namespace MedicationsShortagesDashboard.Models
     /// <summary>
     /// Class for a pending shortage that needed admin approval
     /// </summary>
+    [Table("PENDING_SHORTAGES")]
     public class PendingShortage
     {
         /// <summary>
+        /// ID of drug
+        /// </summary>
+        [Key]
+        private int id;
+
+        /// <summary>
         /// Name of the drug.
         /// </summary>
+        [Column("DRUG_NAME")]
         private string drugName;
 
         /// <summary>
         /// URL that the drug originated from
         /// </summary>
+        [Column("SOURCE_URL")]
         private string sourceURL;
 
         /// <summary>
@@ -40,8 +51,25 @@ namespace MedicationsShortagesDashboard.Models
         }
 
         /// <summary>
+        /// Gets or sets id
+        /// </summary>
+        public int Id
+        {
+            get
+            {
+                return this.id;
+            }
+
+            set
+            {
+                this.id = value;
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the drug's name
         /// </summary>
+        [Column("DRUG_NAME")]
         public string DrugName
         {
             get
@@ -58,6 +86,7 @@ namespace MedicationsShortagesDashboard.Models
         /// <summary>
         /// Gets or sets the source URL
         /// </summary>
+        [Column("SOURCE_URL")]
         public string SourceURL
         {
             get
@@ -71,6 +100,11 @@ namespace MedicationsShortagesDashboard.Models
             }
         }
 
+        /// <summary>
+        /// Checks if two pending shortages are equal. Mostly used for unit testing.
+        /// </summary>
+        /// <param name="s">The other pending shortage we're checking equivalence against.</param>
+        /// <returns>boolean indicating if the two pending shortages are equal.</returns>
         public bool Equals(PendingShortage s)
         {
             return this.drugName.Equals(s.DrugName) & this.sourceURL.Equals(s.SourceURL);

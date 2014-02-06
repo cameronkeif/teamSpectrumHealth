@@ -56,9 +56,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MedicationsShortagesDashboard\MedicationsShortagesDashboard.csproj">
+    <ProjectReference Include="..\MedicationsShortagesDashboard\MedicationsShortagesDashboardREST.csproj">
       <Project>{f294527a-5308-47e0-8d1a-44139569f107}</Project>
-      <Name>MedicationsShortagesDashboard</Name>
+      <Name>MedicationsShortagesDashboardREST</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

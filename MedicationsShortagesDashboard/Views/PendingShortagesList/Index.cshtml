@@ -1,0 +1,23 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="body">
+    <ul id="pending_shortages"></ul>
+</div>
+
+@section scripts{
+<script type="text/javascript">
+$(function()
+{
+        $.getJSON('/api/PendingShortage', function(pendingShortagesJsonPayload)
+        {
+            $(pendingShortagesJsonPayload).each(function(i, item)
+            {
+                $('#pending_shortages').append('<li>' + item.DrugName + " - <a href=" + item.SourceURL + ">" + item.SourceURL + '</li>');
+            });
+        });
+});
+</script>
+}

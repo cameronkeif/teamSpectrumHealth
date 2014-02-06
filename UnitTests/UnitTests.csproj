@@ -56,9 +56,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MedicationsShortagesDashboard\MedicationsShortagesDashboard.csproj">
+    <ProjectReference Include="..\MedicationsShortagesDashboardUI\MedicationsShortagesDashboardUI.csproj">
+      <Project>{7799c28f-1219-4636-b549-fbd5c07a5509}</Project>
+      <Name>MedicationsShortagesDashboardUI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MedicationsShortagesDashboard\MedicationsShortagesDashboardREST.csproj">
       <Project>{f294527a-5308-47e0-8d1a-44139569f107}</Project>
-      <Name>MedicationsShortagesDashboard</Name>
+      <Name>MedicationsShortagesDashboardREST</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

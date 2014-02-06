@@ -1,14 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicationsShortagesDashboardREST", "MedicationsShortagesDashboard\MedicationsShortagesDashboardREST.csproj", "{F294527A-5308-47E0-8D1A-44139569F107}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicationsShortagesDashboard", "MedicationsShortagesDashboard\MedicationsShortagesDashboard.csproj", "{F294527A-5308-47E0-8D1A-44139569F107}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{770C4840-9AD0-4FCB-AACB-D48302ADF1B1}"
 	ProjectSection(ProjectDependencies) = postProject
 		{F294527A-5308-47E0-8D1A-44139569F107} = {F294527A-5308-47E0-8D1A-44139569F107}
 	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicationsShortagesDashboardUI", "MedicationsShortagesDashboardUI\MedicationsShortagesDashboardUI.csproj", "{7799C28F-1219-4636-B549-FBD5C07A5509}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,10 +22,6 @@ Global
 		{770C4840-9AD0-4FCB-AACB-D48302ADF1B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{770C4840-9AD0-4FCB-AACB-D48302ADF1B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{770C4840-9AD0-4FCB-AACB-D48302ADF1B1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7799C28F-1219-4636-B549-FBD5C07A5509}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7799C28F-1219-4636-B549-FBD5C07A5509}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7799C28F-1219-4636-B549-FBD5C07A5509}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7799C28F-1219-4636-B549-FBD5C07A5509}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

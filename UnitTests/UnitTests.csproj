@@ -35,7 +35,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Moq">
+      <HintPath>..\packages\Moq.4.2.1312.1622\lib\net40\Moq.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.XML" />
   </ItemGroup>
   <Choose>
@@ -51,6 +55,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="PendingShortageControllerTests.cs" />
     <Compile Include="PendingShortageTests.cs" />
     <Compile Include="RssFeedParserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -60,6 +65,9 @@
       <Project>{f294527a-5308-47e0-8d1a-44139569f107}</Project>
       <Name>MedicationsShortagesDashboard</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

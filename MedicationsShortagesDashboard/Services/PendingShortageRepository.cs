@@ -19,7 +19,7 @@ namespace MedicationsShortagesDashboard.Services
         /// Gets every entry in PENDING_SHORTAGES
         /// </summary>
         /// <returns>An array containing all of the entries in PENDING_SHORTAGES</returns>
-        public PendingShortage[] GetAllPendingShortages()
+        public virtual PendingShortage[] GetAllPendingShortages()
         {
             PendingShortageDBContext db = new PendingShortageDBContext();
             List<PendingShortage> pendingShortages = new List<PendingShortage>();

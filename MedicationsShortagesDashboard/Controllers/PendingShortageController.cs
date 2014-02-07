@@ -30,12 +30,21 @@ namespace MedicationsShortagesDashboard.Controllers
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="PendingShortageController"/> class
+        /// </summary>
+        /// <param name="pendingShortageRepository">The database interaction layer</param>
+        public PendingShortageController(PendingShortageRepository pendingShortageRepository)
+        {
+            this.pendingShortageRepository = pendingShortageRepository;
+        }
+
+        /// <summary>
         /// HTTP Get
         /// </summary>
         /// <returns>All of the entries in the PENDING_SHORTAGES table.</returns>
         public PendingShortage[] Get()
         {
-            return this.pendingShortageRepository.GetAllContacts();
+            return this.pendingShortageRepository.GetAllPendingShortages();
         }
     }
 }

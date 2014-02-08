@@ -1,10 +1,12 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using System.Web;
 using System.Web.Http.Description;
 
 namespace MedicationsShortagesDashboard.Areas.HelpPage
 {
+    [ExcludeFromCodeCoverage]
     public static class ApiDescriptionExtensions
     {
         /// <summary>

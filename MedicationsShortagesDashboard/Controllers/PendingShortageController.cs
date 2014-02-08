@@ -9,6 +9,7 @@ namespace MedicationsShortagesDashboard.Controllers
     using System.Web.Http;
     using MedicationsShortagesDashboard.Models;
     using MedicationsShortagesDashboard.Services;
+    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// Provides a Restful interaction between the application and the
@@ -24,6 +25,7 @@ namespace MedicationsShortagesDashboard.Controllers
         /// <summary>
         /// Initializes a new instance of the <see cref="PendingShortageController"/> class
         /// </summary>
+        [ExcludeFromCodeCoverage]
         public PendingShortageController()
         {
             this.pendingShortageRepository = new PendingShortageRepository();

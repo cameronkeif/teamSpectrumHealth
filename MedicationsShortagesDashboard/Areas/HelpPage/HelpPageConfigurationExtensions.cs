@@ -11,6 +11,7 @@ using MedicationsShortagesDashboard.Areas.HelpPage.Models;
 
 namespace MedicationsShortagesDashboard.Areas.HelpPage
 {
+    [ExcludeFromCodeCoverage]
     public static class HelpPageConfigurationExtensions
     {
         private const string ApiModelPrefix = "MS_HelpPageApiModel_";

@@ -18,6 +18,7 @@ namespace MedicationsShortagesDashboard.Areas.HelpPage
     /// <summary>
     /// This class will generate the samples for the help page.
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public class HelpPageSampleGenerator
     {
         /// <summary>

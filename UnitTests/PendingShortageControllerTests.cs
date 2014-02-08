@@ -1,12 +1,16 @@
-﻿
+﻿//-----------------------------------------------------------------------
+// <copyright file="PendingShortageControllerTests.cs" company="Spectrum Health">
+//      Spectrum Health
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace UnitTests
 {
     using System;
     using System.Collections.Generic;
-    using MedicationsShortagesDashboard.Services;
-    using MedicationsShortagesDashboard.Models;
     using MedicationsShortagesDashboard.Controllers;
+    using MedicationsShortagesDashboard.Models;
+    using MedicationsShortagesDashboard.Services;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Moq;
 
@@ -20,7 +24,7 @@ namespace UnitTests
         /// Tests a GET that queries a populated database
         /// </summary>
         [TestMethod]
-        public void GET_ValidResult()
+        public void PendingShortageControllerGETValidResult()
         {
             PendingShortage[] expectedResults = new PendingShortage[]
             {
@@ -36,7 +40,7 @@ namespace UnitTests
             List<PendingShortage> result = new List<PendingShortage>(controller.Get());
             foreach (PendingShortage pendingShortage in expectedResults)
             {
-                Assert.IsTrue(result.Contains(pendingShortage) );
+                Assert.IsTrue(result.Contains(pendingShortage));
             }
         }
 
@@ -44,7 +48,7 @@ namespace UnitTests
         /// Tests a GET that queries an empty database
         /// </summary>
         [TestMethod]
-        public void GET_EmptyResult()
+        public void PendingShortageControllerGETEmptyResult()
         {
             PendingShortage[] expectedResults = new PendingShortage[]
             {

@@ -2,12 +2,14 @@ using System;
 using System.Web.Http;
 using System.Web.Mvc;
 using MedicationsShortagesDashboard.Areas.HelpPage.Models;
+using System.Diagnostics.CodeAnalysis;
 
 namespace MedicationsShortagesDashboard.Areas.HelpPage.Controllers
 {
     /// <summary>
     /// The controller that will handle requests for the help page.
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public class HelpController : Controller
     {
         public HelpController()

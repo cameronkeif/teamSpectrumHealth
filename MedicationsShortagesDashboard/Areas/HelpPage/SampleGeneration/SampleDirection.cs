@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 namespace MedicationsShortagesDashboard.Areas.HelpPage
 {
     /// <summary>

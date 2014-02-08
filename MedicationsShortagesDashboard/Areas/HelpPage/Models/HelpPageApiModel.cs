@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Net.Http.Headers;
 using System.Web.Http.Description;
 
@@ -8,6 +9,7 @@ namespace MedicationsShortagesDashboard.Areas.HelpPage.Models
     /// <summary>
     /// The model that represents an API displayed on the help page.
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public class HelpPageApiModel
     {
         /// <summary>

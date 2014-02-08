@@ -6,11 +6,8 @@
 
 namespace MedicationsShortagesDashboard.Models
 {
-    using System;
-    using System.Collections.Generic;
     using System.Data.Entity;
-    using System.Linq;
-    using System.Web;
+    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// DB Context for Pending Shortages
@@ -25,6 +22,7 @@ namespace MedicationsShortagesDashboard.Models
         /// <summary>
         /// Gets or sets pendingShortages
         /// </summary>
+        [ExcludeFromCodeCoverage]
         public DbSet<PendingShortage> PendingShortages
         {
             get

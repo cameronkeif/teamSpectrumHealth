@@ -6,6 +6,7 @@
 
 namespace MedicationsShortagesDashboard.Controllers
 {
+    using System.Diagnostics.CodeAnalysis;
     using System.Web.Mvc;
 
     /// <summary>

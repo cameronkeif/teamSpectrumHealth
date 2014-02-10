@@ -28,6 +28,7 @@ namespace MedicationsShortagesDashboard
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             Database.SetInitializer<PendingShortageDBContext>(null);
+            Database.SetInitializer<ShortageDBContext>(null);
         }
     }
 }

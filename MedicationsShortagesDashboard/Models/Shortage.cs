@@ -13,6 +13,7 @@ namespace MedicationsShortagesDashboard.Models
     /// <summary>
     /// Class representing a drug shortage.
     /// </summary>
+    [Table("SHORTAGE")]
     public class Shortage
     {
         /// <summary>

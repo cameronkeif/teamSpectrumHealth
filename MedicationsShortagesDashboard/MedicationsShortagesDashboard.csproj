@@ -165,14 +165,19 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PendingShortageController.cs" />
     <Compile Include="Controllers\PendingShortagesListController.cs" />
+    <Compile Include="Controllers\ShortageController.cs" />
     <Compile Include="Controllers\ShortageFeedController.cs" />
+    <Compile Include="Controllers\ShortagesListController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\PendingShortage.cs" />
     <Compile Include="Models\PendingShortageDBContext.cs" />
+    <Compile Include="Models\Shortage.cs" />
+    <Compile Include="Models\ShortageDBContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\PendingShortageRepository.cs" />
+    <Compile Include="Services\ShortageRepository.cs" />
     <Compile Include="Utilities\RssFeedParser.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -292,6 +297,7 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\PendingShortagesList\Index.cshtml" />
+    <Content Include="Views\ShortagesList\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

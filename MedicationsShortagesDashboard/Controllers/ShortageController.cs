@@ -48,5 +48,12 @@ namespace MedicationsShortagesDashboard.Controllers
         {
             return this.shortageRepository.GetAllShortages();
         }
+
+        public void Post([FromBody]string value)
+        {
+            string s = value;
+            int i = 0;
+            i++;
+        } 
     }
 }

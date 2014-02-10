@@ -22,5 +22,10 @@ namespace MedicationsShortagesDashboard.Controllers
         {
             return this.View();
         }
+
+        public ActionResult Create()
+        {
+            return this.View();
+        }
     }
 }

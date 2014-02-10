@@ -1,0 +1,26 @@
+﻿@{
+    ViewBag.Title = "Create";
+}
+<div id="body">
+    <form method="post" id="createShortage" action="/api/Shortage" enctype="application/x-www-form-urlencoded">
+        Id: <input type="number" name="Id" /><br />
+        Drug Id: <input type="number" name="DrugId" /><br />
+        DateTime <input type="datetime" name="DateTime" /><br />
+    
+        <p>
+            <u>Status</u><br>
+            <input type="radio" name="Status" value="good">Good<br>
+            <input type="radio" name="Status" value="warning">Warning<br>
+            <input type="radio" name="Status" value="severe">Severe<br>
+        </p>
+        <p><input type="submit" id="submit" value="submit" onClick="return Submit()"></p>
+    </form>
+</div>
+
+<script type="text/javascript">
+    $("#createShortage").on('submit', Submit());
+    function Submit() {
+        var a = $("#createShortage").serializeArray()
+        $.post('/api/Shortage', { '': "asdf" });
+    }
+</script>

@@ -298,6 +298,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\PendingShortagesList\Index.cshtml" />
     <Content Include="Views\ShortagesList\Index.cshtml" />
+    <Content Include="Views\ShortagesList\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -3,7 +3,6 @@
 }
 <div id="body">
     <form method="post" id="createShortage" action="/api/Shortage" enctype="application/x-www-form-urlencoded">
-        Id: <input type="number" name="Id" /><br />
         Drug Id: <input type="number" name="DrugId" /><br />
         DateTime <input type="datetime" name="DateTime" /><br />
     
@@ -21,7 +20,6 @@
     $("#createShortage").on('submit', Submit);
     function Submit() {
         var a = $("#createShortage").serializeArray();
-        console.log(a);
         $.post('/api/Shortage', "=" + a[0]);
     }
 </script>

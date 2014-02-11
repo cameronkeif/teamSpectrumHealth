@@ -38,9 +38,9 @@ namespace MedicationsShortagesDashboard.Services
         }
 
         /// <summary>
-        /// Gets every entry in PENDING_SHORTAGES
+        /// Gets every entry in SHORTAGE
         /// </summary>
-        /// <returns>An array containing all of the entries in PENDING_SHORTAGES</returns>
+        /// <returns>An array containing all of the entries in PENDING_SHORTAGES.</returns>
         public virtual Shortage[] GetAllShortages()
         {
             List<Shortage> shortages = new List<Shortage>();
@@ -51,6 +51,16 @@ namespace MedicationsShortagesDashboard.Services
             }
 
             return shortages.ToArray();
+        }
+
+        /// <summary>
+        /// Add a shortage to the database
+        /// </summary>
+        /// <param name="shortage">The shortage to add to the database.</param>
+        public void addShortage(Shortage shortage)
+        {
+            this.db.Shortages.Add(shortage);
+            this.db.SaveChanges();
         }
     } 
 }

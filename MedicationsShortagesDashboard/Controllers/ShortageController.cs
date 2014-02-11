@@ -56,6 +56,7 @@ namespace MedicationsShortagesDashboard.Controllers
         /// to add to the database</param>
         public void Post([FromBody] Shortage shortage)
         {
+            this.shortageRepository.addShortage(shortage);
         }
     }
 }

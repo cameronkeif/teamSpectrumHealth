@@ -13,14 +13,15 @@
             <input type="radio" name="Status" value="warning">Warning<br>
             <input type="radio" name="Status" value="severe">Severe<br>
         </p>
-        <p><input type="submit" id="submit" value="submit" onClick="return Submit()"></p>
+        <p><input type="submit" id="submit" value="submit" onClick="Submit('QWRE')"></p>
     </form>
 </div>
 
 <script type="text/javascript">
-    $("#createShortage").on('submit', Submit());
+    $("#createShortage").on('submit', Submit);
     function Submit() {
-        var a = $("#createShortage").serializeArray()
-        $.post('/api/Shortage', { '': "asdf" });
+        var a = $("#createShortage").serializeArray();
+        console.log(a);
+        $.post('/api/Shortage', "=" + a[0]);
     }
 </script>

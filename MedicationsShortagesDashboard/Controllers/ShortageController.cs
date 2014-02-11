@@ -49,11 +49,13 @@ namespace MedicationsShortagesDashboard.Controllers
             return this.shortageRepository.GetAllShortages();
         }
 
-        public void Post([FromBody]string value)
+        /// <summary>
+        /// HTTP Post
+        /// </summary>
+        /// <param name="shortage">Shortage constructed from the HTML form
+        /// to add to the database</param>
+        public void Post([FromBody] Shortage shortage)
         {
-            string s = value;
-            int i = 0;
-            i++;
-        } 
+        }
     }
 }

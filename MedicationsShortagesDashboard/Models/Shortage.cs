@@ -57,7 +57,7 @@ namespace MedicationsShortagesDashboard.Models
         /// <summary>
         /// Gets or sets drugId
         /// </summary>
-        [Column("DRUG_ID")]
+        [Column("NDC")]
         public int DrugId
         {
             get

@@ -18,8 +18,7 @@
 
 @section scripts{
 <script type="text/javascript">
-    $('#login').click(
-    function () {
+    function auth() {
         $.post("api/loginapi",
             $("#loginForm").serialize(),
             function (value) {
@@ -27,6 +26,8 @@
             },
             "json"
         );
-    });
+    }
+    $('#login').click(auth);
+    $(auth);
 </script>
 }

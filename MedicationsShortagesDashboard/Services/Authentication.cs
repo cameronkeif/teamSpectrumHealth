@@ -9,6 +9,7 @@ namespace MedicationsShortagesDashboard.Services
     {
         private static bool authenticated = false;
         private static string type = "";
+        private static string username = "";
 
         public static bool Authenticated
         {
@@ -31,6 +32,18 @@ namespace MedicationsShortagesDashboard.Services
             set
             {
                 type = value;
+            }
+        }
+
+        public static string Username
+        {
+            get
+            {
+                return username;
+            }
+            set
+            {
+                username = value;
             }
         }
     }

@@ -48,6 +48,7 @@ namespace MedicationsShortagesDashboard.Services
             if (Authentication.Authenticated)
             {
                 login.Type = Authentication.Type;
+                login.Username = Authentication.Username;
                 return true;
             }
 
@@ -57,6 +58,7 @@ namespace MedicationsShortagesDashboard.Services
                 {
                     Authentication.Authenticated = true;
                     login.Type = Authentication.Type = l.Type;
+                    Authentication.Username = login.Username;
                     return true;
                 }
             }

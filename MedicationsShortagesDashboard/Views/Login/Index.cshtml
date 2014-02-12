@@ -1,31 +1,31 @@
-﻿@model MedicationsShortagesDashboard.Models.User
-@{
-    ViewBag.Title = "Login";
+﻿@{
+    ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@using (Html.BeginForm())
-{
-    <div id="body">
-        @Html.ValidationSummary(true, "Login failed. Check your login details.")
-        <fieldset>
-            <legend>Login</legend>
-            <div class="editor-label">
-                @Html.LabelFor(u => u.Username)
-            </div>
-            <div class="editor-field">
-                @Html.TextBoxFor(u => u.Username)
-                @Html.ValidationMessageFor(u => u.Username)
-            </div>
-            <div class="editor-label">
-                @Html.LabelFor(u => u.Password)
-            </div>
-            <div class="editor-field">
-                @Html.PasswordFor(u => u.Password)
-                @Html.ValidationMessageFor(u => u.Password)
-            </div>
-            <input type="submit" value="Log In" />
-        </fieldset>
-    </div>
-}
+<div id="body">
+    <ul id="users"></ul>
+    <form id="loginForm" method="post">
+        <p>
+            Username: <input type="text" name="Username" />
+        </p>
+        <p>
+            Password: <input type="password" name="Password" />
+        </p>
+        <input type="button" id="login" value="Login" />
+    </form>
+</div>
 
+@section scripts{
+<script type="text/javascript">
+    $('#login').click(function () {
+        $.post("api/loginapi",
+              $("#loginForm").serialize(),
+              function (value) {
+                  $('#users').append('<li>' + 'Hello, ' + value.Username + '. You are a ' + value.Type + '</li>');
+              },
+              "json"
+        );
+    });
+</script>
+}

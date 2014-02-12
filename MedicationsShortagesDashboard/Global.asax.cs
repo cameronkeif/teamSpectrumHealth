@@ -27,7 +27,8 @@ namespace MedicationsShortagesDashboard
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            Database.SetInitializer<PendingShortageDBContext>(null);
+            Database.SetInitializer<LoginDBContext>(null);
+            Database.SetInitializer<PendingShortageDBContext>(null); 
         }
     }
 }

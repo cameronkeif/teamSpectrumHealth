@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="UserDBContext.cs" company="Spectrum Health">
+// <copyright file="LoginDBContext.cs" company="Spectrum Health">
 //      Spectrum Health
 // </copyright>
 //-----------------------------------------------------------------------
@@ -10,29 +10,29 @@ namespace MedicationsShortagesDashboard.Models
     using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
-    /// DB Context for Users
+    /// DB Context for Pending Shortages
     /// </summary>
-    public class UserDBContext : DbContext
+    public class LoginDBContext : DbContext
     {
         /// <summary>
         /// Collection of all entities in the DB context
         /// </summary>
-        private DbSet<User> user;
+        private DbSet<Login> logins;
 
         /// <summary>
-        /// Gets or sets user
+        /// Gets or sets Logins
         /// </summary>
         [ExcludeFromCodeCoverage]
-        public DbSet<User> User
+        public DbSet<Login> Logins
         {
             get
             {
-                return this.user;
+                return this.logins;
             }
 
             set
             {
-                this.user = value;
+                this.logins = value;
             }
         }
     }

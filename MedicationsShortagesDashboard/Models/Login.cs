@@ -115,15 +115,5 @@ namespace MedicationsShortagesDashboard.Models
                 this.type = value;
             }
         }
-
-        /// <summary>
-        /// Checks if two logins are equal. Mostly used for unit testing.
-        /// </summary>
-        /// <param name="l">The other login we're checking equivalence against.</param>
-        /// <returns>boolean indicating if the two logins are equal.</returns>
-        public bool Equals(Login l)
-        {
-            return this.username.Equals(l.Username) && this.password.Equals(l.Password) && this.Type.Equals(l.Type);
-        }
     }
 }

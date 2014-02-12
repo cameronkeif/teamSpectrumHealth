@@ -14,7 +14,7 @@ namespace MedicationsShortagesDashboard.Services
     /// <summary>
     /// Used to select entries in the USER table
     /// </summary>
-    public class LoginRepository 
+    public class LoginRepository
     {
         /// <summary>
         /// Database context for login
@@ -59,7 +59,7 @@ namespace MedicationsShortagesDashboard.Services
         /// </summary>
         /// <param name="login">The login to check</param>
         /// <returns>True if the login is valid</returns>
-        public virtual bool CheckLogin(Login login)
+        public bool CheckLogin(Login login)
         {
             if (Authentication.Authenticated)
             {

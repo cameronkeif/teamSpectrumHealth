@@ -18,13 +18,14 @@
 
 @section scripts{
 <script type="text/javascript">
-    $('#login').click(function () {
+    $('#login').click(
+    function () {
         $.post("api/loginapi",
-              $("#loginForm").serialize(),
-              function (value) {
-                  $('#users').append('<li>' + 'Hello, ' + value.Username + '. You are a ' + value.Type + '</li>');
-              },
-              "json"
+            $("#loginForm").serialize(),
+            function (value) {
+                $('#users').append('<li>' + 'Hello, ' + value.Username + '. You are a ' + value.Type + '</li>');
+            },
+            "json"
         );
     });
 </script>

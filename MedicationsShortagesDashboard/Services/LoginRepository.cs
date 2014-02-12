@@ -45,17 +45,22 @@ namespace MedicationsShortagesDashboard.Services
 
         public bool CheckLogin(Login login)
         {
+            if (Authentication.Authenticated)
+            {
+                login.Type = Authentication.Type;
+                return true;
+            }
+
             foreach (Login l in db.Logins.ToList())
             {
                 if (l.Username == login.Username && l.Password == login.Password)
                 {
-                    System.Console.WriteLine("USER FOUND!");
-                    login.Type = l.Type;
+                    Authentication.Authenticated = true;
+                    login.Type = Authentication.Type = l.Type;
                     return true;
                 }
             }
 
-            System.Console.WriteLine("USER NOT FOUND!");
             return false;
         }
     }

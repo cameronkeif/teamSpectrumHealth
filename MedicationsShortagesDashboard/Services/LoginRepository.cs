@@ -12,20 +12,30 @@ namespace MedicationsShortagesDashboard.Services
     using MedicationsShortagesDashboard.Models;
 
     /// <summary>
-    /// Used to select entries in the PENDING_SHORTAGES table
+    /// Used to select entries in the USER table
     /// </summary>
     public class LoginRepository
     {
+        /// <summary>
+        /// Database context for login
+        /// </summary>
         private LoginDBContext db;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LoginRepository"/> class
+        /// </summary>
         public LoginRepository()
         {
             this.db = new LoginDBContext();
         }
 
-        public LoginRepository(LoginDBContext dbContext)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LoginRepository"/> class using a database context
+        /// </summary>
+        /// <param name="db">The database context to initialize with</param>
+        public LoginRepository(LoginDBContext db)
         {
-            this.db = dbContext;
+            this.db = db;
         }
 
         /// <summary>
@@ -36,7 +46,7 @@ namespace MedicationsShortagesDashboard.Services
         {
             List<Login> logins = new List<Login>();
 
-            foreach (Login login in db.Logins.ToList())
+            foreach (Login login in this.db.Logins.ToList())
             {
                 logins.Add(login);
             }
@@ -44,6 +54,11 @@ namespace MedicationsShortagesDashboard.Services
             return logins.ToArray();
         }
 
+        /// <summary>
+        /// Check if a given login is valid
+        /// </summary>
+        /// <param name="login">The login to check</param>
+        /// <returns>True if the login is valid</returns>
         public bool CheckLogin(Login login)
         {
             if (Authentication.Authenticated)
@@ -53,7 +68,7 @@ namespace MedicationsShortagesDashboard.Services
                 return true;
             }
 
-            foreach (Login l in db.Logins.ToList())
+            foreach (Login l in this.db.Logins.ToList())
             {
                 if (l.Username == login.Username && l.Password == login.Password)
                 {

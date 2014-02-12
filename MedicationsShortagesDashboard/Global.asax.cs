@@ -29,6 +29,7 @@ namespace MedicationsShortagesDashboard
 
             Database.SetInitializer<PendingShortageDBContext>(null);
             Database.SetInitializer<ShortageDBContext>(null);
+            Database.SetInitializer<LoginDBContext>(null);
         }
     }
 }

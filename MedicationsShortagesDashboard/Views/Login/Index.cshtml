@@ -4,7 +4,7 @@
 }
 
 <div id="body">
-    <ul id="users"></ul>
+    <span id="loginError" style="color:red" hidden="hidden">Invalid login.</span>
     <form id="loginForm" method="post">
         <p>
             Username: <input id="userInput" type="text" name="Username" />
@@ -25,9 +25,15 @@
                 window.location.replace("/PendingShortagesList");
             },
             "json"
-        );
+        ).fail(function () {
+            $("#loginError").show();
+        });
     }
+    $(document).ready(function () {
+        if ($("#userDisplay").text() != "Guest") {
+            auth();
+        }
+    });
     $('#login').click(auth);
-    $(auth);
 </script>
 }

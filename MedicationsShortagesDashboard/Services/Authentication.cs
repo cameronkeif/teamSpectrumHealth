@@ -78,5 +78,15 @@ namespace MedicationsShortagesDashboard.Services
                 username = value;
             }
         }
+
+        /// <summary>
+        /// Reset the values to default
+        /// </summary>
+        public static void Reset()
+        {
+            Authentication.username = "Guest";
+            Authentication.type = string.Empty;
+            Authentication.authenticated = false;
+        }
     }
 }

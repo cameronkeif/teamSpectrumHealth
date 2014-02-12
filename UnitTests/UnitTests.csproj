@@ -38,10 +38,15 @@
     <Reference Include="Moq">
       <HintPath>..\packages\Moq.4.2.1312.1622\lib\net40\Moq.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data.Entity" />
-    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
-    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Net.Http">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
     <Reference Include="System.XML" />
   </ItemGroup>
   <Choose>
@@ -63,6 +68,10 @@
     <Compile Include="RssFeedParserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PendingShortagesListControllerTests.cs" />
+    <Compile Include="LoginControllerTests.cs" />
+    <Compile Include="LoginAPIControllerTests.cs" />
+    <Compile Include="LoginTests.cs" />
+    <Compile Include="AuthenticationTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MedicationsShortagesDashboard\MedicationsShortagesDashboard.csproj">
@@ -71,7 +80,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

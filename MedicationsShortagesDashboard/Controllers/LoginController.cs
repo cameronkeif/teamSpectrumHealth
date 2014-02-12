@@ -1,20 +1,22 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="PendingShortagesListController.cs" company="Spectrum Health">
+// <copyright file="LoginController.cs" company="Spectrum Health">
 //      Spectrum Health
 // </copyright>
 //-----------------------------------------------------------------------
 
 namespace MedicationsShortagesDashboard.Controllers
 {
-    using System.Diagnostics.CodeAnalysis;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Web;
     using System.Web.Mvc;
     using MedicationsShortagesDashboard.Services;
 
     /// <summary>
-    /// Controller for displaying all pending shortages
+    /// Class controlling the login page
     /// </summary>
-    public class PendingShortagesListController : BaseController
+    public class LoginController : BaseController
     {
-
     }
 }

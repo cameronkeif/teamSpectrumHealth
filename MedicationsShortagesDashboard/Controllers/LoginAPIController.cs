@@ -34,6 +34,26 @@ namespace MedicationsShortagesDashboard.Controllers
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="LoginAPIController"/> class using a login repository
+        /// </summary>
+        /// <param name="loginRepo">The repository to initialize with</param>
+        public LoginAPIController(LoginRepository loginRepo)
+        {
+            this.loginRepo = loginRepo;
+        }
+
+        /// <summary>
+        /// Gets the login repository
+        /// </summary>
+        public LoginRepository LoginRepo
+        {
+            get
+            {
+                return this.loginRepo;
+            }
+        }
+
+        /// <summary>
         /// HTTP Get
         /// </summary>
         /// <returns>All entries in the login table</returns>
@@ -51,10 +71,10 @@ namespace MedicationsShortagesDashboard.Controllers
         {
             if (this.loginRepo.CheckLogin(login))
             {
-                return Request.CreateResponse<Login>(System.Net.HttpStatusCode.Created, login);
+                return Request.CreateResponse<Login>(System.Net.HttpStatusCode.Accepted, login);
             }
 
-            return null;
+            return Request.CreateResponse<Login>(System.Net.HttpStatusCode.BadRequest, login);
         }
     }
 }

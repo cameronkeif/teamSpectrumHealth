@@ -56,7 +56,16 @@ namespace MedicationsShortagesDashboard.Controllers
         /// to add to the database</param>
         public void Post([FromBody] Shortage shortage)
         {
-            this.shortageRepository.addShortage(shortage);
+            this.shortageRepository.AddShortage(shortage);
+        }
+
+        /// <summary>
+        /// HTTP Delete
+        /// </summary>
+        /// <param name="id">id of the shortage to delete.</param>
+        public void Delete(int id)
+        {
+            this.shortageRepository.DeleteShortage(id);
         }
     }
 }

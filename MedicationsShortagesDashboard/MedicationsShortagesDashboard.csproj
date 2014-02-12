@@ -299,6 +299,7 @@
     <Content Include="Views\PendingShortagesList\Index.cshtml" />
     <Content Include="Views\ShortagesList\Index.cshtml" />
     <Content Include="Views\ShortagesList\Create.cshtml" />
+    <Content Include="Views\ShortagesList\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

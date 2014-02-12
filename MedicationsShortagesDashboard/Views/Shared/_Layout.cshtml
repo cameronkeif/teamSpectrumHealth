@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -21,7 +22,9 @@
             </div>
             <div class="float-right">
                 <p class="site-title">
-                    <a href="~/"><img id="img_logo" src="~/Images/logo.png" /></a></p>
+                    <a href="~/"><img id="img_logo" src="~/Images/logo.png" /></a>
+                </p>
+                <p >Holler, <span id="userDisplay" title="name">@Html.Encode(ViewData["Username"])</span></p>
             </div>
         </div>
     </header>
@@ -31,3 +34,8 @@
     @RenderSection("scripts", required: false)
 </body>
 </html>
+
+
+<script type="text/javascript">
+    if ($("#userDisplay").text() == "") $("#userDisplay").text();
+</script>

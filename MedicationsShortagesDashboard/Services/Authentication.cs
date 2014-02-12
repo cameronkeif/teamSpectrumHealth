@@ -9,7 +9,7 @@ namespace MedicationsShortagesDashboard.Services
     {
         private static bool authenticated = false;
         private static string type = "";
-        private static string username = "";
+        private static string username = "Guest";
 
         public static bool Authenticated
         {

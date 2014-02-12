@@ -7,8 +7,13 @@ using MedicationsShortagesDashboard.Services;
 
 namespace MedicationsShortagesDashboard.Controllers
 {
-    public class LoginController : BaseController
+    public abstract class BaseController : Controller
     {
+        public ActionResult Index()
+        {
+            ViewData["Username"] = Authentication.Username;
+            return View();
+        }
 
     }
 }

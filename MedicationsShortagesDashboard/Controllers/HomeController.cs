@@ -1,12 +1,10 @@
 ﻿using System.Web.Mvc;
+using MedicationsShortagesDashboard.Services;
 
 namespace MedicationsShortagesDashboard.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
-        public ActionResult Index()
-        {
-            return View();
-        }
+
     }
 }

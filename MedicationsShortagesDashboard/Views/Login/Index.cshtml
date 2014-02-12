@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Login";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -7,7 +7,7 @@
     <ul id="users"></ul>
     <form id="loginForm" method="post">
         <p>
-            Username: <input type="text" name="Username" />
+            Username: <input id="userInput" type="text" name="Username" />
         </p>
         <p>
             Password: <input type="password" name="Password" />
@@ -22,7 +22,7 @@
         $.post("api/loginapi",
             $("#loginForm").serialize(),
             function (value) {
-                $('#users').append('<li>' + 'Hello, ' + value.Username + '. You are a ' + value.Type + '</li>');
+                window.location.replace("/PendingShortagesList");
             },
             "json"
         );

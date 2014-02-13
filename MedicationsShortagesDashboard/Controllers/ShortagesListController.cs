@@ -40,5 +40,14 @@ namespace MedicationsShortagesDashboard.Controllers
         {
             return this.View();
         }
+
+        /// <summary>
+        /// Get Edit page
+        /// </summary>
+        /// <returns>Edit page view</returns>
+        public ActionResult Edit()
+        {
+            return this.View();
+        }
     }
 }

@@ -15,7 +15,7 @@ $(function()
         {
             $(shortagesJsonPayload).each(function(i, item)
             {
-                $('#shortages').append('<li>' + item.Id + " " + item.DrugId + " " + item.DateTime + " " + item.Status);
+                $('#shortages').append('<li>' + item.Id + " " + item.DrugId + " " + item.DateTime + " " + item.Status + ' <a href="/ShortagesList/Edit/' + item.Id + '"> Edit </a></li>');
             });
         });
 });

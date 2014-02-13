@@ -67,5 +67,11 @@ namespace MedicationsShortagesDashboard.Controllers
         {
             this.shortageRepository.DeleteShortage(id);
         }
+
+        public void Put(int id, Shortage shortage)
+        {
+            int i = 0;
+            i++;
+        }
     }
 }

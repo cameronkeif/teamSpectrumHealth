@@ -1,0 +1,39 @@
+﻿@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="body">
+    <span id="loginError" style="color:red" hidden="hidden">Invalid login.</span>
+    <form id="loginForm" method="post">
+        <p>
+            Username: <input id="userInput" type="text" name="Username" />
+        </p>
+        <p>
+            Password: <input type="password" name="Password" />
+        </p>
+        <input type="button" id="login" value="Login" />
+    </form>
+</div>
+
+@section scripts{
+<script type="text/javascript">
+    function auth() {
+        $.post("api/loginapi",
+            $("#loginForm").serialize(),
+            function (value) {
+                window.location.replace("/PendingShortagesList");
+            },
+            "json"
+        ).fail(function () {
+            $("#loginError").show();
+        });
+    }
+    $('#login').click(auth);
+    $(document).ready(function () {
+        if ($("#userDisplay").text() != "Guest") {
+            auth();
+        }
+    });
+</script>
+}

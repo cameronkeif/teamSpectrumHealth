@@ -48,5 +48,15 @@ namespace MedicationsShortagesDashboard.Controllers
         {
             return this.drugEntryRepository.GetAllDrugEntries();
         }
+
+        /// <summary>
+        /// HTTP Post
+        /// </summary>
+        /// <param name="shortage">Shortage constructed from the HTML form
+        /// to add to the database</param>
+        public void Post([FromBody] DrugEntry drugEntry)
+        {
+            this.drugEntryRepository.addDrugEntry(drugEntry);
+        }
     }
 }

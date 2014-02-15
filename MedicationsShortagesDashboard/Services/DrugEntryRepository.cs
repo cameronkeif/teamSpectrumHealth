@@ -43,5 +43,15 @@ namespace MedicationsShortagesDashboard.Services
 
             return drugEntries.ToArray();
         }
+
+        /// <summary>
+        /// Add a drug entry to the database
+        /// </summary>
+        /// <param name="drugEntry">The drug entry to add to the database.</param>
+        public void addDrugEntry(DrugEntry drugEntry)
+        {
+            this.db.DrugEntries.Add(drugEntry);
+            this.db.SaveChanges();
+        }
     }
 }

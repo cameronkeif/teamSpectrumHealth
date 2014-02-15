@@ -6,7 +6,10 @@
 
 namespace MedicationsShortagesDashboard.Controllers
 {
+    using System;
     using System.Diagnostics.CodeAnalysis;
+    using System.IO;
+    using System.Web;
     using System.Web.Mvc;
 
     /// <summary>
@@ -22,6 +25,5 @@ namespace MedicationsShortagesDashboard.Controllers
         {
             return View();
         }
-
     }
 }

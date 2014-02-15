@@ -15,9 +15,18 @@
         {
             $(drugEntriesJsonPayload).each(function (i, item)
             {
-                $('#drug_entries').append('<li>' > + item.NDC + ' - ' + item.Dosage + ' - ' + item.Brand + ' - ' + item.Generic);
+                $('#drug_entries').append('<li>' > + item.NDC + '</li>');
             });
         });
     });
 </script>
+}
+
+<br />
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<br /><br />
+Upload a new .CSV file for the Drug Database:
+@using (Html.BeginForm ("", "home", FormMethod.Post, new {enctype="multipart/form-data"})){
+    <input type="file" name="newCSV" /><br />
+    <input type="submit" name="Submit" id="Submit" value="Upload" />
 }

@@ -20,6 +20,6 @@
     $("#createShortage").on('submit', Submit);
     function Submit() {
         var a = $("#createShortage").serializeArray();
-        $.post('/api/Shortage', "=" + a[0]);
+        $.post('/api/Shortage', "=" + a);
     }
 </script>

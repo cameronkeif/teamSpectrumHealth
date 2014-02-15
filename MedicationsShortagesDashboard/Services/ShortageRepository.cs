@@ -6,10 +6,11 @@
 
 namespace MedicationsShortagesDashboard.Services
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using MedicationsShortagesDashboard.Models;
-
+    
     /// <summary>
     /// Used to interact with entries in the PENDING_SHORTAGES table
     /// </summary>
@@ -57,10 +58,27 @@ namespace MedicationsShortagesDashboard.Services
         /// Add a shortage to the database
         /// </summary>
         /// <param name="shortage">The shortage to add to the database.</param>
-        public void addShortage(Shortage shortage)
+        public void AddShortage(Shortage shortage)
         {
             this.db.Shortages.Add(shortage);
             this.db.SaveChanges();
+        }
+
+        /// <summary>
+        /// Delete a shortage from the database.
+        /// </summary>
+        /// <param name="id">Id of the shortage to remove.</param>
+        public void DeleteShortage(int id)
+        {
+            try
+            {
+                var shortage = this.db.Shortages.First(i => i.Id == id);
+                this.db.Shortages.Remove(shortage);
+                this.db.SaveChanges();
+            }
+            catch (InvalidOperationException)
+            {                
+            }
         }
     } 
 }

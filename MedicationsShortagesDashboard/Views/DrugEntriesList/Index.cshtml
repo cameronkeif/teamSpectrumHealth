@@ -1,0 +1,20 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="body">
+    <ul id="drug_entries"></ul>
+</div>
+
+@section scripts{
+<script type="text/javascript">
+    $(function () {
+        $.getJSON('/api/DrugEntry', function (drugEntriesJsonPayload) {
+            $(drugEntriesJsonPayload).each(function (i, item) {
+                $('#drug_entries').append('<li' > + item.NDC + ' - ' + item.Dosage + ' - ' + item.Brand + ' - ' + item.Generic + '</li>');
+            });
+        });
+    });
+</script>
+}

@@ -10,29 +10,29 @@ namespace MedicationsShortagesDashboard.Models
     using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
-    /// DB Context for Pending Shortages
+    /// DB Context for drug entries
     /// </summary>
     public class DrugEntryDBContext : DbContext
     {
         /// <summary>
         /// Collection of all entities in the DB context
         /// </summary>
-        private DbSet<DrugEntry> pendingDrugs;
+        private DbSet<DrugEntry> drugEntries;
 
         /// <summary>
         /// Gets or sets pending drugs
         /// </summary>
         [ExcludeFromCodeCoverage]
-        public DbSet<DrugEntry> PendingDrugs
+        public DbSet<DrugEntry> DrugEntries
         {
             get
             {
-                return this.pendingDrugs;
+                return this.drugEntries;
             }
 
             set
             {
-                this.pendingDrugs = value;
+                this.drugEntries = value;
             }
         }
     }

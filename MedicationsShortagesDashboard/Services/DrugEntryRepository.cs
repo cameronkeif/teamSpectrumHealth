@@ -35,9 +35,10 @@ namespace MedicationsShortagesDashboard.Services
         {
             List<DrugEntry> drugEntries = new List<DrugEntry>();
 
-            foreach (DrugEntry drugEntry in db.PendingDrugs.ToList())
+            foreach (DrugEntry drugEntry in db.DrugEntries.ToList())
             {
                 drugEntries.Add(drugEntry);
+                System.Diagnostics.Debug.WriteLine("DRUG: " + drugEntry.NDC);
             }
 
             return drugEntries.ToArray();

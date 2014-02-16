@@ -4,7 +4,28 @@
 }
 
 <div id="body">
-    <ul id="shortages"></ul>
+    <div id="listContainer" >
+        <div id="severeContainer" class="container">
+            <span>Severe</span>
+            <ul id="severeList">
+            </ul>
+        </div>
+        <div id="warningContainer" class="container">
+            <span>Warning</span>
+            <ul id="warningList">
+            </ul>
+        </div>
+        <div id="goodContainer" class="container">
+            <span>Good</span>
+            <ul id="goodList">
+            </ul>
+        </div>
+        <div id="recentContainer" class="container">
+            <span>Recent</span>
+            <ul id="recentList">
+            </ul>
+        </div>
+    </div>
 </div>
 
 @section scripts{
@@ -15,7 +36,16 @@ $(function()
         {
             $(shortagesJsonPayload).each(function(i, item)
             {
-                $('#shortages').append('<li>' + item.Id + " " + item.DrugId + " " + item.DateTime + " " + item.Status);
+
+                if (item.Status === "severe") {
+                    $('#severeList').append('<li>' + item.Id + " " + item.DrugId + " " + item.DateTime);
+                }
+                else if (item.Status === "warning") {
+                    $('#warningList').append('<li>' + item.Id + " " + item.DrugId + " " + item.DateTime);
+                }
+                else if (item.Status === "good") {
+                        $('#goodList').append('<li>' + item.Id + " " + item.DrugId + " " + item.DateTime);
+                }
             });
         });
 });

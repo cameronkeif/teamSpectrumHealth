@@ -12,16 +12,8 @@ namespace MedicationsShortagesDashboard.Controllers
     /// <summary>
     /// Controller for displaying all pending shortages
     /// </summary>
-    public class ShortagesListController : Controller
+    public class ShortagesListController : BaseController
     {
-        /// <summary>
-        /// Get index page
-        /// </summary>
-        /// <returns>Index page view</returns>
-        public ActionResult Index()
-        {
-            return this.View();
-        }
 
         public ActionResult Create()
         {

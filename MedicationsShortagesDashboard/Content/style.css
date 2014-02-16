@@ -1,0 +1,17 @@
+﻿/*********User added css********/
+div.container {
+    display: table-cell;
+    border:solid 1px red;
+    width:20%;
+    text-align:center;
+}
+
+#listContainer {
+    display:table;
+    border: solid 1px blue;
+    width:100%;
+    text-align:center;
+    vertical-align:top;
+}
+
+/*****************************/

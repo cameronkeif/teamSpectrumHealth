@@ -10,12 +10,11 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    <header>
+    <div class="header">
         <div class="content-wrapper">
              <div class="float-left">
                 <nav>
                     <ul id="menu">
-                        <!--li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)</li-->
                         <li>@Html.ActionLink("Login", "Index", "Login", new { area = "" }, null)</li>
                         <li>@Html.ActionLink("Pending Shortages", "Index", "PendingShortagesList", new { area = "" }, null)</li>
                         <li>@Html.ActionLink("All Shortages", "Index", "ShortagesList", new { area = "" }, null)</li>
@@ -23,13 +22,13 @@
                 </nav>
             </div>
             <div class="float-right">
-                <p class="site-title">
+                <!--p class="site-title">
                     <a href="~/"><img id="img_logo" src="~/Images/logo.png" /></a>
-                </p>
+                </p-->
                 <p >Holler, <span id="userDisplay" title="name">@Html.Encode(ViewData["Username"])</span></p>
             </div>
         </div>
-    </header>
+    </div>
     @RenderBody()
 
     @RenderSection("scripts", required: false)

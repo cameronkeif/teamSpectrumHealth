@@ -1,27 +1,47 @@
-﻿
-#listContainer {
+﻿/*Items that fit with spectrum's style guide*/
+.pageTitle
+{
+    font-family:Arial;
+    font-size:48px;
+    color:#004283;
+    text-align:center;
+    padding-bottom:10px;
+}
+
+.secondaryTitle
+{
+    font-size:30px;
+    font-family:Arial;
+    color:#6A6f71;
+    padding-bottom:10px;
+}
+
+/*Programmer defined*/
+#listContainer 
+{
     display:table;
-    border: solid 1px blue;
     width:100%;
     text-align:center;
     vertical-align:middle;
 }
 
-div.container {
-    border:solid 1px red;
+div.container 
+{
     width:20%;
     height:100px;    
     display: table-cell;
     text-align:center;
 }
 
-.shortageList {
+.shortageList 
+{
     list-style-type:none;
     text-align:center;
     padding:0; margin:0;
 }
 
-#menu {
+#menu 
+{
     display:table;
     list-style-type:none;
     width:99%;
@@ -29,59 +49,75 @@ div.container {
     height:60px;
     text-align:center;
     border-radius:4px;
+    margin-top:2px;
     background: -webkit-linear-gradient(black, black); /* For Safari */
     background: -o-linear-gradient(red, blue); /* For Opera 11.1 to 12.0 */
     background: -moz-linear-gradient(red, blue); /* For Firefox 3.6 to 15 */
     background: linear-gradient(#303844, #262c36); /* Standard syntax */
 }
 
-#menu ul {
+#menu ul 
+{
     display:table-cell;
     vertical-align:middle;
     padding:0;
     margin:0;
 }
 
-#menu li {
+#menu li 
+{
     text-align:center;
     list-style-type:none;
     padding:0;
     margin:5px;
+    font-family:Arial
 }
 
-#menu li.right {
+#menu li.right 
+{
     float:right;
 }
 
-#menu li.rightMost {
+#menu li.rightMost 
+{
     float:right;
     padding-right:20px;
 }
 
-#menu li.left {
+#menu li.left 
+{
     float:left;
 }
 
-#menu li.leftMost {
+#menu li.leftMost 
+{
     float:left;
     padding-left:20px;
 }
 
-#menu .button {
+#menu .button 
+{
     display:table-cell;
     color:white;
     text-align:center;
     vertical-align:middle;
-    width:50px;
+    width:70px;
     height:30px;
     background: -webkit-linear-gradient(black, black); /* For Safari */
     background: -o-linear-gradient(red, blue); /* For Opera 11.1 to 12.0 */
     background: -moz-linear-gradient(red, blue); /* For Firefox 3.6 to 15 */
     background: linear-gradient(#7A818B, #4B4E55);
     border-radius:4px;
+    cursor:pointer;
 }
 
-#menu .menuText {
+#menu .button:link 
+{
+    text-decoration: none;
+}
+
+#menu .menuText 
+{
     display:table-cell;
     color:white;
     text-align:center;

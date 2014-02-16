@@ -3,43 +3,26 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
 <div id="body">
-    <div id="menu">
-        <ul>
-            <li class="leftMost">
-                <div class="button">Home</div>
-            </li>
-            <li class="left">
-                <div class="button">Home</div>
-            </li>
-            <li class="rightMost">
-                <div class="button">Home</div>
-            </li>
-            <li class="right">
-                <div class="menuText">Welcome, User</div>
-            </li>
-        </ul>
-    </div>
-    <br />
+    <div class="pageTitle">Current Shortages</div>
     <div id="listContainer" >
         <div id="severeContainer" class="container">
-            <span>Severe</span>
+            <span class="secondaryTitle">Severe</span>
             <ul id="severeList" class="shortageList">
             </ul>
         </div>
         <div id="warningContainer" class="container">
-            <span>Warning</span>
+            <span class="secondaryTitle">Warning</span>
             <ul id="warningList" class="shortageList">
             </ul>
         </div>
         <div id="goodContainer" class="container">
-            <span>Good</span>
+            <span class="secondaryTitle">Good</span>
             <ul id="goodList" class="shortageList">
             </ul>
         </div>
         <div id="recentContainer" class="container">
-            <span>Recent</span>
+            <span class="secondaryTitle">Recent</span>
             <ul id="recentList" class="shortageList">
             </ul>
         </div>

@@ -38,13 +38,13 @@ $(function()
             {
 
                 if (item.Status === "severe") {
-                    $('#severeList').append('<li>' + item.Id + " " + item.DrugId + " " + item.DateTime);
+                    $('#severeList').append('<div id="shortage' + item.Id + '"><li>' + item.Id + " " + item.DrugId + " " + item.DateTime + " " + item.Status + ' <a href="/ShortagesList/Edit/' + item.Id + '"> Edit </a> <a onclick="DeleteConfirm(' + item.Id + ')" href="#"> Delete </a></li></div>');
                 }
                 else if (item.Status === "warning") {
-                    $('#warningList').append('<li>' + item.Id + " " + item.DrugId + " " + item.DateTime);
+                    $('#warningList').append('<div id="shortage' + item.Id + '"><li>' + item.Id + " " + item.DrugId + " " + item.DateTime + " " + item.Status + ' <a href="/ShortagesList/Edit/' + item.Id + '"> Edit </a> <a onclick="DeleteConfirm(' + item.Id + ')" href="#"> Delete </a></li></div>');
                 }
                 else if (item.Status === "good") {
-                    $('#goodList').append('<li>' + item.Id + " " + item.DrugId + " " + item.DateTime);
+                    $('#goodList').append('<div id="shortage' + item.Id + '"><li>' + item.Id + " " + item.DrugId + " " + item.DateTime + " " + item.Status + ' <a href="/ShortagesList/Edit/' + item.Id + '"> Edit </a> <a onclick="DeleteConfirm(' + item.Id + ')" href="#"> Delete </a></li></div>');
                 }
             });
         });

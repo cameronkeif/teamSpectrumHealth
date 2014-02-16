@@ -44,16 +44,15 @@ div.container
 {
     display:table;
     list-style-type:none;
-    width:99%;
+    width:100%;
     margin:0 auto;
     height:60px;
     text-align:center;
     border-radius:4px;
-    margin-top:2px;
-    background: -webkit-linear-gradient(black, black); /* For Safari */
-    background: -o-linear-gradient(red, blue); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(red, blue); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(#303844, #262c36); /* Standard syntax */
+    background: -webkit-linear-gradient(#303844, #262c36); /* For Safari */
+    background: -o-linear-gradient(#303844, #262c36); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#303844, #262c36); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#4D545C, #303338); /* Standard syntax */
 }
 
 #menu ul 
@@ -103,9 +102,9 @@ div.container
     vertical-align:middle;
     width:70px;
     height:30px;
-    background: -webkit-linear-gradient(black, black); /* For Safari */
-    background: -o-linear-gradient(red, blue); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(red, blue); /* For Firefox 3.6 to 15 */
+    background: -webkit-linear-gradient(#7A818B, #4B4E55); /* For Safari */
+    background: -o-linear-gradient(#7A818B, #4B4E55); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#7A818B, #4B4E55); /* For Firefox 3.6 to 15 */
     background: linear-gradient(#7A818B, #4B4E55);
     border-radius:4px;
     cursor:pointer;

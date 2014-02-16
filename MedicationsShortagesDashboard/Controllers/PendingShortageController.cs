@@ -6,10 +6,10 @@
 
 namespace MedicationsShortagesDashboard.Controllers
 {
+    using System.Diagnostics.CodeAnalysis;
     using System.Web.Http;
     using MedicationsShortagesDashboard.Models;
     using MedicationsShortagesDashboard.Services;
-    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// Provides a Restful interaction between the application and the

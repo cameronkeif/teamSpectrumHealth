@@ -22,7 +22,7 @@
         $.post("api/loginapi",
             $("#loginForm").serialize(),
             function (value) {
-                window.location.replace("/PendingShortagesList");
+                window.location.replace("/ShortagesList");
             },
             "json"
         ).fail(function () {
@@ -31,7 +31,8 @@
     }
     $('#login').click(auth);
     $(document).ready(function () {
-        if ($("#userDisplay").text() != "Guest") {
+        var str = @Html.Raw(Json.Encode(ViewData["Username"]));
+        if (str != "Guest") {
             auth();
         }
     });

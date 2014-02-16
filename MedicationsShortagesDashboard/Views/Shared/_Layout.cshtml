@@ -10,33 +10,37 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    <header>
-        <div class="content-wrapper">
-             <div class="float-left">
-                <nav>
-                    <ul id="menu">
-                        <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)</li>
-                        <li>@Html.ActionLink("Login", "Index", "Login", new { area = "" }, null)</li>
-                        <li>@Html.ActionLink("Pending Shortages", "Index", "PendingShortagesList", new { area = "" }, null)</li>
-                        <li>@Html.ActionLink("Shortages", "Index", "ShortagesList", new { area = "" }, null)</li>
-                    </ul>
-                </nav>
-            </div>
-            <div class="float-right">
-                <p class="site-title">
-                    <a href="~/"><img id="img_logo" src="~/Images/logo.png" /></a>
-                </p>
-                <p >Welcome, <span id="userDisplay" title="name">@Html.Encode(ViewData["Username"])</span></p>
-            </div>
-        </div>
-    </header>
+    <div id="menu">
+        <ul>
+            <li class="leftMost" id="loginRedir">
+                <a href="~/Login" class="button">Login</a>
+            </li>
+            <li class="left" id="pendingRedir">
+                <a href="~/PendingShortagesList" class="button">Pending</a>
+            </li>
+            <li class="left">
+                <a href="~/ShortagesList" class="button">All</a>
+            </li>
+            <li class="left">
+                <a href="~/ShortagesList/Create" class="button">Create</a>
+            </li>
+            <li class="rightMost">
+                <div id="userDisplay" class="button">Logout</div>
+            </li>
+            <li class="right">
+                <div class="menuText">Holler, @Html.Encode(ViewData["Username"])</div>
+            </li>
+        </ul>
+    </div>
+    <ul id="pageTitleBar">
+        <li class="logo"><img src="~/images/logo.png"/></li>
+        <li class="pageTitle">@Html.Encode(ViewData["PageTitle"])</li>
+        <li class="search"><input type="search" placeholder="search"/></li>
+    </ul>
+    <hr />
+    <br />
     @RenderBody()
 
     @RenderSection("scripts", required: false)
 </body>
 </html>
-
-
-<script type="text/javascript">
-    if ($("#userDisplay").text() == "") $("#userDisplay").text();
-</script>

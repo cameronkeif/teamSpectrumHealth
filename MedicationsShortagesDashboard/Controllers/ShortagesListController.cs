@@ -8,6 +8,7 @@ namespace MedicationsShortagesDashboard.Controllers
 {
     using System.Diagnostics.CodeAnalysis;
     using System.Web.Mvc;
+    using MedicationsShortagesDashboard.Services;
 
     /// <summary>
     /// Controller for displaying all pending shortages
@@ -20,6 +21,8 @@ namespace MedicationsShortagesDashboard.Controllers
         /// <returns>Index page view</returns>
         public ActionResult Index()
         {
+            this.ViewData["Username"] = Authentication.Username;
+            this.ViewData["PageTitle"] = "All Shortages";
             return this.View();
         }
 
@@ -29,6 +32,8 @@ namespace MedicationsShortagesDashboard.Controllers
         /// <returns>Create page view</returns>
         public ActionResult Create()
         {
+            this.ViewData["Username"] = Authentication.Username;
+            this.ViewData["PageTitle"] = "Create Shortage";
             return this.View();
         }
 
@@ -38,6 +43,8 @@ namespace MedicationsShortagesDashboard.Controllers
         /// <returns>Delete page view</returns>
         public ActionResult Delete()
         {
+            this.ViewData["Username"] = Authentication.Username;
+            this.ViewData["PageTitle"] = "Delete Shortage";
             return this.View();
         }
 
@@ -47,6 +54,8 @@ namespace MedicationsShortagesDashboard.Controllers
         /// <returns>Edit page view</returns>
         public ActionResult Edit()
         {
+            this.ViewData["Username"] = Authentication.Username;
+            this.ViewData["PageTitle"] = "Edit Shortage";
             return this.View();
         }
     }

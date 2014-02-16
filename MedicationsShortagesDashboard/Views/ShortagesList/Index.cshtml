@@ -4,28 +4,7 @@
 }
 
 <div id="body">
-    <div id="listContainer" >
-        <div id="severeContainer" class="container">
-            <span class="secondaryTitle">Severe</span>
-            <ul id="severeList" class="shortageList">
-            </ul>
-        </div>
-        <div id="warningContainer" class="container">
-            <span class="secondaryTitle">Warning</span>
-            <ul id="warningList" class="shortageList">
-            </ul>
-        </div>
-        <div id="goodContainer" class="container">
-            <span class="secondaryTitle">Good</span>
-            <ul id="goodList" class="shortageList">
-            </ul>
-        </div>
-        <div id="recentContainer" class="container">
-            <span class="secondaryTitle">Recent</span>
-            <ul id="recentList" class="shortageList">
-            </ul>
-        </div>
-    </div>
+    <ul id="shortages"></ul>
 </div>
 
 @section scripts{
@@ -36,18 +15,24 @@ $(function()
         {
             $(shortagesJsonPayload).each(function(i, item)
             {
-
-                if (item.Status === "severe") {
-                    $('#severeList').append('<li>' + item.Id + " " + item.DrugId + " " + item.DateTime);
-                }
-                else if (item.Status === "warning") {
-                    $('#warningList').append('<li>' + item.Id + " " + item.DrugId + " " + item.DateTime);
-                }
-                else if (item.Status === "good") {
-                        $('#goodList').append('<li>' + item.Id + " " + item.DrugId + " " + item.DateTime);
-                }
+                $('#shortages').append('<li>' + item.Id + " " + item.DrugId + " " + item.DateTime + " " + item.Status + ' <a href="/ShortagesList/Edit/' + item.Id + '"> Edit </a> <a onclick="DeleteConfirm(' + item.Id + ')" href="#"> Delete </a></li>');
+                $('#shortages').append('<div id="shortage' + item.Id + '"></div>')
             });
         });
 });
+
+function DeleteConfirm(id) {
+    var result = confirm("Press a button");
+    if (result == true) {
+        Delete(id);
+    }
+}
+
+function Delete(id) {
+    $.ajax({
+        url: '/api/Shortage' + '/' + id,
+        type: 'DELETE',
+    });
+}
 </script>
 }

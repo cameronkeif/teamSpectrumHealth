@@ -37,17 +37,6 @@ namespace MedicationsShortagesDashboard.Controllers
         }
 
         /// <summary>
-        /// Get Delete page
-        /// </summary>
-        /// <returns>Delete page view</returns>
-        public ActionResult Delete()
-        {
-            this.ViewData["Username"] = Authentication.Username;
-            this.ViewData["PageTitle"] = "Delete Shortage";
-            return this.View();
-        }
-
-        /// <summary>
         /// Get Edit page
         /// </summary>
         /// <param name="id">Id of the shortage being edited</param>

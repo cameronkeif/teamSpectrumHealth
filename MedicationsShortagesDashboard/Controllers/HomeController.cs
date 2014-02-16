@@ -4,8 +4,13 @@ using MedicationsShortagesDashboard.Services;
 
 namespace MedicationsShortagesDashboard.Controllers
 {
-    public class HomeController : BaseController
+    public class HomeController : Controller
     {
-
+        public ActionResult Index()
+        {
+            this.ViewData["Username"] = Authentication.Username;
+            this.ViewData["PageTitle"] = "Home";
+            return this.View();
+        }
     }
 }

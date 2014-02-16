@@ -16,7 +16,17 @@ namespace MedicationsShortagesDashboard.Controllers
     /// <summary>
     /// Class controlling the login page
     /// </summary>
-    public class LoginController : BaseController
+    public class LoginController : Controller
     {
+        /// <summary>
+        /// Creates an index page
+        /// </summary>
+        /// <returns>The page as a view</returns>
+        public ActionResult Index()
+        {
+            this.ViewData["Username"] = Authentication.Username;
+            this.ViewData["PageTitle"] = "Login";
+            return this.View();
+        }
     }
 }

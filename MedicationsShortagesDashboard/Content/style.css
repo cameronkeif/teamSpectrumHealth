@@ -10,7 +10,6 @@
     font-size:48px;
     color:#004283;
     text-align:center;
-    padding-bottom:10px;
 }
 
 .secondaryTitle
@@ -128,4 +127,26 @@ div.container
     text-align:center;
     vertical-align:middle; 
     height:30px;
+}
+
+/*Page Header*/
+#pageTitleBar
+{
+    display:table;
+    list-style-type:none;
+    padding:0;
+}
+
+#pageTitleBar li
+{
+    display: table-cell;
+    list-style-type:none;
+    vertical-align: middle;
+    padding: 0;
+    margin: 0;
+}
+
+#pageTitleBar .pageTitle
+{
+    width: 80%;
 }

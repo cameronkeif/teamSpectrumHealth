@@ -32,9 +32,12 @@
             </li>
         </ul>
     </div>
-    <div class="pageHeader">
-        <div class="pageTitle">@Html.Encode(ViewData["PageTitle"])</div>
-    </div>
+    <ul id="pageTitleBar">
+        <li class="logo"><img src="~/images/logo.png"/></li>
+        <li class="pageTitle">@Html.Encode(ViewData["PageTitle"])</li>
+        <li class="search"><input type="search" placeholder="search"/></li>
+    </ul>
+    <hr />
     <br />
     @RenderBody()
 

@@ -6,6 +6,7 @@
 
 namespace MedicationsShortagesDashboard.Controllers
 {
+    using System;
     using System.Diagnostics.CodeAnalysis;
     using System.Web.Http;
     using MedicationsShortagesDashboard.Models;
@@ -60,13 +61,16 @@ namespace MedicationsShortagesDashboard.Controllers
             if (existingShortage != null)
             {
                 existingShortage.DrugId = shortage.DrugId;
-                existingShortage.DateTime = shortage.DateTime;
                 existingShortage.Status = shortage.Status;
 
                 this.shortageRepository.UpdateShortage(existingShortage);
             }
             else
             {
+                DateTime dt = DateTime.Now;
+
+                // Trim off the milliseconds.
+                shortage.DateTime = new DateTime(dt.Year, dt.Month, dt.Day, dt.Hour, dt.Minute, dt.Second, 0);
                 this.shortageRepository.AddShortage(shortage);
             }
         }

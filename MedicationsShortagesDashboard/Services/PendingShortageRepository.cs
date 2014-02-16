@@ -15,16 +15,26 @@ namespace MedicationsShortagesDashboard.Services
     /// </summary>
     public class PendingShortageRepository
     {
+        /// <summary>
+        /// The database context
+        /// </summary>
         private PendingShortageDBContext db;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PendingShortageRepository"/> class
+        /// </summary>
         public PendingShortageRepository()
         {
             this.db = new PendingShortageDBContext();
         }
 
-        public PendingShortageRepository(PendingShortageDBContext dbContext)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PendingShortageRepository"/> class
+        /// </summary>
+        /// <param name="context">A database context to interface with</param>
+        public PendingShortageRepository(PendingShortageDBContext context)
         {
-            this.db = dbContext;
+            this.db = context;
         }
 
         /// <summary>
@@ -35,7 +45,7 @@ namespace MedicationsShortagesDashboard.Services
         {
             List<PendingShortage> pendingShortages = new List<PendingShortage>();
 
-            foreach (PendingShortage pendingShortage in db.PendingShortages.ToList())
+            foreach (PendingShortage pendingShortage in this.db.PendingShortages.ToList())
             {
                 pendingShortages.Add(pendingShortage);
             }

@@ -6,7 +6,6 @@
 
 namespace MedicationsShortagesDashboard.Controllers
 {
-    using System.Diagnostics.CodeAnalysis;
     using System.Web.Mvc;
     using MedicationsShortagesDashboard.Services;
 
@@ -51,12 +50,15 @@ namespace MedicationsShortagesDashboard.Controllers
         /// <summary>
         /// Get Edit page
         /// </summary>
+        /// <param name="id">Id of the shortage being edited</param>
         /// <returns>Edit page view</returns>
-        public ActionResult Edit()
+        public ActionResult Edit(int id = 0)
         {
+            ShortageRepository db = new ShortageRepository();
+            
             this.ViewData["Username"] = Authentication.Username;
             this.ViewData["PageTitle"] = "Edit Shortage";
-            return this.View();
+            return this.View(db.GetShortage(id));
         }
     }
 }

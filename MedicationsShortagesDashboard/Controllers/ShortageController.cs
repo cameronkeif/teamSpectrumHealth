@@ -56,7 +56,19 @@ namespace MedicationsShortagesDashboard.Controllers
         /// to add to the database</param>
         public void Post([FromBody] Shortage shortage)
         {
-            this.shortageRepository.AddShortage(shortage);
+            Shortage existingShortage = this.shortageRepository.GetShortage(shortage.Id);
+            if (existingShortage != null)
+            {
+                existingShortage.DrugId = shortage.DrugId;
+                existingShortage.DateTime = shortage.DateTime;
+                existingShortage.Status = shortage.Status;
+
+                this.shortageRepository.UpdateShortage(existingShortage);
+            }
+            else
+            {
+                this.shortageRepository.AddShortage(shortage);
+            }
         }
 
         /// <summary>
@@ -66,12 +78,6 @@ namespace MedicationsShortagesDashboard.Controllers
         public void Delete(int id)
         {
             this.shortageRepository.DeleteShortage(id);
-        }
-
-        public void Put(int id, Shortage shortage)
-        {
-            int i = 0;
-            i++;
         }
     }
 }

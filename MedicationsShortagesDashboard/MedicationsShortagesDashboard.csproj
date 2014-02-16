@@ -168,7 +168,6 @@
     <Compile Include="Controllers\PendingShortageController.cs" />
     <Compile Include="Controllers\PendingShortagesListController.cs" />
     <Compile Include="Controllers\ShortageController.cs" />
-    <Compile Include="Controllers\ShortageFeedController.cs" />
     <Compile Include="Controllers\ShortagesListController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

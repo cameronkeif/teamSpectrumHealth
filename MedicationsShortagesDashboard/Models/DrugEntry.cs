@@ -109,5 +109,13 @@ namespace MedicationsShortagesDashboard.Models
                 this.generic = value;
             }
         }
+
+        /// <summary>
+        /// Returns simple string version of entry
+        /// </summary>
+        public string toString()
+        {
+            return this.ndc + " - " + this.dosage + " - " + this.brand + " - " + this.generic;
+        }
     }
 }

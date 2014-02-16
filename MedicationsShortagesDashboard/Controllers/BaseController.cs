@@ -26,15 +26,6 @@ namespace MedicationsShortagesDashboard.Controllers
         /// <returns>Index page view</returns>
         public ActionResult Index()
         {
-            foreach (string upload in Request.Files)
-            {
-                if (Request.Files[upload] == null || Request.Files[upload].ContentLength <= 0) continue;
-                string path = AppDomain.CurrentDomain.BaseDirectory + "uploads\\";
-                string filename = Path.GetFileName(Request.Files[upload].FileName);
-                Request.Files[upload].SaveAs(Path.Combine(path, filename));
-                System.Diagnostics.Debug.WriteLine("OH HEY LOOK: " + Path.Combine(path, filename));
-            }
-        
             this.ViewData["Username"] = Authentication.Username;
             return this.View();
         }

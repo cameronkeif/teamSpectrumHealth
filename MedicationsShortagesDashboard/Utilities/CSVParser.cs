@@ -3,15 +3,16 @@
 //      Spectrum Health
 // </copyright>
 //-----------------------------------------------------------------------
-
-namespace MedicationsShortagesDashboard.Services
+namespace MedicationsShortagesDashboard.Utilities
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Web;
+    using System.Web.Http;
     using FileHelpers;
     using MedicationsShortagesDashboard.Models;
+    using MedicationsShortagesDashboard.Services;
 
     /// <summary>
     /// CSV Parsing class, reads/parses/writes in constructor
@@ -34,9 +35,21 @@ namespace MedicationsShortagesDashboard.Services
         /// <returns>nothing</returns>
         public CSVParser()
         {
+
+        }
+
+        public void ParseCSV(string path)
+        {
             this.engine = new FileHelperEngine(typeof(DrugEntry));
-            this.drugs = this.engine.ReadFile(HttpContext.Current.Server.MapPath("/Data") + "/TestCSV.csv") as DrugEntry[];
-            this.engine.WriteFile("OutCSV.txt", this.drugs);
+            this.drugs = this.engine.ReadFile(path) as DrugEntry[];
+            //this.engine.WriteFile("OutCSV.txt", this.drugs);
+
+            foreach (DrugEntry d in drugs)
+            {
+                System.Diagnostics.Debug.WriteLine(d.toString());
+            }
+
+
         }
 
         /// <summary>

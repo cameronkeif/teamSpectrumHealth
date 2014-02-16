@@ -194,6 +194,7 @@
     <Compile Include="Services\LoginRepository.cs" />
     <Compile Include="Services\PendingShortageRepository.cs" />
     <Compile Include="Services\ShortageRepository.cs" />
+    <Compile Include="Utilities\CSVDownloader.cs" />
     <Compile Include="Utilities\CSVParser.cs" />
     <Compile Include="Utilities\RssFeedParser.cs" />
   </ItemGroup>

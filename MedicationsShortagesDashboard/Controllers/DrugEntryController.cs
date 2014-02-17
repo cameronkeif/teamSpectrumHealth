@@ -6,10 +6,15 @@
 
 namespace MedicationsShortagesDashboard.Controllers
 {
+    using System.Diagnostics.CodeAnalysis;
+    using System.Net;
+    using System.Net.Http;
+    using System.Web;
     using System.Web.Http;
+    using System.Threading.Tasks;
     using MedicationsShortagesDashboard.Models;
     using MedicationsShortagesDashboard.Services;
-    using System.Diagnostics.CodeAnalysis;
+    using MedicationsShortagesDashboard.Utilities;
 
     /// <summary>
     /// Provides a Restful interaction between the application and the
@@ -41,6 +46,48 @@ namespace MedicationsShortagesDashboard.Controllers
         }
 
         /// <summary>
+        /// Accepts data from input form in DrugEntriesList View to be parsed/input
+        /// </summary>
+        /// <returns>Task Response message, either OK or an error</returns
+        public async Task<HttpResponseMessage> PostFormData()
+        {
+            if (!Request.Content.IsMimeMultipartContent())
+            {
+                System.Diagnostics.Debug.WriteLine("UNSUPPORTED MEDIA I DONT KNOW");
+            }
+
+            string root = HttpContext.Current.Server.MapPath("~/App_Data");
+            var provider = new MultipartFormDataStreamProvider(root);
+
+            try
+            {
+                await Request.Content.ReadAsMultipartAsync(provider);
+
+                foreach (MultipartFileData file in provider.FileData)
+                {
+                    System.Diagnostics.Debug.WriteLine(file.Headers.ContentDisposition.FileName);
+                    System.Diagnostics.Debug.WriteLine("Server file path: " + file.LocalFileName);
+
+                    DrugEntry[] drugs;
+                    CSVParser parser = new CSVParser();
+                    drugs = parser.ParseCSV(file.LocalFileName);
+
+                    foreach (DrugEntry d in drugs)
+                    {
+                        System.Diagnostics.Debug.WriteLine("DRUG FROM FILE: " + d.NDC);
+                        this.drugEntryRepository.addDrugEntry(d);
+                    }
+                }
+
+                return Request.CreateResponse(HttpStatusCode.OK);
+            }
+            catch (System.Exception e)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
+            }
+        }
+
+        /// <summary>
         /// HTTP Get
         /// </summary>
         /// <returns>All of the entries in the DRUGS table.</returns>
@@ -53,10 +100,10 @@ namespace MedicationsShortagesDashboard.Controllers
         /// HTTP Post
         /// </summary>
         /// <param name="shortage">Shortage constructed from the HTML form
-        /// to add to the database</param>
+        /* to add to the database</param>
         public void Post([FromBody] DrugEntry drugEntry)
         {
             this.drugEntryRepository.addDrugEntry(drugEntry);
-        }
+        }*/
     }
 }

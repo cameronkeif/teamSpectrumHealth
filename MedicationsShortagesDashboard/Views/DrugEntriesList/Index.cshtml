@@ -25,8 +25,13 @@
 <br />
 <div align="center">_____________________________________________________________________________________</div>
 <br /><br />
-Upload a new .CSV file for the Drug Database:
-@using (Html.BeginForm ("", "DrugEntriesList", FormMethod.Post, new {enctype="multipart/form-data"})){
-    <input type="file" name="newCSV" /><br />
-    <input type="submit" name="Submit" id="Submit" value="Upload" />
-}
+
+<form name="form1" method="post" enctype="multipart/form-data" action="api/DrugEntry">
+    <div>
+        <label for="input">Upload a new .CSV file:</label>
+        <input name="input" type="file" />
+    </div>
+    <div>
+        <input type="submit" value="Submit" />
+    </div>
+</form>

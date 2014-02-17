@@ -38,7 +38,7 @@ namespace MedicationsShortagesDashboard.Utilities
 
         }
 
-        public void ParseCSV(string path)
+        public DrugEntry[] ParseCSV(string path)
         {
             this.engine = new FileHelperEngine(typeof(DrugEntry));
             this.drugs = this.engine.ReadFile(path) as DrugEntry[];
@@ -49,7 +49,7 @@ namespace MedicationsShortagesDashboard.Utilities
                 System.Diagnostics.Debug.WriteLine(d.toString());
             }
 
-
+            return this.drugs;
         }
 
         /// <summary>

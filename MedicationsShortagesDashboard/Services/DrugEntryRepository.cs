@@ -6,7 +6,9 @@
 
 namespace MedicationsShortagesDashboard.Services
 {
+    using System;
     using System.Collections.Generic;
+    using System.Data;
     using System.Linq;
     using MedicationsShortagesDashboard.Models;
 
@@ -51,6 +53,26 @@ namespace MedicationsShortagesDashboard.Services
         public void addDrugEntry(DrugEntry drugEntry)
         {
             this.db.DrugEntries.Add(drugEntry);
+            this.db.SaveChanges();
+        }
+
+        /// <summary>
+        /// Gets the drug entry from the database with a matching ID.
+        /// </summary>
+        /// <param name="id">The ID of the drug entry we're looking for.</param>
+        /// <returns>The drug entry which has id as it's ID.</returns>
+        public DrugEntry GetDrugEntry(string ndc)
+        {
+            return this.db.DrugEntries.Find(ndc);
+        }
+
+        /// <summary>
+        /// Updates an existing drug entry
+        /// </summary>
+        /// <param name="shortage">The drug entry to modify.</param>
+        public void UpdateDrugEntry(DrugEntry drugEntry)
+        {
+            this.db.Entry(drugEntry).State = EntityState.Modified;
             this.db.SaveChanges();
         }
     }

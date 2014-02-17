@@ -65,17 +65,25 @@ namespace MedicationsShortagesDashboard.Controllers
 
                 foreach (MultipartFileData file in provider.FileData)
                 {
-                    System.Diagnostics.Debug.WriteLine(file.Headers.ContentDisposition.FileName);
-                    System.Diagnostics.Debug.WriteLine("Server file path: " + file.LocalFileName);
-
                     DrugEntry[] drugs;
                     CSVParser parser = new CSVParser();
                     drugs = parser.ParseCSV(file.LocalFileName);
 
                     foreach (DrugEntry d in drugs)
                     {
-                        System.Diagnostics.Debug.WriteLine("DRUG FROM FILE: " + d.NDC);
-                        this.drugEntryRepository.addDrugEntry(d);
+                        DrugEntry existingDrugEntry = this.drugEntryRepository.GetDrugEntry(d.NDC);
+                        if (existingDrugEntry != null)
+                        {
+                            existingDrugEntry.Dosage = d.Dosage;
+                            existingDrugEntry.Brand = d.Brand;
+                            existingDrugEntry.Generic = d.Generic;
+
+                            this.drugEntryRepository.UpdateDrugEntry(existingDrugEntry);
+                        }
+                        else
+                        {
+                            this.drugEntryRepository.addDrugEntry(d);
+                        }
                     }
                 }
 

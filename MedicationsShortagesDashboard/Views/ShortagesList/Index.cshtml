@@ -36,7 +36,6 @@ $(function()
         {
             $(shortagesJsonPayload).each(function(i, item)
             {
-
                 if (item.Status === "severe") {
                     $('#severeList').append('<div id="shortage' + item.Id + '"><li>' + item.Id + " " + item.DrugId + " " + item.DateTime + " " + item.Status + ' <a href="/ShortagesList/Edit/' + item.Id + '"> Edit </a> <a onclick="DeleteConfirm(' + item.Id + ')" href="#"> Delete </a></li></div>');
                 }
@@ -51,7 +50,7 @@ $(function()
 });
 
 function DeleteConfirm(id) {
-    var result = confirm("Press a button");
+    var result = confirm("Do you really want to delete this shortage?");
     if (result == true) {
         Delete(id);
     }
@@ -61,6 +60,9 @@ function Delete(id) {
     $.ajax({
         url: '/api/Shortage' + '/' + id,
         type: 'DELETE',
+        success: function () {
+            $('#shortage' + id).remove();
+        },
     });
 }
 </script>

@@ -316,7 +316,6 @@
     <Content Include="Views\PendingShortagesList\Index.cshtml" />
     <Content Include="Views\ShortagesList\Index.cshtml" />
     <Content Include="Views\ShortagesList\Create.cshtml" />
-    <Content Include="Views\ShortagesList\Delete.cshtml" />
     <Content Include="Views\ShortagesList\Edit.cshtml" />
     <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Views\DrugEntriesList\Index.cshtml" />

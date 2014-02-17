@@ -1,5 +1,46 @@
-﻿@{
+﻿@model MedicationsShortagesDashboard.Models.Shortage 
+
+@{
     ViewBag.Title = "Edit";
 }
 
-<h2>Edit</h2>
+<body>
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "editShortage", @action = "/api/Shortage" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Shortage</legend>
+
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.DrugId)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.DrugId)
+            @Html.ValidationMessageFor(model => model.DrugId)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.DateTime)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.DateTime)
+            @Html.ValidationMessageFor(model => model.DateTime)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Status)
+        </div>
+        <p>@Html.RadioButton("Status", "good", false) Good </p>
+        <p>@Html.RadioButton("Status", "warning", false) Warning </p>
+        <p>@Html.RadioButton("Status", "severe", false) Severe </p>
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+</body>

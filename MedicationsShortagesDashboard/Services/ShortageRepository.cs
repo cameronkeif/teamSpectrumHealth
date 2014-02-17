@@ -8,6 +8,7 @@ namespace MedicationsShortagesDashboard.Services
 {
     using System;
     using System.Collections.Generic;
+    using System.Data;
     using System.Linq;
     using MedicationsShortagesDashboard.Models;
     
@@ -79,6 +80,26 @@ namespace MedicationsShortagesDashboard.Services
             catch (InvalidOperationException)
             {                
             }
+        }
+
+        /// <summary>
+        /// Gets the shortage from the database with a matching ID.
+        /// </summary>
+        /// <param name="id">The ID of the shortage we're looking for.</param>
+        /// <returns>The shortage which has id as it's ID.</returns>
+        public Shortage GetShortage(int id)
+        {
+            return this.db.Shortages.Find(id);
+        }
+        
+        /// <summary>
+        /// Updates am existing shortage
+        /// </summary>
+        /// <param name="shortage">The shortage to modify.</param>
+        public void UpdateShortage(Shortage shortage)
+        {
+            this.db.Entry(shortage).State = EntityState.Modified;
+            this.db.SaveChanges();
         }
     } 
 }

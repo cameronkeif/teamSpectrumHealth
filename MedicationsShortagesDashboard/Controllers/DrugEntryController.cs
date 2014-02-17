@@ -6,6 +6,7 @@
 
 namespace MedicationsShortagesDashboard.Controllers
 {
+    using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
     using System.Net;
     using System.Net.Http;
@@ -72,6 +73,7 @@ namespace MedicationsShortagesDashboard.Controllers
                     foreach (DrugEntry d in drugs)
                     {
                         DrugEntry existingDrugEntry = this.drugEntryRepository.GetDrugEntry(d.NDC);
+
                         if (existingDrugEntry != null)
                         {
                             existingDrugEntry.Dosage = d.Dosage;

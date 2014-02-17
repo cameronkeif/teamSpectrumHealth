@@ -26,12 +26,6 @@ namespace MedicationsShortagesDashboard.Controllers
         /// <returns>Index page view</returns>
         public ActionResult Index()
         {
-            if (Request.Files.Count > 0)
-            {
-                CSVDownloader downloader = new CSVDownloader();
-                downloader.DownloadCSV(Request);
-            }
-
             return View();
         }
     }

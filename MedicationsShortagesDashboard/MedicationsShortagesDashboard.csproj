@@ -167,7 +167,6 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\BaseController.cs" />
-    <Compile Include="Controllers\CSVUploadController.cs" />
     <Compile Include="Controllers\DrugEntriesListController.cs" />
     <Compile Include="Controllers\DrugEntryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -195,7 +194,6 @@
     <Compile Include="Services\LoginRepository.cs" />
     <Compile Include="Services\PendingShortageRepository.cs" />
     <Compile Include="Services\ShortageRepository.cs" />
-    <Compile Include="Utilities\CSVDownloader.cs" />
     <Compile Include="Utilities\CSVParser.cs" />
     <Compile Include="Utilities\RssFeedParser.cs" />
   </ItemGroup>
@@ -323,7 +321,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Uploads\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

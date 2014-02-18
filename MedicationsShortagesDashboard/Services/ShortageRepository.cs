@@ -62,7 +62,14 @@ namespace MedicationsShortagesDashboard.Services
         /// <returns>The shortage that was most recently posted, with a matching national drug code</returns>
         public Shortage GetShortage(string ndc)
         {
-            return this.db.Shortages.OrderByDescending(shortage => shortage.DateTime).First(shortage => shortage.Ndc == ndc);
+            try
+            {
+                return this.db.Shortages.OrderByDescending(shortage => shortage.DateTime).First(shortage => shortage.Ndc == ndc);
+            }
+            catch (InvalidOperationException)
+            {
+                return null;
+            }
         }
 
         /// <summary>

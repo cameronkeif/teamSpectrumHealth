@@ -115,6 +115,9 @@ namespace MedicationsShortagesDashboard.Models
             }
         }
 
+        /// <summary>
+        /// Gets or sets current status
+        /// </summary>
         [Column("CURRENT_STATUS")]
         public string CurrentStatus
         {

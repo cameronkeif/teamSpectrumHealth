@@ -12,14 +12,18 @@
 <body>
     <div id="menu">
         <ul>
+            <li class="left">
+                <a href="~/DrugEntriesList/" class="button">Home</a>
+            <li class="left">
+                <a href="~/DrugEntriesList/Upload" class="button">Upload CSV</a>
             <li class="left" id="pendingRedir">
-                <a href="~/PendingShortagesList" class="button">Pending</a>
+                <a href="~/PendingShortagesList" class="button">Pending Shortages</a>
             </li>
             <li class="left">
-                <a href="~/ShortagesList" class="button">All</a>
+                <a href="~/ShortagesList" class="button">All Shortages</a>
             </li>
             <li class="left">
-                <a href="~/ShortagesList/Create" class="button">Create</a>
+                <a href="~/ShortagesList/Create" class="button">Create Shortage</a>
             </li>
                 @{       
                     if(ViewData["Username"] == "Guest")

@@ -56,6 +56,16 @@ namespace MedicationsShortagesDashboard.Services
         }
 
         /// <summary>
+        /// Gets the most recently posted shortage for a given National Drug Code from the database
+        /// </summary>
+        /// <param name="ndc">National Drug Code</param>
+        /// <returns>The shortage that was most recently posted, with a matching national drug code</returns>
+        public Shortage GetShortage(string ndc)
+        {
+            return this.db.Shortages.OrderByDescending(shortage => shortage.DateTime).First(shortage => shortage.Ndc == ndc);
+        }
+
+        /// <summary>
         /// Add a shortage to the database
         /// </summary>
         /// <param name="shortage">The shortage to add to the database.</param>

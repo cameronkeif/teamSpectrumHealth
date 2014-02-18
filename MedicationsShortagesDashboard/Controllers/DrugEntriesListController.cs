@@ -28,5 +28,14 @@ namespace MedicationsShortagesDashboard.Controllers
         {
             return this.View();
         }
+
+        /// <summary>
+        /// Get Upload page
+        /// </summary>
+        /// <returns>Upload page view</returns>
+        public ActionResult Upload()
+        {
+            return this.View();
+        }
     }
 }

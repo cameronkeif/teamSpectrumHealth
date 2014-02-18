@@ -75,6 +75,9 @@ namespace MedicationsShortagesDashboard.Controllers
                     foreach (DrugEntry d in drugs)
                     {
                         System.Diagnostics.Debug.WriteLine("DRUG FROM FILE: " + d.NDC);
+                        
+                        // A drug imported from the csv file would not have this field populated.
+                        d.CurrentStatus = "good";
                         this.drugEntryRepository.AddDrugEntry(d);
                     }
                 }

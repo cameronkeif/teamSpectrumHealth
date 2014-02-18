@@ -42,6 +42,11 @@ namespace MedicationsShortagesDashboard.Models
         private string generic;
 
         /// <summary>
+        /// Current shortage status of this drug
+        /// </summary>
+        private string currentStatus;
+
+        /// <summary>
         /// Gets or sets the NDC
         /// </summary>
         [Key]
@@ -107,6 +112,20 @@ namespace MedicationsShortagesDashboard.Models
             set
             {
                 this.generic = value;
+            }
+        }
+
+        [Column("CURRENT_STATUS")]
+        public string CurrentStatus
+        {
+            get
+            {
+                return this.currentStatus;
+            }
+
+            set
+            {
+                this.currentStatus = value;
             }
         }
 

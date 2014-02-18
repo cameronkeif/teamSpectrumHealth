@@ -4,34 +4,49 @@
 }
 
 <div id="body">
-    <ul id="drug_entries"></ul>
+    <div id="listContainer" >
+        <div id="severeContainer" class="container">
+            <span class="secondaryTitle">Severe</span>
+            <ul id="severeList" class="shortageList">
+            </ul>
+        </div>
+        <div id="warningContainer" class="container">
+            <span class="secondaryTitle">Warning</span>
+            <ul id="warningList" class="shortageList">
+            </ul>
+        </div>
+        <div id="goodContainer" class="container">
+            <span class="secondaryTitle">Good</span>
+            <ul id="goodList" class="shortageList">
+            </ul>
+        </div>
+        <div id="recentContainer" class="container">
+            <span class="secondaryTitle">Recent</span>
+            <ul id="recentList" class="shortageList">
+            </ul>
+        </div>
+    </div>
 </div>
 
 @section scripts{
 <script type="text/javascript">
-    $(function ()
-    {
-        $.getJSON('/api/DrugEntry', function (drugEntriesJsonPayload)
+$(function()
+{
+        $.getJSON('/api/DrugEntry', function(drugJsonPayload)
         {
-            $(drugEntriesJsonPayload).each(function (i, item)
+            $(drugJsonPayload).each(function(i, item)
             {
-                $('#drug_entries').append('<li>' > + item.NDC + '</li>');
+                if (item.CurrentStatus === "severe") {
+                    $('#severeList').append('<p>' + item.Brand + ' ' + item.Dosage + '</p>');
+                }
+                else if (item.CurrentStatus === "warning") {
+                    $('#severeList').append('<p>' + item.Brand + ' ' + item.Dosage + '</p>');
+                }
+                else {
+                    $('#goodList').append('<p>' + item.Brand + ' ' + item.Dosage + '</p>');
+                }
             });
         });
-    });
+});
 </script>
 }
-
-<br />
-<div align="center">_____________________________________________________________________________________</div>
-<br /><br />
-
-<form name="form1" method="post" enctype="multipart/form-data" action="api/DrugEntry">
-    <div>
-        <label for="input">Upload a new .CSV file:</label>
-        <input name="input" type="file" />
-    </div>
-    <div>
-        <input type="submit" value="Submit" />
-    </div>
-</form>

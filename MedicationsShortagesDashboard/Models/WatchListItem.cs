@@ -36,6 +36,12 @@ namespace MedicationsShortagesDashboard.Models
             this.ndc = ndc;
         }
 
+        public WatchListItem()
+        {
+            this.username = string.Empty;
+            this.ndc = string.Empty;
+        }
+
         /// <summary>
         /// Gets or sets username
         /// </summary>

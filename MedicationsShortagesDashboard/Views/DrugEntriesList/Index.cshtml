@@ -32,6 +32,17 @@
 <script type="text/javascript">
 $(function()
 {
+    var watchListNdcs = Array();
+
+    // On page load, 
+    $.getJSON('/api/WatchListItem?username=' + '@Html.Encode(ViewData["Username"])', function (watchListJsonPayload) {
+        $(watchListJsonPayload).each(function(i, watchListItem) {
+            watchListNdcs.push(watchListItem.Ndc);
+        });
+    });
+
+    console.log(watchListNdcs);
+
     $.getJSON('/api/DrugEntry', function(drugJsonPayload)
     {
         $(drugJsonPayload).each(function(i, item)

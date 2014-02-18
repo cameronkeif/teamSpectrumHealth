@@ -97,6 +97,16 @@ namespace MedicationsShortagesDashboard.Controllers
         }
 
         /// <summary>
+        /// HTTP Get
+        /// </summary>
+        /// <param name="ndc">The National Drug Code of the entry</param>
+        /// <returns>All of the entries in the DRUGS table.</returns>
+        public DrugEntry Get(string ndc)
+        {
+            return this.drugEntryRepository.GetDrug(ndc);
+        }
+
+        /// <summary>
         /// HTTP Post
         /// </summary>
         /// <param name="shortage">Shortage constructed from the HTML form

@@ -55,10 +55,21 @@ namespace MedicationsShortagesDashboard.Services
         }
 
         /// <summary>
+        /// Gets the shortage from the database with a matching ID.
+        /// </summary>
+        /// <param name="ndc">The ID of the shortage we're looking for.</param>
+        /// <returns>The shortage which has id as it's ID.</returns>
+        public DrugEntry GetDrug(string ndc)
+        {
+            DrugEntry d = this.db.DrugEntries.Find(ndc);
+            return this.db.DrugEntries.Find(ndc);
+        }
+
+        /// <summary>
         /// Add a drug entry to the database
         /// </summary>
         /// <param name="drugEntry">The drug entry to add to the database.</param>
-        public void addDrugEntry(DrugEntry drugEntry)
+        public void AddDrugEntry(DrugEntry drugEntry)
         {
             this.db.DrugEntries.Add(drugEntry);
             this.db.SaveChanges();

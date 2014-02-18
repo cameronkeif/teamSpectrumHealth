@@ -13,6 +13,7 @@ namespace MedicationsShortagesDashboard.Controllers
     using System.Linq;
     using System.Web;
     using System.Web.Mvc;
+    using MedicationsShortagesDashboard.Services;
     using MedicationsShortagesDashboard.Utilities;
 
     /// <summary>
@@ -26,6 +27,8 @@ namespace MedicationsShortagesDashboard.Controllers
         /// <returns>Index page view</returns>
         public ActionResult Index()
         {
+            this.ViewData["Username"] = Authentication.Username;
+            this.ViewData["PageTitle"] = "Current Shortages";
             return this.View();
         }
 

@@ -53,7 +53,10 @@ $(function()
 });
 
 function addToWatchList(username, ndc) {
-    alert('Success: ' + username + ' - ' + ndc);
+    $.post('/api/WatchListItem', { '': username + "&" + ndc })
+    .done(function (data) {
+        alert("Success");
+    });
 };
 </script>
 }

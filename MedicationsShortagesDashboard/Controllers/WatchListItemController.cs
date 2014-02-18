@@ -6,6 +6,7 @@
 
 namespace MedicationsShortagesDashboard.Controllers
 {
+    using System;
     using System.Web.Http;
     using MedicationsShortagesDashboard.Models;
     using MedicationsShortagesDashboard.Services;
@@ -28,6 +29,24 @@ namespace MedicationsShortagesDashboard.Controllers
         public WatchListItem[] Get(string username)
         {
             return this.watchListItemRepository.GetWatchListItems(username);
+        }
+
+        /// <summary>
+        /// HTTP Post
+        /// </summary>
+        /// <param name="parameters">Watch list parameters</param>
+        public void Post([FromBody] string parameters)
+        {
+            try
+            {
+                string[] split_parameters = parameters.Split('&');
+
+                WatchListItem watchListItem = new WatchListItem(split_parameters[0], split_parameters[1]);
+                this.watchListItemRepository.AddWatchListItem(watchListItem);
+            }
+            catch (InvalidOperationException)
+            {
+            }
         }
     }
 }

@@ -26,6 +26,17 @@ namespace MedicationsShortagesDashboard.Models
         private string ndc;
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="WatchListItem"/> class.
+        /// </summary>
+        /// <param name="username">The user's username</param>
+        /// <param name="ndc">The National Drug Code</param>
+        public WatchListItem(string username, string ndc)
+        {
+            this.username = username;
+            this.ndc = ndc;
+        }
+
+        /// <summary>
         /// Gets or sets username
         /// </summary>
         [Key]

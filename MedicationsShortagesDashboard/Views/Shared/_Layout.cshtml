@@ -12,9 +12,6 @@
 <body>
     <div id="menu">
         <ul>
-            <li class="leftMost" id="loginRedir">
-                <a href="~/Login" class="button">Login</a>
-            </li>
             <li class="left" id="pendingRedir">
                 <a href="~/PendingShortagesList" class="button">Pending</a>
             </li>
@@ -24,9 +21,20 @@
             <li class="left">
                 <a href="~/ShortagesList/Create" class="button">Create</a>
             </li>
-            <li class="rightMost">
-                <div id="userDisplay" class="button">Logout</div>
-            </li>
+                @{       
+                    if(ViewData["Username"] == "Guest")
+                    {
+                        <li class="rightMost" id="loginRedir">
+                        <a href="~/Login" class="button">Login</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="rightMost">
+                        <div id="userDisplay" class="button">Logout</div>
+                        </li>
+                    }
+                }
             <li class="right">
                 <div class="menuText">Holler, @Html.Encode(ViewData["Username"])</div>
             </li>

@@ -22,7 +22,7 @@
         $.post("api/loginapi",
             $("#loginForm").serialize(),
             function (value) {
-                window.location.replace("/ShortagesList");
+                window.location.replace("/DrugEntriesList");
             },
             "json"
         ).fail(function () {

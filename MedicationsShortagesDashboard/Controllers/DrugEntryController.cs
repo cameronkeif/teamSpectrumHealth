@@ -9,9 +9,9 @@ namespace MedicationsShortagesDashboard.Controllers
     using System.Diagnostics.CodeAnalysis;
     using System.Net;
     using System.Net.Http;
+    using System.Threading.Tasks;
     using System.Web;
     using System.Web.Http;
-    using System.Threading.Tasks;
     using MedicationsShortagesDashboard.Models;
     using MedicationsShortagesDashboard.Services;
     using MedicationsShortagesDashboard.Utilities;
@@ -48,7 +48,7 @@ namespace MedicationsShortagesDashboard.Controllers
         /// <summary>
         /// Accepts data from input form in DrugEntriesList View to be parsed/input
         /// </summary>
-        /// <returns>Task Response message, either OK or an error</returns
+        /// <returns>Task Response message, either OK or an error</returns>
         public async Task<HttpResponseMessage> PostFormData()
         {
             if (!Request.Content.IsMimeMultipartContent())
@@ -75,7 +75,7 @@ namespace MedicationsShortagesDashboard.Controllers
                     foreach (DrugEntry d in drugs)
                     {
                         System.Diagnostics.Debug.WriteLine("DRUG FROM FILE: " + d.NDC);
-                        this.drugEntryRepository.addDrugEntry(d);
+                        this.drugEntryRepository.AddDrugEntry(d);
                     }
                 }
 

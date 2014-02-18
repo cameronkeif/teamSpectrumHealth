@@ -26,7 +26,7 @@ namespace MedicationsShortagesDashboard.Controllers
         /// <returns>Index page view</returns>
         public ActionResult Index()
         {
-            return View();
+            return this.View();
         }
     }
 }

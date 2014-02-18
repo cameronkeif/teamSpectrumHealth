@@ -32,24 +32,8 @@ namespace MedicationsShortagesDashboard.Utilities
         /// <summary>
         /// Initializes a new instance of the <see cref="CSVParser"/> class
         /// </summary>
-        /// <returns>nothing</returns>
         public CSVParser()
         {
-
-        }
-
-        public DrugEntry[] ParseCSV(string path)
-        {
-            this.engine = new FileHelperEngine(typeof(DrugEntry));
-            this.drugs = this.engine.ReadFile(path) as DrugEntry[];
-            //this.engine.WriteFile("OutCSV.txt", this.drugs);
-
-            foreach (DrugEntry d in drugs)
-            {
-                System.Diagnostics.Debug.WriteLine(d.toString());
-            }
-
-            return this.drugs;
         }
 
         /// <summary>
@@ -66,6 +50,25 @@ namespace MedicationsShortagesDashboard.Utilities
             {
                 this.drugs = value;
             }
+        }
+
+        /// <summary>
+        /// Parses a CSV file
+        /// </summary>
+        /// <param name="path">The path to the .csv file</param>
+        /// <returns>Array of drug entries constructed from the csv file.</returns>
+        public DrugEntry[] ParseCSV(string path)
+        {
+            this.engine = new FileHelperEngine(typeof(DrugEntry));
+            this.drugs = this.engine.ReadFile(path) as DrugEntry[];
+
+            // this.engine.WriteFile("OutCSV.txt", this.drugs);
+            foreach (DrugEntry d in this.drugs)
+            {
+                System.Diagnostics.Debug.WriteLine(d.ToString());
+            }
+
+            return this.drugs;
         }
     }
 }

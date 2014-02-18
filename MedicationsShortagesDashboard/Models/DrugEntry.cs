@@ -113,7 +113,8 @@ namespace MedicationsShortagesDashboard.Models
         /// <summary>
         /// Returns simple string version of entry
         /// </summary>
-        public string toString()
+        /// <returns>String representation of this drug</returns>
+        public string ToString()
         {
             return this.ndc + " - " + this.dosage + " - " + this.brand + " - " + this.generic;
         }

@@ -15,16 +15,26 @@ namespace MedicationsShortagesDashboard.Services
     /// </summary>
     public class DrugEntryRepository
     {
+        /// <summary>
+        /// Database context
+        /// </summary>
         private DrugEntryDBContext db;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DrugEntryRepository" /> class
+        /// </summary>
         public DrugEntryRepository()
         {
             this.db = new DrugEntryDBContext();
         }
 
-        public DrugEntryRepository(DrugEntryDBContext dbContext)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DrugEntryRepository" /> class
+        /// </summary>
+        /// <param name="context">A database context</param>
+        public DrugEntryRepository(DrugEntryDBContext context)
         {
-            this.db = dbContext;
+            this.db = context;
         }
 
         /// <summary>
@@ -35,7 +45,7 @@ namespace MedicationsShortagesDashboard.Services
         {
             List<DrugEntry> drugEntries = new List<DrugEntry>();
 
-            foreach (DrugEntry drugEntry in db.DrugEntries.ToList())
+            foreach (DrugEntry drugEntry in this.db.DrugEntries.ToList())
             {
                 drugEntries.Add(drugEntry);
                 System.Diagnostics.Debug.WriteLine("DRUG: " + drugEntry.NDC);

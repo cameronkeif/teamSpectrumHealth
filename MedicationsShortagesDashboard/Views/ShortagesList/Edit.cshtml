@@ -16,19 +16,11 @@
         @Html.HiddenFor(model => model.Id)
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.DrugId)
+            @Html.LabelFor(model => model.Ndc)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.DrugId)
-            @Html.ValidationMessageFor(model => model.DrugId)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.DateTime)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.DateTime)
-            @Html.ValidationMessageFor(model => model.DateTime)
+            @Html.EditorFor(model => model.Ndc)
+            @Html.ValidationMessageFor(model => model.Ndc)
         </div>
 
         <div class="editor-label">

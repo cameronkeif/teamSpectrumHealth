@@ -24,7 +24,7 @@ namespace MedicationsShortagesDashboard.Models
         /// <summary>
         /// ID of the drug which is referenced in this shortage
         /// </summary>
-        private int drugId;
+        private string ndc;
 
         /// <summary>
         /// Timestamp of when the shortage was posted
@@ -58,16 +58,16 @@ namespace MedicationsShortagesDashboard.Models
         /// Gets or sets drugId
         /// </summary>
         [Column("NDC")]
-        public int DrugId
+        public string Ndc
         {
             get
             {
-                return this.drugId;
+                return this.ndc;
             }
 
             set
             {
-                this.drugId = value;
+                this.ndc = value;
             }
         }
 

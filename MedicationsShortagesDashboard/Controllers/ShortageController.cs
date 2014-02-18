@@ -60,7 +60,7 @@ namespace MedicationsShortagesDashboard.Controllers
             Shortage existingShortage = this.shortageRepository.GetShortage(shortage.Id);
             if (existingShortage != null)
             {
-                existingShortage.DrugId = shortage.DrugId;
+                existingShortage.Ndc = shortage.Ndc;
                 existingShortage.Status = shortage.Status;
 
                 this.shortageRepository.UpdateShortage(existingShortage);

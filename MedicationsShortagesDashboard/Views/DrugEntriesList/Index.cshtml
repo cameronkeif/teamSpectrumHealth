@@ -38,6 +38,11 @@
 <script type="text/javascript">
 $(function()
 {
+    /***
+    I'm aware this is a garbled mess of sad, but it works. If I don't finish refactoring tonight, it will be done soon.
+
+    - Cam
+    ***/
     // Get all watch list items for this user
     $.getJSON('/api/WatchListItem?username=' + '@Html.Encode(ViewData["Username"])', function (watchListJsonPayload) {
         var watchListNdcs = Array();
@@ -50,7 +55,7 @@ $(function()
             console.log(watchListNdcs.toString());
             $(drugJsonPayload).each(function (i, item) {
                 if ($.inArray(item.NDC, watchListNdcs) != -1) {
-                    shortage = getShortageItemHTMLWatchList(item.Brand, item.Dosage, item.NDC);
+                    shortage = getShortageItemHTMLWatchList(item.Brand, item.Dosage, item.NDC, item.CurrentStatus);
 
                     if (item.CurrentStatus === "severe") {
                         $('#severeWatchList').append(shortage);
@@ -63,7 +68,7 @@ $(function()
                     }
                 }
                 else {
-                    shortage = getShortageItemHTML(item.Brand, item.Dosage, item.NDC);
+                    shortage = getShortageItemHTML(item.Brand, item.Dosage, item.NDC, item.CurrentStatus);
 
                     if (item.CurrentStatus === "severe") {
                         $('#severeList').append(shortage);
@@ -80,14 +85,14 @@ $(function()
     });
 });
 
-function getShortageItemHTML(brand, dosage, ndc) {
-    return '<li> \
+function getShortageItemHTML(brand, dosage, ndc, currentStatus) {
+    return '<li id="' + ndc + '"> \
                    <ul class="shortageCard"> \
                        <li class="left"> \
                            <span>' + brand + ' ' + dosage + '</span> \
                        </li> \
                        <li class="right"> \
-                           <a href="#" onClick="addToWatchList(' + '\'@Html.Encode(ViewData["Username"])\',\'' + ndc + '\')"> \
+                           <a href="#" onClick="addToWatchList(' + '\'@Html.Encode(ViewData["Username"])\',\'' + ndc + '\', \''+ currentStatus + '\')"> \
                                <img src="/images/not_favorite.png"> \
                            </a> \
                        </li> \
@@ -95,14 +100,14 @@ function getShortageItemHTML(brand, dosage, ndc) {
                 </li>';
 };
 
-function getShortageItemHTMLWatchList(brand, dosage, ndc) {
-    return '<li> \
+function getShortageItemHTMLWatchList(brand, dosage, ndc, currentStatus) {
+    return '<li id="' + ndc + '"> \
                 <ul class="shortageCard"> \
                     <li class="left"> \
                         <span>' + brand + ' ' + dosage + '</span> \
                     </li> \
                     <li class="right"> \
-                        <a href="#" onClick="removeFromWatchList(' + '\'@Html.Encode(ViewData["Username"])\',\'' + ndc + '\')"> \
+                        <a href="#" onClick="removeFromWatchList(' + '\'@Html.Encode(ViewData["Username"])\',\'' + ndc + '\', \'' + currentStatus + '\')"> \
                             <img src="/images/favorite.png"> \
                         </a> \
                     </li> \
@@ -110,17 +115,33 @@ function getShortageItemHTMLWatchList(brand, dosage, ndc) {
             </li>';
 };
 
-function addToWatchList(username, ndc) {
+function addToWatchList(username, ndc, currentStatus) {
     $.post('/api/WatchListItem', { '': username + "&" + ndc })
     .success(function (data) {
+        if ($("#"+ndc).length > 0) {
+            $("#" + ndc).prependTo("#" + currentStatus + "WatchList");
+            $("#" + ndc + " > .shortageCard > .right").replaceWith('<li class="right"> \
+                        <a href="#" onClick="removeFromWatchList(' + '\'@Html.Encode(ViewData["Username"])\',\'' + ndc + '\', \'' + currentStatus + '\')"> \
+                            <img src="/images/favorite.png"> \
+                        </a> \
+                    </li>');
+        }
     });
 };
 
-function removeFromWatchList(username, ndc) {
+function removeFromWatchList(username, ndc, currentStatus) {
     $.ajax({
         url: '/api/WatchListItem/' + username + "/delete/" + ndc,
         type: 'DELETE',
         success: function () {
+            if ($("#" + ndc).length > 0) {
+                $("#" + ndc).prependTo("#" + currentStatus + "List");
+                $("#" + ndc + " > .shortageCard > .right").replaceWith('<li class="right"> \
+                           <a href="#" onClick="addToWatchList(' + '\'@Html.Encode(ViewData["Username"])\',\'' + ndc + '\', \''+ currentStatus + '\')"> \
+                               <img src="/images/not_favorite.png"> \
+                           </a> \
+                       </li>');
+            }
         },
     });
 }

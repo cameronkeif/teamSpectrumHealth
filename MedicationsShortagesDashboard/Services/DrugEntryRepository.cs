@@ -7,9 +7,9 @@
 namespace MedicationsShortagesDashboard.Services
 {
     using System.Collections.Generic;
+    using System.Data;
     using System.Linq;
     using MedicationsShortagesDashboard.Models;
-    using System.Data;
 
     /// <summary>
     /// Used to select entries in the DRUGS table
@@ -75,6 +75,11 @@ namespace MedicationsShortagesDashboard.Services
             this.db.SaveChanges();
         }
 
+        /// <summary>
+        /// Updates a drug's status
+        /// </summary>
+        /// <param name="ndc">National drug code</param>
+        /// <param name="status">The new status</param>
         public void UpdateDrugEntryStatus(string ndc, string status)
         {
             DrugEntry d = this.db.DrugEntries.Find(ndc);

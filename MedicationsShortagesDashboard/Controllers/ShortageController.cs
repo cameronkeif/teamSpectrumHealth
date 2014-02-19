@@ -19,9 +19,13 @@ namespace MedicationsShortagesDashboard.Controllers
     public class ShortageController : ApiController
     {
         /// <summary>
-        /// Performs the actual querying of the database.
+        /// Performs the actual querying of the shortage table in the database
         /// </summary>
         private ShortageRepository shortageRepository;
+
+        /// <summary>
+        /// Performs the actual querying of the drug entry table in the database.
+        /// </summary>
         private DrugEntryRepository drugEntryRepository;
 
         /// <summary>
@@ -38,6 +42,7 @@ namespace MedicationsShortagesDashboard.Controllers
         /// Initializes a new instance of the <see cref="ShortageController"/> class
         /// </summary>
         /// <param name="shortageRepository">The database interaction layer</param>
+        /// <param name="drugEntryRepository">The database interaction layer (for drugs)</param>
         public ShortageController(ShortageRepository shortageRepository, DrugEntryRepository drugEntryRepository)
         {
             this.drugEntryRepository = drugEntryRepository;

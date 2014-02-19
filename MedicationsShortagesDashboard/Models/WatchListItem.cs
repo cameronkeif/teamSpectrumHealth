@@ -36,6 +36,9 @@ namespace MedicationsShortagesDashboard.Models
             this.ndc = ndc;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WatchListItem"/> class.
+        /// </summary>
         public WatchListItem()
         {
             this.username = string.Empty;

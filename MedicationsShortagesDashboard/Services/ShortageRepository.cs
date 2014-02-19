@@ -104,16 +104,15 @@ namespace MedicationsShortagesDashboard.Services
                 return;
             }
 
-            try{
+            try
+            {
                 Shortage latestEntry = this.shortageDB.Shortages.First(i => i.Ndc == shortage.Ndc);
                 this.drugRepository.UpdateDrugEntryStatus(latestEntry.Ndc, latestEntry.Status);
-                
             }
             catch (InvalidOperationException)
             {
                  this.drugRepository.UpdateDrugEntryStatus(shortage.Ndc, "good");   
             }
-            
         }
 
         /// <summary>

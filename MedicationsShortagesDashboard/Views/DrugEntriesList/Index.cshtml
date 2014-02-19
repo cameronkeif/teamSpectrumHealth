@@ -52,7 +52,7 @@ $(function()
                     '<img src="/images/not_favorite_temp.png"' + 'align="right" /></a>' + '</p>');
             }
             else if (item.CurrentStatus === "warning") {
-                $('#severeList').append('<p>' + item.Brand + ' ' + item.Dosage + '<a href="#" onClick="addToWatchList(' + '\'@Html.Encode(ViewData["Username"])\',\'' + item.NDC + '\')">' +
+                $('#warningList').append('<p>' + item.Brand + ' ' + item.Dosage + '<a href="#" onClick="addToWatchList(' + '\'@Html.Encode(ViewData["Username"])\',\'' + item.NDC + '\')">' +
                     '<img src="/images/not_favorite_temp.png"' + 'align="right" /></a>' + '</p>');
             }
             else {

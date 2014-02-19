@@ -47,21 +47,34 @@ $(function()
     {
         $(drugJsonPayload).each(function(i, item)
         {
+            var shortage = getShortageItemHTML(item.Brand, item.Dosage, item.NDC);
             if (item.CurrentStatus === "severe") {
-                $('#severeList').append('<p>' + item.Brand + ' ' + item.Dosage + '<a href="#" onClick="addToWatchList(' + '\'@Html.Encode(ViewData["Username"])\',\'' + item.NDC + '\')">' +
-                    '<img src="/images/not_favorite_temp.png"' + 'align="right" /></a>' + '</p>');
+                $('#severeList').append(shortage);
             }
             else if (item.CurrentStatus === "warning") {
-                $('#warningList').append('<p>' + item.Brand + ' ' + item.Dosage + '<a href="#" onClick="addToWatchList(' + '\'@Html.Encode(ViewData["Username"])\',\'' + item.NDC + '\')">' +
-                    '<img src="/images/not_favorite_temp.png"' + 'align="right" /></a>' + '</p>');
+                $('#warningList').append(shortage);
             }
             else {
-                $('#goodList').append('<p>' + item.Brand + ' ' + item.Dosage + '<a href="#" onClick="addToWatchList(' + '\'@Html.Encode(ViewData["Username"])\',\'' + item.NDC + '\')">' +
-                    '<img src="/images/not_favorite_temp.png"' + 'align="right" /></a>' + '</p>');
+                $('#goodList').append(shortage);
             }
         });
     });
 });
+
+function getShortageItemHTML(brand, dosage, ndc) {
+    return '<li> \
+                   <ul class="shortageCard"> \
+                       <li class="left"> \
+                           <span>' + brand + ' ' + dosage + '</span> \
+                       </li> \
+                       <li class="right"> \
+                           <a href="#" onClick="addToWatchList(' + '\'@Html.Encode(ViewData["Username"])\',\'' + ndc + '\')"> \
+                               <img src="/images/not_favorite_temp.png"> \
+                           </a> \
+                       </li> \
+                   </ul> \
+                </li>';
+};
 
 function addToWatchList(username, ndc) {
     $.post('/api/WatchListItem', { '': username + "&" + ndc })

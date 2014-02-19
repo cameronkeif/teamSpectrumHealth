@@ -112,8 +112,7 @@ function getShortageItemHTMLWatchList(brand, dosage, ndc) {
 
 function addToWatchList(username, ndc) {
     $.post('/api/WatchListItem', { '': username + "&" + ndc })
-    .done(function (data) {
-        alert("Success");
+    .success(function (data) {
     });
 };
 
@@ -122,7 +121,6 @@ function removeFromWatchList(username, ndc) {
         url: '/api/WatchListItem/' + username + "/delete/" + ndc,
         type: 'DELETE',
         success: function () {
-            alert("Removed!");
         },
     });
 }

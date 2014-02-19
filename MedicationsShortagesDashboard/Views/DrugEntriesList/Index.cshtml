@@ -54,6 +54,8 @@ $(function()
         $.getJSON('/api/DrugEntry', function (drugJsonPayload) {
             console.log(watchListNdcs.toString());
             $(drugJsonPayload).each(function (i, item) {
+
+                // This drug is in the user's watch list
                 if ($.inArray(item.NDC, watchListNdcs) != -1) {
                     shortage = getShortageItemHTMLWatchList(item.Brand, item.Dosage, item.NDC, item.CurrentStatus);
 
@@ -85,18 +87,30 @@ $(function()
     });
 });
 
+function getNonWatchListShortageCardButtonHtml(ndc, currentStatus) {
+    return '<li class="right"> \
+                <a href="#" onClick="addToWatchList(' + '\'@Html.Encode(ViewData["Username"])\',\'' + ndc + '\', \'' + currentStatus + '\')"> \
+                    <img src="/images/not_favorite.png"> \
+                </a> \
+           </li>';
+}
+
+function getWatchListShortageCardButtonHtml(ndc, currentStatus) {
+    return '<li class="right"> \
+                <a href="#" onClick="removeFromWatchList(' + '\'@Html.Encode(ViewData["Username"])\',\'' + ndc + '\', \'' + currentStatus + '\')"> \
+                    <img src="/images/favorite.png"> \
+                </a> \
+            </li>';
+}
+
 function getShortageItemHTML(brand, dosage, ndc, currentStatus) {
     return '<li id="' + ndc + '"> \
                    <ul class="shortageCard"> \
                        <li class="left"> \
                            <span>' + brand + ' ' + dosage + '</span> \
-                       </li> \
-                       <li class="right"> \
-                           <a href="#" onClick="addToWatchList(' + '\'@Html.Encode(ViewData["Username"])\',\'' + ndc + '\', \''+ currentStatus + '\')"> \
-                               <img src="/images/not_favorite.png"> \
-                           </a> \
-                       </li> \
-                   </ul> \
+                       </li>' +
+                       getNonWatchListShortageCardButtonHtml(ndc, currentStatus) +
+                   '</ul> \
                 </li>';
 };
 
@@ -105,13 +119,9 @@ function getShortageItemHTMLWatchList(brand, dosage, ndc, currentStatus) {
                 <ul class="shortageCard"> \
                     <li class="left"> \
                         <span>' + brand + ' ' + dosage + '</span> \
-                    </li> \
-                    <li class="right"> \
-                        <a href="#" onClick="removeFromWatchList(' + '\'@Html.Encode(ViewData["Username"])\',\'' + ndc + '\', \'' + currentStatus + '\')"> \
-                            <img src="/images/favorite.png"> \
-                        </a> \
-                    </li> \
-                </ul> \
+                    </li>' +
+                    getWatchListShortageCardButtonHtml(ndc, currentStatus) +
+                '</ul> \
             </li>';
 };
 
@@ -120,11 +130,7 @@ function addToWatchList(username, ndc, currentStatus) {
     .success(function (data) {
         if ($("#"+ndc).length > 0) {
             $("#" + ndc).prependTo("#" + currentStatus + "WatchList");
-            $("#" + ndc + " > .shortageCard > .right").replaceWith('<li class="right"> \
-                        <a href="#" onClick="removeFromWatchList(' + '\'@Html.Encode(ViewData["Username"])\',\'' + ndc + '\', \'' + currentStatus + '\')"> \
-                            <img src="/images/favorite.png"> \
-                        </a> \
-                    </li>');
+            $("#" + ndc + " > .shortageCard > .right").replaceWith(getWatchListShortageCardButtonHtml(ndc, currentStatus));
         }
     });
 };
@@ -136,11 +142,7 @@ function removeFromWatchList(username, ndc, currentStatus) {
         success: function () {
             if ($("#" + ndc).length > 0) {
                 $("#" + ndc).prependTo("#" + currentStatus + "List");
-                $("#" + ndc + " > .shortageCard > .right").replaceWith('<li class="right"> \
-                           <a href="#" onClick="addToWatchList(' + '\'@Html.Encode(ViewData["Username"])\',\'' + ndc + '\', \''+ currentStatus + '\')"> \
-                               <img src="/images/not_favorite.png"> \
-                           </a> \
-                       </li>');
+                $("#" + ndc + " > .shortageCard > .right").replaceWith(getNonWatchListShortageCardButtonHtml(ndc, currentStatus));
             }
         },
     });

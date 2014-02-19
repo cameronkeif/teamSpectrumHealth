@@ -78,7 +78,20 @@ namespace MedicationsShortagesDashboard.Controllers
                         
                         // A drug imported from the csv file would not have this field populated.
                         d.CurrentStatus = "good";
-                        this.drugEntryRepository.AddDrugEntry(d);
+
+                        DrugEntry existingDrug = this.drugEntryRepository.GetDrug(d.NDC);
+                        if (existingDrug != null)
+                        {
+                            existingDrug.Dosage = d.Dosage;
+                            existingDrug.Brand = d.Brand;
+                            existingDrug.Generic = d.Generic;
+
+                            this.drugEntryRepository.UpdateDrug(existingDrug);
+                        }
+                        else
+                        {
+                            this.drugEntryRepository.AddDrugEntry(d);
+                        }
                     }
                 }
 

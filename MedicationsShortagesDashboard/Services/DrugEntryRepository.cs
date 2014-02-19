@@ -8,6 +8,7 @@ namespace MedicationsShortagesDashboard.Services
 {
     using System.Collections.Generic;
     using System.Data;
+    using System.Data.Entity;
     using System.Linq;
     using MedicationsShortagesDashboard.Models;
 
@@ -72,6 +73,16 @@ namespace MedicationsShortagesDashboard.Services
         public void AddDrugEntry(DrugEntry drugEntry)
         {
             this.db.DrugEntries.Add(drugEntry);
+            this.db.SaveChanges();
+        }
+
+        /// <summary>
+        /// Updates am existing shortage
+        /// </summary>
+        /// <param name="shortage">The shortage to modify.</param>
+        public void UpdateDrug(DrugEntry drug)
+        {
+            this.db.Entry(drug).State = EntityState.Modified;
             this.db.SaveChanges();
         }
 

@@ -37,13 +37,13 @@ $(function()
             $(shortagesJsonPayload).each(function(i, item)
             {
                 if (item.Status === "severe") {
-                    $('#severeList').append('<div id="shortage' + item.Id + '"><li>' + item.Id + " " + item.DrugId + " " + item.DateTime + " " + item.Status + ' <a href="/ShortagesList/Edit/' + item.Id + '"> Edit </a> <a onclick="DeleteConfirm(' + item.Id + ')" href="#"> Delete </a></li></div>');
+                    $('#severeList').append('<div id="shortage' + item.Id + '"><li>' + item.Id + " " + item.Ndc + " " + item.DateTime + " " + item.Status + ' <a href="/ShortagesList/Edit/' + item.Id + '"> Edit </a> <a onclick="DeleteConfirm(' + item.Id + ')" href="#"> Delete </a></li></div>');
                 }
                 else if (item.Status === "warning") {
-                    $('#warningList').append('<div id="shortage' + item.Id + '"><li>' + item.Id + " " + item.DrugId + " " + item.DateTime + " " + item.Status + ' <a href="/ShortagesList/Edit/' + item.Id + '"> Edit </a> <a onclick="DeleteConfirm(' + item.Id + ')" href="#"> Delete </a></li></div>');
+                    $('#warningList').append('<div id="shortage' + item.Id + '"><li>' + item.Id + " " + item.Ndc + " " + item.DateTime + " " + item.Status + ' <a href="/ShortagesList/Edit/' + item.Id + '"> Edit </a> <a onclick="DeleteConfirm(' + item.Id + ')" href="#"> Delete </a></li></div>');
                 }
                 else if (item.Status === "good") {
-                    $('#goodList').append('<div id="shortage' + item.Id + '"><li>' + item.Id + " " + item.DrugId + " " + item.DateTime + " " + item.Status + ' <a href="/ShortagesList/Edit/' + item.Id + '"> Edit </a> <a onclick="DeleteConfirm(' + item.Id + ')" href="#"> Delete </a></li></div>');
+                    $('#goodList').append('<div id="shortage' + item.Id + '"><li>' + item.Id + " " + item.Ndc + " " + item.DateTime + " " + item.Status + ' <a href="/ShortagesList/Edit/' + item.Id + '"> Edit </a> <a onclick="DeleteConfirm(' + item.Id + ')" href="#"> Delete </a></li></div>');
                 }
             });
         });

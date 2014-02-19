@@ -47,7 +47,14 @@
     <ul id="pageTitleBar">
         <li class="logo"><img src="~/images/logo.png"/></li>
         <li class="pageTitle">@Html.Encode(ViewData["PageTitle"])</li>
-        <li class="search"><input type="search" placeholder="search"/></li>
+        <li class="search">
+            @{
+                if (ViewData["PageTitle"] == "Current Shortages" || ViewData["PageTitle"] == "All Shortages" || ViewData["PageTitle"] == "Pending Shortages") 
+                {
+                    <input type="search" placeholder="search"/>
+                }
+            }
+        </li>
     </ul>
     <hr />
     <br />

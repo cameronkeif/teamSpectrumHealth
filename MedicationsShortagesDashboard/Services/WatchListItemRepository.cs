@@ -7,6 +7,7 @@
 namespace MedicationsShortagesDashboard.Services
 {
     using System;
+    using System.Data.Entity.Infrastructure;
     using System.Linq;
     using MedicationsShortagesDashboard.Models;
    
@@ -49,7 +50,13 @@ namespace MedicationsShortagesDashboard.Services
         public void AddWatchListItem(WatchListItem item)
         {
             this.db.Items.Add(item);
-            this.db.SaveChanges();
+            try
+            {
+                this.db.SaveChanges();
+            }
+            catch (DbUpdateException)
+            {
+            }
         }
 
         /// <summary>
@@ -85,7 +92,9 @@ namespace MedicationsShortagesDashboard.Services
             }
             catch (InvalidOperationException)
             {
-                return;
+            }
+            catch (DbUpdateException)
+            {
             }
         }
     }

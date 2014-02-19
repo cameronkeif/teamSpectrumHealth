@@ -7,16 +7,22 @@
     <div id="listContainer" >
         <div id="severeContainer" class="container">
             <span class="secondaryTitle">Severe</span>
+            <ul id="severeWatchList" class="shortageList">
+            </ul>
             <ul id="severeList" class="shortageList">
             </ul>
         </div>
         <div id="warningContainer" class="container">
             <span class="secondaryTitle">Warning</span>
+            <ul id="warningWatchList" class="shortageList">
+            </ul>
             <ul id="warningList" class="shortageList">
             </ul>
         </div>
         <div id="goodContainer" class="container">
             <span class="secondaryTitle">Good</span>
+            <ul id="goodWatchList" class="shortageList">
+            </ul>
             <ul id="goodList" class="shortageList">
             </ul>
         </div>
@@ -45,19 +51,29 @@ $(function()
             $(drugJsonPayload).each(function (i, item) {
                 if ($.inArray(item.NDC, watchListNdcs) != -1) {
                     shortage = getShortageItemHTMLWatchList(item.Brand, item.Dosage, item.NDC);
+
+                    if (item.CurrentStatus === "severe") {
+                        $('#severeWatchList').append(shortage);
+                    }
+                    else if (item.CurrentStatus === "warning") {
+                        $('#warningWatchList').append(shortage);
+                    }
+                    else {
+                        $('#goodWatchList').append(shortage);
+                    }
                 }
                 else {
                     shortage = getShortageItemHTML(item.Brand, item.Dosage, item.NDC);
-                }
 
-                if (item.CurrentStatus === "severe") {
-                    $('#severeList').append(shortage);
-                }
-                else if (item.CurrentStatus === "warning") {
-                    $('#warningList').append(shortage);
-                }
-                else {
-                    $('#goodList').append(shortage);
+                    if (item.CurrentStatus === "severe") {
+                        $('#severeList').append(shortage);
+                    }
+                    else if (item.CurrentStatus === "warning") {
+                        $('#warningList').append(shortage);
+                    }
+                    else {
+                        $('#goodList').append(shortage);
+                    }
                 }
             });
         });

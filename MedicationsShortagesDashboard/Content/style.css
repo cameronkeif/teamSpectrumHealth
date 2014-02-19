@@ -206,12 +206,29 @@ div.container
     border-top-color:red;
 }
 
+
+#severeWatchList .shortageCard 
+{
+    border-top-color:red;
+}
+
 #warningList .shortageCard 
 {
     border-top-color:gold;
 }
 
+#warningWatchList .shortageCard 
+{
+    border-top-color:gold;
+}
+
+
 #goodList .shortageCard 
+{
+    border-top-color:green;
+}
+
+#goodWatchList .shortageCard 
 {
     border-top-color:green;
 }

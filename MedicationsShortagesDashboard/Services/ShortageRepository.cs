@@ -18,16 +18,21 @@ namespace MedicationsShortagesDashboard.Services
     public class ShortageRepository
     {
         /// <summary>
-        /// Database context
+        /// Database context for shortages
         /// </summary>
-        private ShortageDBContext db;
+        private ShortageDBContext shortageDB;
+
+        /// <summary>
+        /// Database context for drugs
+        /// </summary>
+        private DrugEntryRepository drugRepository = new DrugEntryRepository();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ShortageRepository"/> class.
         /// </summary>
         public ShortageRepository()
         {
-            this.db = new ShortageDBContext();
+            this.shortageDB = new ShortageDBContext();
         }
 
         /// <summary>
@@ -36,7 +41,7 @@ namespace MedicationsShortagesDashboard.Services
         /// <param name="context">Database context</param>
         public ShortageRepository(ShortageDBContext context)
         {
-            this.db = context;
+            this.shortageDB = context;
         }
 
         /// <summary>
@@ -47,7 +52,7 @@ namespace MedicationsShortagesDashboard.Services
         {
             List<Shortage> shortages = new List<Shortage>();
 
-            foreach (Shortage shortage in this.db.Shortages.ToList())
+            foreach (Shortage shortage in this.shortageDB.Shortages.ToList())
             {
                 shortages.Add(shortage);
             }
@@ -64,7 +69,7 @@ namespace MedicationsShortagesDashboard.Services
         {
             try
             {
-                return this.db.Shortages.OrderByDescending(shortage => shortage.DateTime).First(shortage => shortage.Ndc == ndc);
+                return this.shortageDB.Shortages.OrderByDescending(shortage => shortage.DateTime).First(shortage => shortage.Ndc == ndc);
             }
             catch (InvalidOperationException)
             {
@@ -78,8 +83,8 @@ namespace MedicationsShortagesDashboard.Services
         /// <param name="shortage">The shortage to add to the database.</param>
         public void AddShortage(Shortage shortage)
         {
-            this.db.Shortages.Add(shortage);
-            this.db.SaveChanges();
+            this.shortageDB.Shortages.Add(shortage);
+            this.shortageDB.SaveChanges();
         }
 
         /// <summary>
@@ -88,15 +93,27 @@ namespace MedicationsShortagesDashboard.Services
         /// <param name="id">Id of the shortage to remove.</param>
         public void DeleteShortage(int id)
         {
+            var shortage = this.shortageDB.Shortages.First(i => i.Id == id);
             try
             {
-                var shortage = this.db.Shortages.First(i => i.Id == id);
-                this.db.Shortages.Remove(shortage);
-                this.db.SaveChanges();
+                this.shortageDB.Shortages.Remove(shortage);
+                this.shortageDB.SaveChanges();
             }
             catch (InvalidOperationException)
-            {                
+            {    
+                return;
             }
+
+            try{
+                Shortage latestEntry = this.shortageDB.Shortages.First(i => i.Ndc == shortage.Ndc);
+                this.drugRepository.UpdateDrugEntryStatus(latestEntry.Ndc, latestEntry.Status);
+                
+            }
+            catch (InvalidOperationException)
+            {
+                 this.drugRepository.UpdateDrugEntryStatus(shortage.Ndc, "good");   
+            }
+            
         }
 
         /// <summary>
@@ -106,7 +123,7 @@ namespace MedicationsShortagesDashboard.Services
         /// <returns>The shortage which has id as it's ID.</returns>
         public Shortage GetShortage(int id)
         {
-            return this.db.Shortages.Find(id);
+            return this.shortageDB.Shortages.Find(id);
         }
         
         /// <summary>
@@ -115,8 +132,8 @@ namespace MedicationsShortagesDashboard.Services
         /// <param name="shortage">The shortage to modify.</param>
         public void UpdateShortage(Shortage shortage)
         {
-            this.db.Entry(shortage).State = EntityState.Modified;
-            this.db.SaveChanges();
+            this.shortageDB.Entry(shortage).State = EntityState.Modified;
+            this.shortageDB.SaveChanges();
         }
     } 
 }

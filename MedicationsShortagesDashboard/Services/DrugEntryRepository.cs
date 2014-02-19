@@ -9,6 +9,7 @@ namespace MedicationsShortagesDashboard.Services
     using System.Collections.Generic;
     using System.Linq;
     using MedicationsShortagesDashboard.Models;
+    using System.Data;
 
     /// <summary>
     /// Used to select entries in the DRUGS table
@@ -61,7 +62,6 @@ namespace MedicationsShortagesDashboard.Services
         /// <returns>The shortage which has id as it's ID.</returns>
         public DrugEntry GetDrug(string ndc)
         {
-            DrugEntry d = this.db.DrugEntries.Find(ndc);
             return this.db.DrugEntries.Find(ndc);
         }
 
@@ -73,6 +73,17 @@ namespace MedicationsShortagesDashboard.Services
         {
             this.db.DrugEntries.Add(drugEntry);
             this.db.SaveChanges();
+        }
+
+        public void UpdateDrugEntryStatus(string ndc, string status)
+        {
+            DrugEntry d = this.db.DrugEntries.Find(ndc);
+            if (d != null)
+            {
+                d.CurrentStatus = status;
+                this.db.Entry(d).State = EntityState.Modified;
+                this.db.SaveChanges();
+            }
         }
     }
 }

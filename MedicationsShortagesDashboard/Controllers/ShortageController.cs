@@ -22,6 +22,7 @@ namespace MedicationsShortagesDashboard.Controllers
         /// Performs the actual querying of the database.
         /// </summary>
         private ShortageRepository shortageRepository;
+        private DrugEntryRepository drugEntryRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ShortageController"/> class
@@ -29,6 +30,7 @@ namespace MedicationsShortagesDashboard.Controllers
         [ExcludeFromCodeCoverage]
         public ShortageController()
         {
+            this.drugEntryRepository = new DrugEntryRepository();
             this.shortageRepository = new ShortageRepository();
         }
 
@@ -36,8 +38,9 @@ namespace MedicationsShortagesDashboard.Controllers
         /// Initializes a new instance of the <see cref="ShortageController"/> class
         /// </summary>
         /// <param name="shortageRepository">The database interaction layer</param>
-        public ShortageController(ShortageRepository shortageRepository)
+        public ShortageController(ShortageRepository shortageRepository, DrugEntryRepository drugEntryRepository)
         {
+            this.drugEntryRepository = drugEntryRepository;
             this.shortageRepository = shortageRepository;
         }
 
@@ -83,6 +86,8 @@ namespace MedicationsShortagesDashboard.Controllers
                 shortage.DateTime = new DateTime(dt.Year, dt.Month, dt.Day, dt.Hour, dt.Minute, dt.Second, 0);
                 this.shortageRepository.AddShortage(shortage);
             }
+
+            this.drugEntryRepository.UpdateDrugEntryStatus(shortage.Ndc, shortage.Status);
         }
 
         /// <summary>

@@ -36,6 +36,7 @@
 
 @section scripts{
 <script type="text/javascript">
+var loggedInAs = '@Html.Encode(ViewData["Username"])';
 $(function()
 {
     /***
@@ -44,7 +45,8 @@ $(function()
     - Cam
     ***/
     // Get all watch list items for this user
-    $.getJSON('/api/WatchListItem?username=' + '@Html.Encode(ViewData["Username"])', function (watchListJsonPayload) {
+
+    $.getJSON('/api/WatchListItem?username=' + loggedInAs, function (watchListJsonPayload) {
         var watchListNdcs = Array();
         $(watchListJsonPayload).each(function(i, watchListItem) {
             watchListNdcs.push(watchListItem.Ndc);
@@ -88,16 +90,24 @@ $(function()
 });
 
 function getNonWatchListShortageCardButtonHtml(ndc, currentStatus) {
+    if (loggedInAs == "Guest") {
+        return '';
+    }
+
     return '<li class="right"> \
-                <a href="#" onClick="addToWatchList(' + '\'@Html.Encode(ViewData["Username"])\',\'' + ndc + '\', \'' + currentStatus + '\')"> \
+                <a href="#" onClick="addToWatchList(' + '\'' + loggedInAs + '\',\'' + ndc + '\', \'' + currentStatus + '\')"> \
                     <img src="/images/not_favorite.png"> \
                 </a> \
            </li>';
 }
 
 function getWatchListShortageCardButtonHtml(ndc, currentStatus) {
+    if (loggedInAs == "Guest") {
+        return '';
+    }
+
     return '<li class="right"> \
-                <a href="#" onClick="removeFromWatchList(' + '\'@Html.Encode(ViewData["Username"])\',\'' + ndc + '\', \'' + currentStatus + '\')"> \
+                <a href="#" onClick="removeFromWatchList(' + '\'' + loggedInAs + '\',\'' + ndc + '\', \'' + currentStatus + '\')"> \
                     <img src="/images/favorite.png"> \
                 </a> \
             </li>';

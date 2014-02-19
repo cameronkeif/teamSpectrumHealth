@@ -77,9 +77,9 @@ namespace MedicationsShortagesDashboard.Services
         }
 
         /// <summary>
-        /// Updates am existing shortage
+        /// Updates am existing drug
         /// </summary>
-        /// <param name="shortage">The shortage to modify.</param>
+        /// <param name="drug">The drug to modify.</param>
         public void UpdateDrug(DrugEntry drug)
         {
             this.db.Entry(drug).State = EntityState.Modified;

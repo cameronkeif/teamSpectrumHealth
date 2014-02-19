@@ -32,31 +32,34 @@
 <script type="text/javascript">
 $(function()
 {
-    var watchListNdcs = Array();
-
-    // On page load, 
+    // Get all watch list items for this user
     $.getJSON('/api/WatchListItem?username=' + '@Html.Encode(ViewData["Username"])', function (watchListJsonPayload) {
+        var watchListNdcs = Array();
         $(watchListJsonPayload).each(function(i, watchListItem) {
             watchListNdcs.push(watchListItem.Ndc);
         });
-    });
 
-    console.log(watchListNdcs);
+        // Get all drugs
+        $.getJSON('/api/DrugEntry', function (drugJsonPayload) {
+            console.log(watchListNdcs.toString());
+            $(drugJsonPayload).each(function (i, item) {
+                if ($.inArray(item.NDC, watchListNdcs) != -1) {
+                    shortage = getShortageItemHTMLWatchList(item.Brand, item.Dosage, item.NDC);
+                }
+                else {
+                    shortage = getShortageItemHTML(item.Brand, item.Dosage, item.NDC);
+                }
 
-    $.getJSON('/api/DrugEntry', function(drugJsonPayload)
-    {
-        $(drugJsonPayload).each(function(i, item)
-        {
-            var shortage = getShortageItemHTML(item.Brand, item.Dosage, item.NDC);
-            if (item.CurrentStatus === "severe") {
-                $('#severeList').append(shortage);
-            }
-            else if (item.CurrentStatus === "warning") {
-                $('#warningList').append(shortage);
-            }
-            else {
-                $('#goodList').append(shortage);
-            }
+                if (item.CurrentStatus === "severe") {
+                    $('#severeList').append(shortage);
+                }
+                else if (item.CurrentStatus === "warning") {
+                    $('#warningList').append(shortage);
+                }
+                else {
+                    $('#goodList').append(shortage);
+                }
+            });
         });
     });
 });
@@ -69,11 +72,26 @@ function getShortageItemHTML(brand, dosage, ndc) {
                        </li> \
                        <li class="right"> \
                            <a href="#" onClick="addToWatchList(' + '\'@Html.Encode(ViewData["Username"])\',\'' + ndc + '\')"> \
-                               <img src="/images/not_favorite_temp.png"> \
+                               <img src="/images/not_favorite.png"> \
                            </a> \
                        </li> \
                    </ul> \
                 </li>';
+};
+
+function getShortageItemHTMLWatchList(brand, dosage, ndc) {
+    return '<li> \
+                <ul class="shortageCard"> \
+                    <li class="left"> \
+                        <span>' + brand + ' ' + dosage + '</span> \
+                    </li> \
+                    <li class="right"> \
+                        <a href="#" onClick="removeFromWatchList(' + '\'@Html.Encode(ViewData["Username"])\',\'' + ndc + '\')"> \
+                            <img src="/images/favorite.png"> \
+                        </a> \
+                    </li> \
+                </ul> \
+            </li>';
 };
 
 function addToWatchList(username, ndc) {
@@ -82,5 +100,15 @@ function addToWatchList(username, ndc) {
         alert("Success");
     });
 };
+
+function removeFromWatchList(username, ndc) {
+    $.ajax({
+        url: '/api/WatchListItem/' + username + "/delete/" + ndc,
+        type: 'DELETE',
+        success: function () {
+            alert("Removed!");
+        },
+    });
+}
 </script>
 }

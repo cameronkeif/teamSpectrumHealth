@@ -37,6 +37,7 @@ namespace MedicationsShortagesDashboard.Controllers
         /// <param name="parameters">Watch list parameters</param>
         public void Post([FromBody] string parameters)
         {
+            // Note, handle this properly using routing after ALPHA.
             try
             {
                 string[] split_parameters = parameters.Split('&');
@@ -47,6 +48,16 @@ namespace MedicationsShortagesDashboard.Controllers
             catch (InvalidOperationException)
             {
             }
+        }
+
+        /// <summary>
+        /// HTTP Delete
+        /// </summary>
+        /// <param name="username">username of the user</param>
+        /// <param name="ndc">national drug code</param>
+        public void Delete(string username, string ndc)
+        {
+            this.watchListItemRepository.DeleteWatchListItem(username, ndc);
         }
     }
 }

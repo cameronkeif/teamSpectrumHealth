@@ -69,5 +69,24 @@ namespace MedicationsShortagesDashboard.Services
             {
             }
         }
+
+        /// <summary>
+        /// Deletes an item from the watch list table
+        /// </summary>
+        /// <param name="username">the user's username</param>
+        /// <param name="ndc">national drug code</param>
+        public void DeleteWatchListItem(string username, string ndc)
+        {
+            var watchListITem = this.db.Items.First(i => i.Username == username && i.Ndc == ndc);
+            try
+            {
+                this.db.Items.Remove(watchListITem);
+                this.db.SaveChanges();
+            }
+            catch (InvalidOperationException)
+            {
+                return;
+            }
+        }
     }
 }

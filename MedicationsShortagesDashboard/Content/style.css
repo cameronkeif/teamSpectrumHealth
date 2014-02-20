@@ -269,3 +269,30 @@ div.container
     margin-top: 0px;
     list-style-type: none;
 }
+
+#shortageHistoryChart {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* jqplot stuff (for graphing) */
+.jqplot-point-label
+    {
+        white-space: nowrap;
+    }
+    div.jqplot-target
+    {
+        height: 400px;
+        width: 750px;
+        margin: 70px;
+    }
+    .tooltipCss
+    {
+        position: absolute;
+        background-color: #b2b1ac;
+        color: White;
+        z-index: 200;
+        padding: 5px;
+        border-radius: 5px;
+        display: none;
+    }

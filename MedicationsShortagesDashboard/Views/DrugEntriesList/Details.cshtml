@@ -1,4 +1,10 @@
-﻿@{
+﻿<!--[if lt IE 9]><script language="javascript" type="text/javascript" src="excanvas.js"></script><![endif]-->
+<script language="javascript" type="text/javascript" src="~/Scripts/jqPlot/jquery.min.js"></script>
+<script language="javascript" type="text/javascript" src="~/Scripts/jqPlot/jquery.jqplot.min.js"></script>
+<script language="javascript" type="text/javascript" src="~/Scripts/jqPlot/plugins/jqplot.dateAxisRenderer.js"></script>
+<link rel="stylesheet" type="text/css" href="~/Scripts/jqPlot/css/jquery.jqplot.css" />
+
+@{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
     @model MedicationsShortagesDashboard.Models.DrugEntry
@@ -16,22 +22,70 @@
     </ul>
 </div>
 
+<div id="shortageHistoryChart">
+</div>
+
+
 <div id="shortageHistory">
     <ul></ul>
 </div>
 @section scripts{
 <script type="text/javascript">
+    var shortageHistoryPlotData = Array();
     $.getJSON('/api/Shortage/' + '@Model.NDC', function (shortagesJsonPayload) {
         $(shortagesJsonPayload).each(function (i, item) {
             $('#shortageHistory > ul').append('<li>' + item.Status + ' on ' + item.DateTime + '</li>');
+
+            if (item.Status == "severe") {
+                shortageHistoryPlotData.push([formatDateForGraph(item.DateTime), 2]);
+            }
+            else if (item.Status == "warning") {
+                shortageHistoryPlotData.push([formatDateForGraph(item.DateTime), 1]);
+            }
+            else {
+                shortageHistoryPlotData.push([formatDateForGraph(item.DateTime), 0]);
+            }
         });
 
         if ($(shortagesJsonPayload).length > 0) {
             $('#shortageHistory').prepend('<u>Shortage History</u>');
+            shortageHistoryPlotData.reverse(); // Need to reverse, since entries are in desc. order.
+            plotShortageHistory();
         }
         else {
             $('#shortageHistory').prepend('No shortages have been reported for this medication.');
         }
     });
+
+    // Plots the shortage history chart
+    function plotShortageHistory() {
+        var plot1 = $.jqplot('shortageHistoryChart', [shortageHistoryPlotData], {
+            title: 'Shortage History',
+            axes: {
+                xaxis: { renderer: $.jqplot.DateAxisRenderer },
+                yaxis: {
+                    ticks: [[0, 'Good'], [1, 'Warning'], [2, 'Severe']]
+                }
+            },
+            series: [{
+                lineWidth: 4,
+                markerOptions: { style: 'filledSquare', fillColor: '#005BA5' },
+                color: '#005BA5'
+            }]
+        });
+
+        // Set the color of the 3 ticks to correspond with the colors used on the Current Shortages page
+        var axisname = "yaxis";
+        var ticks = $('div.jqplot-yaxis').find('div.jqplot-yaxis-tick');
+
+        $(ticks[0]).css('color', '#8DB987'); // Good
+        $(ticks[1]).css('color', '#FFA84A'); // Warning
+        $(ticks[2]).css('color', '#FF334A'); // Severe
+    }
+    
+    // Formats string from YYYY-MM-DDTHH-MM-SS to YYYY-MM-DD, to use in the shortage history chart.
+    function formatDateForGraph(dt) {
+        return dt.split("T")[0]
+    }
 </script>
 }

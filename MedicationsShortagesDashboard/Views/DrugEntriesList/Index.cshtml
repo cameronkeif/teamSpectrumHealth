@@ -117,7 +117,7 @@ function getShortageItemHTML(brand, dosage, ndc, currentStatus) {
     return '<li id="' + ndc + '"> \
                    <ul class="shortageCard"> \
                        <li class="left"> \
-                           <span><a href=./Details/' + ndc + ">" + brand + ' ' + dosage + '</a></span> \
+                           <span><a href=/DrugEntriesList/Details/' + ndc + ">" + brand + ' ' + dosage + '</a></span> \
                        </li>' +
                        getNonWatchListShortageCardButtonHtml(ndc, currentStatus) +
                    '</ul> \
@@ -128,7 +128,7 @@ function getShortageItemHTMLWatchList(brand, dosage, ndc, currentStatus) {
     return '<li id="' + ndc + '"> \
                 <ul class="shortageCard"> \
                     <li class="left"> \
-                        <span><a href=/Details/' + ndc + "</a>" + brand + ' ' + dosage + '</span> \
+                        <span><a href=/DrugEntriesList/Details/' + ndc + "</a>" + brand + ' ' + dosage + '</span> \
                     </li>' +
                     getWatchListShortageCardButtonHtml(ndc, currentStatus) +
                 '</ul> \

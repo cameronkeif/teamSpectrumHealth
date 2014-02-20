@@ -166,7 +166,7 @@ div.container
     text-align:center;
     list-style-type:none;
     padding:0;
-    font-family:Arial
+    font-family:Arial;
 }
 
 .shortageCard li.right
@@ -183,6 +183,8 @@ div.container
 
 .shortageCard a 
 {
+    color: #000000;
+    text-decoration:none;
     display:table-cell;
     vertical-align: middle;
     height:37px;

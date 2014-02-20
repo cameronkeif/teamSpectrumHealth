@@ -65,11 +65,11 @@ namespace MedicationsShortagesDashboard.Services
         /// </summary>
         /// <param name="ndc">National Drug Code</param>
         /// <returns>The shortage that was most recently posted, with a matching national drug code</returns>
-        public Shortage GetShortage(string ndc)
+        public Shortage[] GetShortage(string ndc)
         {
             try
             {
-                return this.shortageDB.Shortages.OrderByDescending(shortage => shortage.DateTime).First(shortage => shortage.Ndc == ndc);
+                return this.shortageDB.Shortages.OrderByDescending(shortage => shortage.DateTime).Where(shortage => shortage.Ndc == ndc).ToArray();
             }
             catch (InvalidOperationException)
             {

@@ -63,9 +63,9 @@ namespace MedicationsShortagesDashboard.Controllers
         /// </summary>
         /// <param name="ndc">National Drug Code</param>
         /// <returns>The most recently posted shortage with a matching national drug code.</returns>
-        public Shortage Get(string ndc)
+        public Shortage[] Get(string id)
         {
-            return this.shortageRepository.GetShortage(ndc);
+            return this.shortageRepository.GetShortage(id);
         }
 
         /// <summary>

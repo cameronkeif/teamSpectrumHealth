@@ -12,5 +12,26 @@
         <li>Dosage: @Html.DisplayFor(model => model.Dosage)</li>
         <li>NDC: @Html.DisplayFor(model => model.NDC)</li>
         <li>Generic Name: @Html.DisplayFor(model => model.Generic)</li>
+        <li>Current Status: @Html.DisplayFor(model => model.CurrentStatus)</li>
     </ul>
 </div>
+
+<div id="shortageHistory">
+    <ul></ul>
+</div>
+@section scripts{
+<script type="text/javascript">
+    $.getJSON('/api/Shortage/' + '@Model.NDC', function (shortagesJsonPayload) {
+        $(shortagesJsonPayload).each(function (i, item) {
+            $('#shortageHistory > ul').append('<li>' + item.Status + ' on ' + item.DateTime + '</li>');
+        });
+
+        if ($(shortagesJsonPayload).length > 0) {
+            $('#shortageHistory').prepend('<u>Shortage History</u>');
+        }
+        else {
+            $('#shortageHistory').prepend('No shortages have been reported for this medication.');
+        }
+    });
+</script>
+}

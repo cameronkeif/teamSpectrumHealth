@@ -251,10 +251,21 @@ div.container
     width:95%;
 }
 
+/* Drug Detail View */
  #basicDrugInformation {
-        text-align: center;
+    text-align: center;
 }
 
 #basicDrugInformation > ul {
+    list-style-type: none;
+}
+
+#shortageHistory {
+    text-align: center;
+    list-style-type: none;
+}
+
+#shortageHistory > ul {
+    margin-top: 0px;
     list-style-type: none;
 }

@@ -61,6 +61,7 @@
     function plotShortageHistory() {
         var plot1 = $.jqplot('shortageHistoryChart', [shortageHistoryPlotData], {
             title: 'Shortage History',
+            animate: true,
             axes: {
                 xaxis: { renderer: $.jqplot.DateAxisRenderer },
                 yaxis: {
@@ -69,9 +70,15 @@
             },
             series: [{
                 lineWidth: 4,
-                markerOptions: { style: 'filledSquare', fillColor: '#005BA5' },
-                color: '#005BA5'
-            }]
+                markerOptions: { style: 'filledCircle' },
+                color: '#005BA5',
+                rendererOptions: {
+                    animation: {
+                        speed: 1500
+                    }
+                }
+            }
+            ]
         });
 
         // Set the color of the 3 ticks to correspond with the colors used on the Current Shortages page

@@ -214,34 +214,34 @@ div.container
 
 #severeList .shortageCard 
 {
-    border-top-color:red;
+    border-top-color:#FF334A;
 }
 
 
 #severeWatchList .shortageCard 
 {
-    border-top-color:red;
+    border-top-color:#FF334A;
 }
 
 #warningList .shortageCard 
 {
-    border-top-color:gold;
+    border-top-color:#FFA84A;
 }
 
 #warningWatchList .shortageCard 
 {
-    border-top-color:gold;
+    border-top-color:#FFA84A;
 }
 
 
 #goodList .shortageCard 
 {
-    border-top-color:green;
+    border-top-color:#8DB987;
 }
 
 #goodWatchList .shortageCard 
 {
-    border-top-color:green;
+    border-top-color:#8DB987;
 }
 
 .shortageList > li

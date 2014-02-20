@@ -1,0 +1,16 @@
+﻿@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    @model MedicationsShortagesDashboard.Models.DrugEntry
+}
+
+<div id="secondaryTitle">
+    @Html.DisplayFor(model => model.Brand)
+</div>
+<div id="basicDrugInformation">
+    <ul>
+        <li>Dosage: @Html.DisplayFor(model => model.Dosage)</li>
+        <li>NDC: @Html.DisplayFor(model => model.NDC)</li>
+        <li>Generic Name: @Html.DisplayFor(model => model.Generic)</li>
+    </ul>
+</div>

@@ -20,6 +20,15 @@
     padding-bottom:10px;
 }
 
+#secondaryTitle
+{
+    text-align:center;
+    font-size:30px;
+    font-family:Arial;
+    color:#6A6f71;
+    padding-bottom:10px;
+}
+
 /*Menu Bar*/
 #menu 
 {
@@ -240,4 +249,12 @@ div.container
     margin-right:auto;
     margin-top:5px;
     width:95%;
+}
+
+ #basicDrugInformation {
+        text-align: center;
+}
+
+#basicDrugInformation > ul {
+    list-style-type: none;
 }

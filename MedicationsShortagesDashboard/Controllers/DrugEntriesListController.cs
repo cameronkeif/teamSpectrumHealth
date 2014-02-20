@@ -15,6 +15,7 @@ namespace MedicationsShortagesDashboard.Controllers
     using System.Web.Mvc;
     using MedicationsShortagesDashboard.Services;
     using MedicationsShortagesDashboard.Utilities;
+    using MedicationsShortagesDashboard.Models;
 
     /// <summary>
     /// Controller for displaying all drug entries
@@ -38,7 +39,23 @@ namespace MedicationsShortagesDashboard.Controllers
         /// <returns>Upload page view</returns>
         public ActionResult Upload()
         {
+            this.ViewData["Username"] = Authentication.Username;
+            this.ViewData["PageTitle"] = "Current Shortages";
             return this.View();
+        }
+
+        public ActionResult Details(string id = "")
+        {
+            DrugEntryDBContext db = new DrugEntryDBContext();
+            DrugEntry drug = db.DrugEntries.Find(id);
+
+            if (drug == null)
+            {
+                return HttpNotFound();
+            }
+            this.ViewData["Username"] = Authentication.Username;
+            this.ViewData["PageTitle"] = "Medication Details";
+            return View(drug);
         }
     }
 }

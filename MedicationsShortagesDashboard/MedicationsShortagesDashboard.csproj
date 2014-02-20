@@ -326,6 +326,7 @@
     <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Views\DrugEntriesList\Upload.cshtml" />
     <Content Include="Views\DrugEntriesList\Index.cshtml" />
+    <Content Include="Views\DrugEntriesList\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

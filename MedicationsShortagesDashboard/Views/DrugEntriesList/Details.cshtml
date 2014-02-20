@@ -37,13 +37,13 @@
             $('#shortageHistory > ul').append('<li>' + item.Status + ' on ' + item.DateTime + '</li>');
 
             if (item.Status == "severe") {
-                shortageHistoryPlotData.push([formatDateForGraph(item.DateTime), 2]);
+                shortageHistoryPlotData.push([item.DateTime.replace("T", " "), 2]);
             }
             else if (item.Status == "warning") {
-                shortageHistoryPlotData.push([formatDateForGraph(item.DateTime), 1]);
+                shortageHistoryPlotData.push([item.DateTime.replace("T", " "), 1]);
             }
             else {
-                shortageHistoryPlotData.push([formatDateForGraph(item.DateTime), 0]);
+                shortageHistoryPlotData.push([item.DateTime.replace("T", " "), 0]);
             }
         });
 
@@ -81,11 +81,6 @@
         $(ticks[0]).css('color', '#8DB987'); // Good
         $(ticks[1]).css('color', '#FFA84A'); // Warning
         $(ticks[2]).css('color', '#FF334A'); // Severe
-    }
-    
-    // Formats string from YYYY-MM-DDTHH-MM-SS to YYYY-MM-DD, to use in the shortage history chart.
-    function formatDateForGraph(dt) {
-        return dt.split("T")[0]
     }
 </script>
 }

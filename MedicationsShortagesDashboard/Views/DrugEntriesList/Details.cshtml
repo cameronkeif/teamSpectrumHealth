@@ -34,7 +34,7 @@
     var shortageHistoryPlotData = Array();
     $.getJSON('/api/Shortage/' + '@Model.NDC', function (shortagesJsonPayload) {
         $(shortagesJsonPayload).each(function (i, item) {
-            $('#shortageHistory > ul').append('<li>' + item.Status + ' on ' + item.DateTime + '</li>');
+            $('#shortageHistory > ul').append('<li>' + item.Status + formatDateForOutput(item.DateTime) + '</li>');
 
             if (item.Status == "severe") {
                 shortageHistoryPlotData.push([item.DateTime.replace("T", " "), 2]);
@@ -88,6 +88,11 @@
         $(ticks[0]).css('color', '#8DB987'); // Good
         $(ticks[1]).css('color', '#FFA84A'); // Warning
         $(ticks[2]).css('color', '#FF334A'); // Severe
+    }
+
+    function formatDateForOutput(dateTime) {
+        dateObject = new Date(dateTime.replace("T", " "));
+        return " at " + dateObject.toLocaleTimeString() + " on " + dateObject.toLocaleDateString();
     }
 </script>
 }

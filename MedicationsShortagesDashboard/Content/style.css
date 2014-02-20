@@ -267,10 +267,14 @@ div.container
     list-style-type: none;
 }
 
-#shortageHistory > ul {
-    margin-top: 0px;
-    list-style-type: none;
-}
+    #shortageHistory > ul {
+        margin-top: 0px;
+        list-style-type: none;
+    }
+
+        #shortageHistory > ul > li:first-letter {
+            text-transform: uppercase;
+        }
 
 #shortageHistoryChart {
     margin-left: auto;

@@ -46,7 +46,7 @@ $(function()
     ***/
     // Get all watch list items for this user
 
-    $.getJSON('/api/WatchListItem?username=' + loggedInAs, function (watchListJsonPayload) {
+    $.getJSON('/api/WatchListItem/' + loggedInAs, function (watchListJsonPayload) {
         var watchListNdcs = Array();
         $(watchListJsonPayload).each(function(i, watchListItem) {
             watchListNdcs.push(watchListItem.Ndc);
@@ -136,18 +136,21 @@ function getShortageItemHTMLWatchList(brand, dosage, ndc, currentStatus) {
 };
 
 function addToWatchList(username, ndc, currentStatus) {
-    $.post('/api/WatchListItem', { '': username + "&" + ndc })
-    .success(function (data) {
-        if ($("#"+ndc).length > 0) {
-            $("#" + ndc).prependTo("#" + currentStatus + "WatchList");
-            $("#" + ndc + " > .shortageCard > .right").replaceWith(getWatchListShortageCardButtonHtml(ndc, currentStatus));
+    $.ajax({
+        url: '/api/WatchListItem/' + username + "/" + ndc,
+        type: 'POST',
+        success: function () {
+            if ($("#" + ndc).length > 0) {
+                $("#" + ndc).prependTo("#" + currentStatus + "WatchList");
+                $("#" + ndc + " > .shortageCard > .right").replaceWith(getWatchListShortageCardButtonHtml(ndc, currentStatus));
+            }
         }
     });
 };
 
 function removeFromWatchList(username, ndc, currentStatus) {
     $.ajax({
-        url: '/api/WatchListItem/' + username + "/delete/" + ndc,
+        url: '/api/WatchListItem/' + username + "/" + ndc,
         type: 'DELETE',
         success: function () {
             if ($("#" + ndc).length > 0) {

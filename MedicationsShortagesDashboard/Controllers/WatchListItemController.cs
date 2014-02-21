@@ -24,25 +24,23 @@ namespace MedicationsShortagesDashboard.Controllers
         /// <summary>
         /// HTTP Get with one parameter in the query string
         /// </summary>
-        /// <param name="username">Username for this user</param>
+        /// <param name="id">Username for this user</param>
         /// <returns>Handles an HTTP GET with one parameter. Returns all watch list items matching that username</returns>
-        public WatchListItem[] Get(string username)
+        public WatchListItem[] Get(string id)
         {
-            return this.watchListItemRepository.GetWatchListItems(username);
+            return this.watchListItemRepository.GetWatchListItems(id);
         }
 
         /// <summary>
         /// HTTP Post
         /// </summary>
         /// <param name="parameters">Watch list parameters</param>
-        public void Post([FromBody] string parameters)
+        public void Post(string username, string ndc)
         {
             // Note, handle this properly using routing after ALPHA.
             try
             {
-                string[] split_parameters = parameters.Split('&');
-
-                WatchListItem watchListItem = new WatchListItem(split_parameters[0], split_parameters[1]);
+                WatchListItem watchListItem = new WatchListItem(username, ndc);
                 this.watchListItemRepository.AddWatchListItem(watchListItem);
             }
             catch (InvalidOperationException)

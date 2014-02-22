@@ -6,16 +6,9 @@
 
 namespace MedicationsShortagesDashboard.Controllers
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.IO;
-    using System.Linq;
-    using System.Web;
     using System.Web.Mvc;
-    using MedicationsShortagesDashboard.Services;
-    using MedicationsShortagesDashboard.Utilities;
     using MedicationsShortagesDashboard.Models;
+    using MedicationsShortagesDashboard.Services;
 
     /// <summary>
     /// Controller for displaying all drug entries
@@ -44,6 +37,11 @@ namespace MedicationsShortagesDashboard.Controllers
             return this.View();
         }
 
+        /// <summary>
+        /// Returns the drug detail view page
+        /// </summary>
+        /// <param name="id">The NDC of the drug</param>
+        /// <returns>The drug detail view page for a drug where NDC == id</returns>
         public ActionResult Details(string id = "")
         {
             DrugEntryDBContext db = new DrugEntryDBContext();
@@ -51,11 +49,12 @@ namespace MedicationsShortagesDashboard.Controllers
 
             if (drug == null)
             {
-                return HttpNotFound();
+                return this.HttpNotFound();
             }
+
             this.ViewData["Username"] = Authentication.Username;
             this.ViewData["PageTitle"] = "Medication Details";
-            return View(drug);
+            return this.View(drug);
         }
     }
 }

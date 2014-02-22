@@ -31,7 +31,8 @@
     }
     $('#login').click(auth);
     $(document).ready(function () {
-        var str = @Html.Raw(Json.Encode(ViewData["Username"]));
+        // Bug in Visual Studio throws syntax error, work around is to add empty string.
+        var str = @Html.Raw(Json.Encode(ViewData["Username"])) + '';
         if (str != "Guest") {
             auth();
         }

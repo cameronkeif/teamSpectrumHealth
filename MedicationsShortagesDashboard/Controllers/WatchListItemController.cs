@@ -34,7 +34,8 @@ namespace MedicationsShortagesDashboard.Controllers
         /// <summary>
         /// HTTP Post
         /// </summary>
-        /// <param name="parameters">Watch list parameters</param>
+        /// <param name="username">The username of the user</param>
+        /// <param name="ndc">The drug's National Drug Code</param>
         public void Post(string username, string ndc)
         {
             // Note, handle this properly using routing after ALPHA.

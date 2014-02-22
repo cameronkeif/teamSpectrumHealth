@@ -44,7 +44,7 @@ namespace MedicationsShortagesDashboard.Models
         /// <summary>
         /// Current shortage status of this drug
         /// </summary>
-        [FieldOptional()]
+        [FieldOptional]
         private string currentStatus;
 
         /// <summary>

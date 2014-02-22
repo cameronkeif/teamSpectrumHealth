@@ -20,6 +20,7 @@ namespace MedicationsShortagesDashboard.Models
 
         /// <summary>
         /// Gets or sets pending drugs
+        /// </summary>
         public DbSet<DrugEntry> DrugEntries
         {
             get

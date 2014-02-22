@@ -6,6 +6,7 @@
 
 namespace UnitTests
 {
+    using System.Diagnostics.CodeAnalysis;
     using MedicationsShortagesDashboard.Models;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -13,6 +14,7 @@ namespace UnitTests
     /// Tests functionality of the Login class
     /// </summary>
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class LoginTests
     {
         /// <summary>

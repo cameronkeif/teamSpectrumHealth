@@ -6,13 +6,15 @@
 
 namespace UnitTests
 {
-using MedicationsShortagesDashboard.Services;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using System.Diagnostics.CodeAnalysis;
+    using MedicationsShortagesDashboard.Services;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     /// <summary>
     /// Class for testing the authentication controller
     /// </summary>
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class AuthenticationTests
     {
         /// <summary>

@@ -197,7 +197,6 @@
     <Compile Include="Services\ShortageRepository.cs" />
     <Compile Include="Services\WatchListItemRepository.cs" />
     <Compile Include="Utilities\CSVParser.cs" />
-    <Compile Include="Utilities\RssFeedParser.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />

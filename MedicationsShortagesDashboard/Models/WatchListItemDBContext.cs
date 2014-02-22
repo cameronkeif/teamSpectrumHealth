@@ -22,7 +22,6 @@ namespace MedicationsShortagesDashboard.Models
         /// <summary>
         /// Gets or sets pendingShortages
         /// </summary>
-        [ExcludeFromCodeCoverage]
         public DbSet<WatchListItem> Items
         {
             get

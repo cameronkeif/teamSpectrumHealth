@@ -5,14 +5,8 @@
 //-----------------------------------------------------------------------
 namespace MedicationsShortagesDashboard.Utilities
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Web;
-    using System.Web.Http;
     using FileHelpers;
     using MedicationsShortagesDashboard.Models;
-    using MedicationsShortagesDashboard.Services;
 
     /// <summary>
     /// CSV Parsing class, reads/parses/writes in constructor

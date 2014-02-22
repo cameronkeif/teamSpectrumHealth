@@ -7,7 +7,6 @@
 namespace MedicationsShortagesDashboard.Models
 {
     using System.Data.Entity;
-    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// DB Context for drug entries
@@ -21,8 +20,6 @@ namespace MedicationsShortagesDashboard.Models
 
         /// <summary>
         /// Gets or sets pending drugs
-        /// </summary>
-        [ExcludeFromCodeCoverage]
         public DbSet<DrugEntry> DrugEntries
         {
             get

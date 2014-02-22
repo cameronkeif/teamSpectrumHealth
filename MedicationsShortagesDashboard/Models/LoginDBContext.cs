@@ -22,7 +22,6 @@ namespace MedicationsShortagesDashboard.Models
         /// <summary>
         /// Gets or sets Logins
         /// </summary>
-        [ExcludeFromCodeCoverage]
         public DbSet<Login> Logins
         {
             get

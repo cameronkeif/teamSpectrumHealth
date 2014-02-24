@@ -30,7 +30,6 @@ namespace MedicationsShortagesDashboard.Controllers
         /// <summary>
         /// Initializes a new instance of the <see cref="DrugEntryController"/> class
         /// </summary>
-        [ExcludeFromCodeCoverage]
         public DrugEntryController()
         {
             this.drugEntryRepository = new DrugEntryRepository();

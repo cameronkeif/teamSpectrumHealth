@@ -58,6 +58,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="DrugEntriesListControllerTests.cs" />
+    <Compile Include="DrugEntryControllerTests.cs" />
     <Compile Include="HomeControllerTests.cs" />
     <Compile Include="PendingShortageControllerTests.cs" />
     <Compile Include="PendingShortageTests.cs" />

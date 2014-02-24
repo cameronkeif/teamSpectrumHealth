@@ -62,5 +62,16 @@ namespace UnitTests
             List<PendingShortage> result = new List<PendingShortage>(controller.Get());
             Assert.AreEqual(result.Count, 0);
         }
+
+        /// <summary>
+        /// Tests default constructor
+        /// </summary>
+        [TestMethod]
+        public void PendingShortageControllerDefaultConstructor()
+        {
+            PendingShortageController p = new PendingShortageController();
+
+            Assert.IsNotNull(p);
+        }
     }
 }

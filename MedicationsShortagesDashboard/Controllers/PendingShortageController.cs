@@ -25,7 +25,6 @@ namespace MedicationsShortagesDashboard.Controllers
         /// <summary>
         /// Initializes a new instance of the <see cref="PendingShortageController"/> class
         /// </summary>
-        [ExcludeFromCodeCoverage]
         public PendingShortageController()
         {
             this.pendingShortageRepository = new PendingShortageRepository();

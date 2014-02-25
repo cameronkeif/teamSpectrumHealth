@@ -8,6 +8,7 @@ namespace MedicationsShortagesDashboard.Controllers
 {
     using System.Web.Mvc;
     using MedicationsShortagesDashboard.Services;
+    using MedicationsShortagesDashboard.Models;
 
     /// <summary>
     /// Controller for displaying all pending shortages
@@ -44,10 +45,16 @@ namespace MedicationsShortagesDashboard.Controllers
         public ActionResult Edit(int id = 0)
         {
             ShortageRepository db = new ShortageRepository();
-            
+
+            Shortage shortage = db.GetShortage(id);
+            if (shortage == null)
+            {
+                return this.HttpNotFound();
+            }
+
             this.ViewData["Username"] = Authentication.Username;
             this.ViewData["PageTitle"] = "Edit Shortage";
-            return this.View(db.GetShortage(id));
+            return this.View(shortage);
         }
     }
 }

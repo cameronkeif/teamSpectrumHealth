@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="ShortageListControllerTests.cs" company="Spectrum Health">
+// <copyright file="ShortagesListControllerTests.cs" company="Spectrum Health">
 //      Spectrum Health
 // </copyright>
 //-----------------------------------------------------------------------

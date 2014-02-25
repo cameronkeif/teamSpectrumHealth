@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @Scripts.Render("~/bundles/jquery")
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div id="menu">
+        <ul>
+            <li class="left">
+                <a href="~/DrugEntriesList/" class="button">Home</a>
+            </li>
+            <li class="left">
+                <a href="~/Admin/" class="button">Admin</a>
+            </li>
+            <!--li class="left">
+                <a href="~/DrugEntriesList/Upload" class="button">Upload CSV</a>
+            </!--li>
+            <li class="left" id="pendingRedir">
+                <a href="~/PendingShortagesList" class="button">Pending Shortages</a>
+            </li>
+            <li class="left">
+                <a href="~/ShortagesList" class="button">All Shortages</a>
+            </li>
+            <li class="left">
+                <a href="~/ShortagesList/Create" class="button">Create Shortage</a>
+            </li-->
+                @{       
+                    if(ViewData["Username"] == "Guest")
+                    {
+                        <li class="rightMost" id="loginRedir">
+                        <a href="~/Login" class="button">Login</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="rightMost">
+                        <div id="userDisplay" class="button">Logout</div>
+                        </li>
+                    }
+                }
+            <li class="right">
+                <div class="menuText">Welcome, @Html.Encode(ViewData["Username"])</div>
+            </li>
+        </ul>
+    </div>
+    <ul id="pageTitleBar">
+        <li class="logo"><img src="~/images/logo.png"/></li>
+        <li class="pageTitle">@Html.Encode(ViewData["PageTitle"])</li>
+        <li class="search">
+            @{
+                if (ViewData["PageTitle"] == "Current Shortages" || ViewData["PageTitle"] == "All Shortages" || ViewData["PageTitle"] == "Pending Shortages") 
+                {
+                    <input type="search" placeholder="search"/>
+                }
+            }
+        </li>
+    </ul>
+    <hr />
+    <br />
+
+    DIS 4 ADMIN
+    @RenderBody()
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>

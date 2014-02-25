@@ -68,6 +68,7 @@
     <Compile Include="LoginAPIControllerTests.cs" />
     <Compile Include="LoginTests.cs" />
     <Compile Include="LoginControllerTests.cs" />
+    <Compile Include="ShortageControllerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MedicationsShortagesDashboard\MedicationsShortagesDashboard.csproj">

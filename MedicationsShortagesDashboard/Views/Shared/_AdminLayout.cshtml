@@ -19,7 +19,7 @@
             </li>
             <!--li class="left">
                 <a href="~/DrugEntriesList/Upload" class="button">Upload CSV</a>
-            </!--li>
+            </li>
             <li class="left" id="pendingRedir">
                 <a href="~/PendingShortagesList" class="button">Pending Shortages</a>
             </li>
@@ -62,6 +62,21 @@
     </ul>
     <hr />
     <br />
+
+    <ul id="adminMenu">
+        <li>
+            <a href="~/PendingShortagesList" class="button">Pending Shortages</a>
+        </li>
+        <li class="left">
+            <a href="~/DrugEntriesList/Upload" class="button">Upload CSV</a>
+        </li>
+        <li class="left">
+            <a href="~/ShortagesList" class="button">All Shortages</a>
+        </li>
+        <li class="left">
+            <a href="~/ShortagesList/Create" class="button">Create Shortage</a>
+        </li>
+    </ul>
 
     DIS 4 ADMIN
     @RenderBody()

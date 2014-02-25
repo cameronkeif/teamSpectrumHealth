@@ -31,7 +31,6 @@ namespace MedicationsShortagesDashboard.Controllers
         /// <summary>
         /// Initializes a new instance of the <see cref="ShortageController"/> class
         /// </summary>
-        [ExcludeFromCodeCoverage]
         public ShortageController()
         {
             this.drugEntryRepository = new DrugEntryRepository();

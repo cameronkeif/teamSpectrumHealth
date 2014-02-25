@@ -3,7 +3,6 @@
 //      Spectrum Health
 // </copyright>
 //-----------------------------------------------------------------------
-
 namespace MedicationsShortagesDashboard.Models
 {
     using System;

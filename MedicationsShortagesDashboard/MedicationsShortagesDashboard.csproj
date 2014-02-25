@@ -168,6 +168,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\DrugEntriesListController.cs" />
     <Compile Include="Controllers\DrugEntryController.cs" />
+    <Compile Include="Controllers\DrugEntryManualController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginAPIController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
@@ -183,6 +184,7 @@
     <Compile Include="Models\DrugEntryDBContext.cs" />
     <Compile Include="Models\Login.cs" />
     <Compile Include="Models\LoginDBContext.cs" />
+    <Compile Include="Models\Message.cs" />
     <Compile Include="Models\PendingShortage.cs" />
     <Compile Include="Models\PendingShortageDBContext.cs" />
     <Compile Include="Models\Shortage.cs" />

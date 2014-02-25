@@ -7,25 +7,6 @@
     <ul id="drug_entries"></ul>
 </div>
 
-@section scripts{
-<script type="text/javascript">
-    $(function ()
-    {
-        $.getJSON('/api/DrugEntry', function (drugEntriesJsonPayload)
-        {
-            $(drugEntriesJsonPayload).each(function (i, item)
-            {
-                $('#drug_entries').append('<li>' > + item.NDC + '</li>');
-            });
-        });
-    });
-</script>
-}
-
-<br />
-<div align="center">_____________________________________________________________________________________</div>
-<br /><br />
-
 <form name="form1" method="post" enctype="multipart/form-data" action="~/api/DrugEntry">
     <div>
         <label for="input">Upload a new .CSV file:</label>
@@ -35,3 +16,61 @@
         <input type="submit" value="Submit" />
     </div>
 </form>
+
+<br /><div align="center">-----------------------------------------------------</div><br />
+
+@model MedicationsShortagesDashboard.Models.DrugEntry
+<body>
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "createDrugEntry", @action = "/api/DrugEntryManual" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Add a new shortage</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.NDC)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.NDC)
+            @Html.ValidationMessageFor(model => model.NDC)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Dosage)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Dosage)
+            @Html.ValidationMessageFor(model => model.Dosage)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Brand)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Brand)
+            @Html.ValidationMessageFor(model => model.Brand)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Generic)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Generic)
+            @Html.ValidationMessageFor(model => model.Generic)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.CurrentStatus)
+        </div>
+        <p>@Html.RadioButton("Status", "good", false) Good </p>
+        <p>@Html.RadioButton("Status", "warning", false) Warning </p>
+        <p>@Html.RadioButton("Status", "severe", false) Severe </p>
+
+        <p>
+            <input type="submit" value="Add Drug" />
+        </p>
+    </fieldset>
+}
+</body>

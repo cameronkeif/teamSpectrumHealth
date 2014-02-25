@@ -70,7 +70,7 @@
 #menu li.rightMost 
 {
     float:right;
-    padding-right:20px;
+    padding-right:10px;
 }
 
 #menu li.left 
@@ -81,7 +81,7 @@
 #menu li.leftMost 
 {
     float:left;
-    padding-left:20px;
+    padding-left:10px;
 }
 
 #menu .button 
@@ -121,6 +121,8 @@
     display:table;
     list-style-type:none;
     padding:0;
+    position: relative;
+    width:100%;
 }
 
 #pageTitleBar li
@@ -130,12 +132,18 @@
     vertical-align: middle;
     padding: 0;
     margin: 0;
-    width:10%;
+    width:18%;
 }
 
 #pageTitleBar .pageTitle
 {
-    width: 80%;
+    width:64%;
+}
+
+#pageTitleBar .search 
+{
+    text-align:right;
+    
 }
 
 /*Shortages List*/
@@ -217,7 +225,6 @@ div.container
     border-top-color:#FF334A;
 }
 
-
 #severeWatchList .shortageCard 
 {
     border-top-color:#FF334A;
@@ -232,7 +239,6 @@ div.container
 {
     border-top-color:#FFA84A;
 }
-
 
 #goodList .shortageCard 
 {
@@ -253,6 +259,32 @@ div.container
     width:95%;
 }
 
+/* Admin Menu */
+#adminMenu 
+{
+    text-align:center;
+    list-style-type:none;
+    padding:0; margin:0;
+}
+
+#adminMenu > li
+{
+    display:inline-block;
+    border-left:1px solid gray;
+    padding-left:5px;
+}
+
+#adminMenu > li:first-child
+{
+    border-left:none;
+}
+
+#adminMenu > li > a
+{
+    font-size:20px;
+    text-decoration: none;
+}
+
 /* Drug Detail View */
  #basicDrugInformation {
     text-align: center;
@@ -267,14 +299,14 @@ div.container
     list-style-type: none;
 }
 
-    #shortageHistory > ul {
-        margin-top: 0px;
-        list-style-type: none;
-    }
+#shortageHistory > ul {
+    margin-top: 0px;
+    list-style-type: none;
+}
 
-        #shortageHistory > ul > li:first-letter {
-            text-transform: uppercase;
-        }
+#shortageHistory > ul > li:first-letter {
+    text-transform: uppercase;
+}
 
 #shortageHistoryChart {
     margin-left: auto;
@@ -283,22 +315,22 @@ div.container
 
 /* jqplot stuff (for graphing) */
 .jqplot-point-label
-    {
-        white-space: nowrap;
-    }
-    div.jqplot-target
-    {
-        height: 400px;
-        width: 750px;
-        margin: 70px;
-    }
-    .tooltipCss
-    {
-        position: absolute;
-        background-color: #b2b1ac;
-        color: White;
-        z-index: 200;
-        padding: 5px;
-        border-radius: 5px;
-        display: none;
-    }
+{
+    white-space: nowrap;
+}
+div.jqplot-target
+{
+    height: 400px;
+    width: 750px;
+    margin: 70px;
+}
+.tooltipCss
+{
+    position: absolute;
+    background-color: #b2b1ac;
+    color: White;
+    z-index: 200;
+    padding: 5px;
+    border-radius: 5px;
+    display: none;
+}

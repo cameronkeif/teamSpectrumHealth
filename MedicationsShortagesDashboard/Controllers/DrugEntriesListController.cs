@@ -33,7 +33,7 @@ namespace MedicationsShortagesDashboard.Controllers
         public ActionResult Upload()
         {
             this.ViewData["Username"] = Authentication.Username;
-            this.ViewData["PageTitle"] = "Current Shortages";
+            this.ViewData["PageTitle"] = "Upload Formulary";
             return this.View();
         }
 

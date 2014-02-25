@@ -285,6 +285,11 @@ div.container
     text-decoration: none;
 }
 
+#adminMenu .selected 
+{
+    color:#005BA5;
+}
+
 /* Drug Detail View */
  #basicDrugInformation {
     text-align: center;

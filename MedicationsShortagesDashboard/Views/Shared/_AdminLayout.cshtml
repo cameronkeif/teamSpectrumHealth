@@ -53,21 +53,42 @@
 
     <ul id="adminMenu">
         <li>
-            <a href="~/PendingShortagesList" class="button">Pending Shortages</a>
+            <a href="~/PendingShortagesList" id="pendingShortagesMenu" class="secondaryTitle">Pending Shortages</a>
         </li>
         <li class="left">
-            <a href="~/DrugEntriesList/Upload" class="button">Upload CSV</a>
+            <a href="~/DrugEntriesList/Upload" id="uploadMenu" class="secondaryTitle">Upload CSV</a>
         </li>
         <li class="left">
-            <a href="~/ShortagesList" class="button">All Shortages</a>
+            <a href="~/ShortagesList" id="allShortagesMenu" class="secondaryTitle">All Shortages</a>
         </li>
         <li class="left">
-            <a href="~/ShortagesList/Create" class="button">Create Shortage</a>
+            <a href="~/ShortagesList/Create" id="createMenu" class="secondaryTitle">Create Shortage</a>
         </li>
     </ul>
-
+    <br />
     @RenderBody()
 
     @RenderSection("scripts", required: false)
 </body>
 </html>
+
+<script>
+    var str = @Html.Raw(Json.Encode(ViewData["PageTitle"])) + '';
+    if (str == "Pending Shortages") {
+        $("#pendingShortagesMenu").addClass("selected");
+    }
+    else if (str == "Upload Formulary") {
+        $("#uploadMenu").addClass("selected");
+    }
+    else if (str == "All Shortages") {
+        $("#allShortagesMenu").addClass("selected");
+    }
+    else if (str == "Create Shortage") {
+        $("#createMenu").addClass("selected");
+    }
+
+    $("#adminMenu a").click(function () {
+        $(this).parent().parent().find("a").removeClass("selected");
+        $(this).addClass("selected");
+    });
+</script>

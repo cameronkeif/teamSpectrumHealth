@@ -72,6 +72,7 @@
     <Compile Include="ShortagesListControllerTests.cs" />
     <Compile Include="DrugEntryTests.cs" />
     <Compile Include="ShortageTests.cs" />
+    <Compile Include="WatchListItemTests.cs" />
     <Compile Include="WatchListItemControllerTests.cs" />
   </ItemGroup>
   <ItemGroup>

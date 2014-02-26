@@ -54,7 +54,6 @@ $(function()
 
         // Get all drugs
         $.getJSON('/api/DrugEntry', function (drugJsonPayload) {
-            console.log(watchListNdcs.toString());
             $(drugJsonPayload).each(function (i, item) {
 
                 // This drug is in the user's watch list
@@ -160,5 +159,23 @@ function removeFromWatchList(username, ndc, currentStatus) {
         },
     });
 }
+
+    // Filtering. Iterates over each of the 6 drug card containers (if you want to call them that?)
+    // hides all elements which don't match the searchbar text. Shows all that do.
+$("#searchbar").keyup(function () {
+    var query = $("#searchbar").val();
+    var drugListSelectors = ["#severeWatchList", "#warningWatchList", "#goodWatchList", "#severeList", "#warningList", "#goodList"];
+
+    $(drugListSelectors).each( function(index, value) {
+        $(value + " > li").each(function () {
+            if ($(this).text().search(query) > -1) {
+                $(this).show();
+            }
+            else {
+                $(this).hide();
+            }
+        });
+    });
+});
 </script>
 }

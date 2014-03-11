@@ -7,6 +7,9 @@
     <ul id="pending_shortages"></ul>
 </div>
 
+<div id="content">
+</div>
+
 @section scripts{
 <script type="text/javascript">
 $(function()
@@ -15,9 +18,49 @@ $(function()
         {
             $(pendingShortagesJsonPayload).each(function(i, item)
             {
-                $('#pending_shortages').append('<li>' + item.DrugName + " - <a href=" + item.SourceURL + ">" + item.SourceURL + '</li>');
+                $('#pending_shortages').append('<li><a href="#" onClick="scrapeHtml(\'' + item.SourceURL + '\')">' + item.DrugName + "</a> - <a href=" + item.SourceURL + ">" + item.SourceURL + '</li>');
             });
         });
 });
+
+    // Scrapes the HTML from the source URL of the pending shortage, appends
+    // the reasons for the shortage to a div.
+    /*** Right now this is hardcoded to be the bottom of the page, should obviously be changed. ***/
+function scrapeHtml(url) {
+    var container = $('#content');
+    if (url.match('^http')) {
+        // Use YML to bypass cross domain issues.
+        $.getJSON("http://query.yahooapis.com/v1/public/yql?" +
+                  "q=select%20*%20from%20html%20where%20url%3D%22" +
+                  encodeURIComponent(url) +
+                  "%22&format=xml'&callback=?",
+          function (data) {
+              if (data.results[0]) {
+                  var data = filterData(data.results[0]);
+                  
+                  // Isolate the reasons for the shortage. Don't go changin' your website ASHP!
+                  data = data.split('<!-- Begin Reason for the Shortage -->')[1];
+                  data = data.split('<!-- End Reason for the Shortage -->')[0];
+                  container.html(data);
+              } else {
+                  var errormsg = '<p>Error: could not load the page.</p>';
+                  container.html(errormsg);
+              }
+          }
+        );
+    } else {
+        $('#content').load(url);
+    }
+};
+
+function filterData(data) {
+    data = data.replace(/<?\/body[^>]*>/g, '');
+    data = data.replace(/[\r|\n]+/g, '');
+    data = data.replace(/<--[\S\s]*?-->/g, '');
+    data = data.replace(/<noscript[^>]*>[\S\s]*?<\/noscript>/g, '');
+    data = data.replace(/<script[^>]*>[\S\s]*?<\/script>/g, '');
+    data = data.replace(/<script.*\/>/, '');
+    return data;
+}
 </script>
 }

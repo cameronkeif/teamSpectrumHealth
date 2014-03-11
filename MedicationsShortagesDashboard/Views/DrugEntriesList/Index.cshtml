@@ -39,13 +39,6 @@
 var loggedInAs = '@Html.Encode(ViewData["Username"])';
 $(function()
 {
-    /***
-    I'm aware this is a garbled mess of sad, but it works. If I don't finish refactoring tonight, it will be done soon.
-
-    - Cam
-    ***/
-    // Get all watch list items for this user
-
     $.getJSON('/api/WatchListItem/' + loggedInAs, function (watchListJsonPayload) {
         var watchListNdcs = Array();
         $(watchListJsonPayload).each(function(i, watchListItem) {

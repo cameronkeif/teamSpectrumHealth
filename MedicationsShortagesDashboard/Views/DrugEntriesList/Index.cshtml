@@ -4,6 +4,9 @@
 }
 
 <div id="body">
+    <div id="loadingAnimation">
+        <img src="~/Images/loading.gif">
+    </div>
     <div id="listContainer" >
         <div id="severeContainer" class="container">
             <span class="secondaryTitle">Severe</span>
@@ -36,6 +39,7 @@
 
 @section scripts{
 <script type="text/javascript">
+$('#listContainer').hide();
 var loggedInAs = '@Html.Encode(ViewData["Username"])';
 $(function()
 {
@@ -77,6 +81,10 @@ $(function()
                     }
                 }
             });
+            
+            // Page has loaded. Stop the loading animation
+            $('#loadingAnimation').hide();
+            $('#listContainer').show();
         });
     });
 });

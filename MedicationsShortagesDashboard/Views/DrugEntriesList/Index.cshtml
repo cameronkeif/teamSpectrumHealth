@@ -165,7 +165,7 @@ function removeFromWatchList(username, ndc, currentStatus) {
     // hides all elements which don't match the searchbar text. Shows all that do.
 $("#searchbar").keyup(function () {
     var query = $("#searchbar").val();
-    var drugListSelectors = ["#severeWatchList", "#warningWatchList", "#goodWatchList", "#severeList", "#warningList", "#goodList"];
+    var drugListSelectors = ["#recentList", "#severeWatchList", "#warningWatchList", "#goodWatchList", "#severeList", "#warningList", "#goodList"];
 
     $(drugListSelectors).each( function(index, value) {
         $(value + " > li").each(function () {

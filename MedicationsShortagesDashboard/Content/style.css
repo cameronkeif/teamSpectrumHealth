@@ -253,6 +253,12 @@ div.container
     width:95%;
 }
 
+#loadingAnimation img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 /* Drug Detail View */
  #basicDrugInformation {
     text-align: center;

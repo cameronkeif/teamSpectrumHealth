@@ -45,7 +45,7 @@ namespace MedicationsShortagesDashboard.Controllers
         }
 
         /// <summary>
-        /// Accepts data from input form in DrugEntriesList View to be parsed/input
+        /// Accepts file from file browser
         /// </summary>
         /// <returns>Task Response message, either OK or an error</returns>
         public async Task<HttpResponseMessage> PostFormData()

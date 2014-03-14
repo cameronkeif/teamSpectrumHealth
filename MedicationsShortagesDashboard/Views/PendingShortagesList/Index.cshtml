@@ -10,9 +10,10 @@
         <span id="create_shortage_popup_title">Create Shortage</span>
         <form>
             <p>NDC: <input id="ndc" type="text" name="ndc"></p>
-            <p>@Html.RadioButton("Status", "good", false) Good </p>
-            <p>@Html.RadioButton("Status", "warning", false) Warning </p>
-            <p>@Html.RadioButton("Status", "severe", false) Severe </p>
+            Status:
+            <p><span id="create_shortage_good_label">@Html.RadioButton("Status", "good", false) Good </span></p>
+            <p><span id="create_shortage_warning_label">@Html.RadioButton("Status", "warning", false) Warning </span></p>
+            <p><span id="create_shortage_severe_label">@Html.RadioButton("Status", "severe", false) Severe </span></p>
             <p><button type="button">Create Shortage</button></p>
         </form>
     </div>
@@ -105,6 +106,7 @@ function showPreview(url, id) {
     $("#" + id).slideToggle("slow");
 }
 
+// Toggles the create shortage form. Populates the NDC field with ndc
 function toggleCreateShortage(ndc) {
     $('#create_shortage').find('form')[0].reset();
     $("#create_shortage").toggle();

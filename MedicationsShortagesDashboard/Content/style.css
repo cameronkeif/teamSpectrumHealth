@@ -115,6 +115,38 @@
     height:30px;
 }
 
+
+/* Admin Menu */
+#adminMenu 
+{
+    text-align:center;
+    list-style-type:none;
+    padding:0; margin:0;
+}
+
+#adminMenu > li
+{
+    display:inline-block;
+    border-left:1px solid gray;
+    padding-left:5px;
+}
+
+#adminMenu > li:first-child
+{
+    border-left:none;
+}
+
+#adminMenu > li > a
+{
+    font-size:20px;
+    text-decoration: none;
+}
+
+#adminMenu .selected 
+{
+    color:#005BA5;
+}
+
 /*Page Header*/
 #pageTitleBar
 {

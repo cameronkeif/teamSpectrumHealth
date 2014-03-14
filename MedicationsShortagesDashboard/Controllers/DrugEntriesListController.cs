@@ -6,6 +6,7 @@
 
 namespace MedicationsShortagesDashboard.Controllers
 {
+    using System;
     using System.Web.Mvc;
     using MedicationsShortagesDashboard.Models;
     using MedicationsShortagesDashboard.Services;
@@ -46,6 +47,9 @@ namespace MedicationsShortagesDashboard.Controllers
         {
             DrugEntryDBContext db = new DrugEntryDBContext();
             DrugEntry drug = db.DrugEntries.Find(id);
+            Message message = new Message();
+
+            var tuple = new Tuple<DrugEntry, Message>(drug, message);
 
             if (drug == null)
             {
@@ -54,7 +58,7 @@ namespace MedicationsShortagesDashboard.Controllers
 
             this.ViewData["Username"] = Authentication.Username;
             this.ViewData["PageTitle"] = "Medication Details";
-            return this.View(drug);
+            return this.View(tuple);
         }
     }
 }

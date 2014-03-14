@@ -18,6 +18,11 @@ namespace MedicationsShortagesDashboard.Models
         /// </summary>
         private DbSet<Message> messages;
 
+        public MessageDBContext()
+        {
+            Database.SetInitializer<Models.MessageDBContext>(null);
+        }
+
         /// <summary>
         /// Gets or sets pending drugs
         /// </summary>

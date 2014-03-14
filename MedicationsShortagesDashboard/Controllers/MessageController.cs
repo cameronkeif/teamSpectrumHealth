@@ -60,14 +60,20 @@ namespace MedicationsShortagesDashboard.Controllers
         /// to add to the database</param>
         public void Post([FromBody] Message message)
         {
+            ModelState.Clear();
             Message existingMessage = this.messageRepository.GetMessage(message.ID);
             if (existingMessage != null)
             {
                 // Probably just throw error
             }
+            else if (message == null)
+            {
+                System.Diagnostics.Debug.WriteLine("MESSAGE IS NULL, IDIOT");
+            }
             else
             {
-                this.messageRepository.AddMessage(message);
+                System.Diagnostics.Debug.WriteLine("MESSAGE POSTING: " + message.Text);
+                //this.messageRepository.AddMessage(message);
             }
         }
     }

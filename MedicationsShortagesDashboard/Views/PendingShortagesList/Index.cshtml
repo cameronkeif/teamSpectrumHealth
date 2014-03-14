@@ -7,81 +7,17 @@
     <ul id="pending_shortages"></ul>
 </div>
 
-<div id="content">
-</div>
-
 @section scripts{
 <script type="text/javascript">
-    var previousId = -1; // All the IDs are positive integers, so this is a good default value when nothing is selected.
-    var alreadyParsedDrugIds = new Array();
-$(function ()
+$(function()
 {
         $.getJSON('/api/PendingShortage', function(pendingShortagesJsonPayload)
         {
             $(pendingShortagesJsonPayload).each(function(i, item)
             {
-                // ID from the ASHP website, which is at the end of the source URL
-                var id = item.SourceURL.split("Id=")[1];
-                $('#pending_shortages').append("<li><a href='javascript:void(0);' onClick='showPreview(\"" + item.SourceURL + '", "' + id + "\")'> " + item.DrugName + " </a><br><span class='preview' id=" + id + "></span></li>");
-                $('#' + id).prepend('<div id="loadingAnimation"><img src="/Images/loading.gif" height="40" width="40"></div>');
-                $("#" + id).hide();
+                $('#pending_shortages').append('<li>' + item.DrugName + " - <a href=" + item.SourceURL + ">" + item.SourceURL + '</li>');
             });
         });
 });
-
-    // Scrapes the HTML from the source URL of the pending shortage, appends
-    // the reasons for the shortage to a div.
-    /*** Right now this is hardcoded to be the bottom of the page, should obviously be changed. ***/
-function scrapeHtml(url, id) {
-    if (url.match('^http')) {
-        // Use YML to bypass cross domain issues.
-        $.getJSON("http://query.yahooapis.com/v1/public/yql?" +
-                  "q=select%20*%20from%20html%20where%20url%3D%22" +
-                  encodeURIComponent(url) +
-                  "%22&format=xml'&callback=?",
-          function (data) {
-              if (data.results[0]) {
-                  var data = filterData(data.results[0]);
-                  var preview = ""
-                  
-                  // Get the affected products
-                  affectedProducts = data.split("Products Affected - Description")[1];
-                  affectedProducts = affectedProducts.split("<!-- End Products Affected  -->")[0];
-
-                  preview = "<p><u>Products Affected</u>" + affectedProducts + "</p>"
-                  // Get the reasons for the shortage
-                  reasons = data.split('Reason for the Shortage')[2];
-                  reasons = reasons.split('<!-- End Reason for the Shortage -->')[0];
-                  preview = preview + "<p><u>Reason for the Shortage</u>" + reasons + "</p>";
-
-                  $("#" + id).children('#loadingAnimation').hide();
-                  $("#" + id).prepend(preview);
-                  $("#" + id).append("<p><a href=" + url + "> View Full Report </a></p>")
-              }
-          }
-        );
-    }
-};
-
-function filterData(data) {
-    data = data.replace(/<?\/body[^>]*>/g, '');
-    data = data.replace(/[\r|\n]+/g, '');
-    data = data.replace(/<--[\S\s]*?-->/g, '');
-    data = data.replace(/<noscript[^>]*>[\S\s]*?<\/noscript>/g, '');
-    data = data.replace(/<script[^>]*>[\S\s]*?<\/script>/g, '');
-    data = data.replace(/<script.*\/>/, '');
-    return data;
-}
-
-// Provides accordion-like behavior by showing the div
-// underneath each link when it is clicked.
-function showPreview(url, id) {
-    if (alreadyParsedDrugIds.indexOf(id) == -1) {
-        scrapeHtml(url, id);
-        alreadyParsedDrugIds.push(id);
-    }
-
-    $("#" + id).slideToggle("slow");
-}
 </script>
 }

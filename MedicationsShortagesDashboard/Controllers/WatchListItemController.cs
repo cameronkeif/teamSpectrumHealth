@@ -19,15 +19,7 @@ namespace MedicationsShortagesDashboard.Controllers
         /// <summary>
         /// Performs the actual querying of the database.
         /// </summary>
-        private WatchListItemRepository watchListItemRepository;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="WatchListItemController"/> class
-        /// </summary>
-        public WatchListItemController()
-        {
-            this.watchListItemRepository = new WatchListItemRepository();
-        }
+        private WatchListItemRepository watchListItemRepository = new WatchListItemRepository();
 
         /// <summary>
         /// HTTP Get with one parameter in the query string

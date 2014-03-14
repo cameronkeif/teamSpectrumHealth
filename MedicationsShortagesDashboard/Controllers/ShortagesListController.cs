@@ -7,8 +7,8 @@
 namespace MedicationsShortagesDashboard.Controllers
 {
     using System.Web.Mvc;
-    using MedicationsShortagesDashboard.Models;
     using MedicationsShortagesDashboard.Services;
+    using MedicationsShortagesDashboard.Models;
 
     /// <summary>
     /// Controller for displaying all pending shortages

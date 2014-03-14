@@ -33,7 +33,21 @@
                     }
                 }
             <li class="right">
-                <div class="menuText">Welcome, @Html.Encode(ViewData["Username"])</div>
+                <div class="menuText">
+                    Welcome, 
+                    @using System.Security.Principal;
+                    @{
+                        var user = (WindowsPrincipal)User;
+                        if(user.IsInRole(WindowsBuiltInRole.User))
+                        {
+                            <span>@user.Identity.Name</span>
+                        }
+                        else 
+                        {
+                            <span>LESS AWESOME</span>   
+                        }
+                    }
+                </div>
             </li>
         </ul>
     </div>

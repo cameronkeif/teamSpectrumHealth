@@ -108,14 +108,20 @@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
+        @Html.Hidden("ID", @Model.Item2.ID)
+
         <div class="editor-field">
-            @Html.TextAreaFor(tuple => tuple.Item2.Text)
+            @Html.TextArea("Text", @Model.Item2.Text)
             @Html.ValidationMessageFor(tuple => tuple.Item2.Text)<br />
         </div>
         
         <input type="submit" value="Post Discussion" />
     }
 
+</div>
+
+<div id="messageListing">
+    <ul></ul>
 </div>
 </center>
 
@@ -131,7 +137,21 @@
             b.value = "POST DISCUSSION";
     }
 
-    function postNewMessage(m) {
+    $.getJSON("/api/Message/", function (messagesJsonPayload) {
+        $(messagesJsonPayload).each(function (i, item) {
+            if (item.NDC == '@Model.Item1.NDC') {
+                $("#messageListing").append("<li>" + item.User + " - " + item.Text + "</li>");
+            }
+        }
+        );
 
+        if ($(messagesJsonPayload).length > 0) {
+            $("#messageListing").prepend("<br ><u>DISCUSSION:</u>");
+        }
+        else {
+            $("#messageListing").prepend("No discussion has been posted for this shortage.");
+        }
     }
+    );
+
 </script>

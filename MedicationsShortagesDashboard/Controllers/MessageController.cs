@@ -13,9 +13,24 @@ namespace MedicationsShortagesDashboard.Controllers
     public class MessageController : ApiController
     {
         /// <summary>
-        /// Performs the actual querying of the database.
+        /// Performs the actual querying of the message database.
         /// </summary>
         private MessageRepository messageRepository;
+
+        /// <summary>
+        /// Performs the actual querying of the shortage database.
+        /// </summary>
+        private ShortageRepository shortageRepository;
+
+        /// <summary>
+        /// Performs the actual querying of the drug entry database.
+        /// </summary>
+        private DrugEntryRepository drugEntryRepository;
+
+        /// <summary>
+        /// Performs the actual querying of the login database.
+        /// </summary>
+        private LoginRepository loginRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MessageController"/> class
@@ -23,6 +38,9 @@ namespace MedicationsShortagesDashboard.Controllers
         public MessageController()
         {
             this.messageRepository = new MessageRepository();
+            this.shortageRepository = new ShortageRepository();
+            this.drugEntryRepository = new DrugEntryRepository();
+            this.loginRepository = new LoginRepository();
         }
 
         /// <summary>
@@ -64,15 +82,13 @@ namespace MedicationsShortagesDashboard.Controllers
             Message existingMessage = this.messageRepository.GetMessage(message.ID);
             if (existingMessage != null)
             {
-                // Probably just throw error
+                throw new System.Exception("Message exists in table MESSAGE with same ID");
             }
-            else if (message == null)
-            {
-                System.Diagnostics.Debug.WriteLine("MESSAGE IS NULL, IDIOT");
-            }
+            // Manually check if necessary foreign keys exist in DB
+            // SHORTAGE.ID, DRUGS.NDC, USER.USERNAME
             else
             {
-                System.Diagnostics.Debug.WriteLine("MESSAGE POSTING: " + message.Text);
+                System.Diagnostics.Debug.WriteLine("NDC: " + message.NDC);
                 //this.messageRepository.AddMessage(message);
             }
         }

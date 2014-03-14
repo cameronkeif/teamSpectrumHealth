@@ -12,13 +12,19 @@
 
 @section scripts{
 <script type="text/javascript">
-$(function()
+    var previousId = -1; // All the IDs are positive integers, so this is a good default value when nothing is selected.
+    var alreadyParsedDrugIds = new Array();
+$(function ()
 {
         $.getJSON('/api/PendingShortage', function(pendingShortagesJsonPayload)
         {
             $(pendingShortagesJsonPayload).each(function(i, item)
             {
-                $('#pending_shortages').append('<li><a href="#" onClick="scrapeHtml(\'' + item.SourceURL + '\')">' + item.DrugName + "</a> - <a href=" + item.SourceURL + ">" + item.SourceURL + '</li>');
+                // ID from the ASHP website, which is at the end of the source URL
+                var id = item.SourceURL.split("Id=")[1];
+                $('#pending_shortages').append("<li><a href='javascript:void(0);' onClick='showPreview(\"" + item.SourceURL + '", "' + id + "\")'> " + item.DrugName + " </a><br><span class='preview' id=" + id + "></span></li>");
+                $('#' + id).prepend('<div id="loadingAnimation"><img src="/Images/loading.gif" height="40" width="40"></div>');
+                $("#" + id).hide();
             });
         });
 });
@@ -26,8 +32,7 @@ $(function()
     // Scrapes the HTML from the source URL of the pending shortage, appends
     // the reasons for the shortage to a div.
     /*** Right now this is hardcoded to be the bottom of the page, should obviously be changed. ***/
-function scrapeHtml(url) {
-    var container = $('#content');
+function scrapeHtml(url, id) {
     if (url.match('^http')) {
         // Use YML to bypass cross domain issues.
         $.getJSON("http://query.yahooapis.com/v1/public/yql?" +
@@ -37,19 +42,24 @@ function scrapeHtml(url) {
           function (data) {
               if (data.results[0]) {
                   var data = filterData(data.results[0]);
+                  var preview = ""
                   
-                  // Isolate the reasons for the shortage. Don't go changin' your website ASHP!
-                  data = data.split('<!-- Begin Reason for the Shortage -->')[1];
-                  data = data.split('<!-- End Reason for the Shortage -->')[0];
-                  container.html(data);
-              } else {
-                  var errormsg = '<p>Error: could not load the page.</p>';
-                  container.html(errormsg);
+                  // Get the affected products
+                  affectedProducts = data.split("Products Affected - Description")[1];
+                  affectedProducts = affectedProducts.split("<!-- End Products Affected  -->")[0];
+
+                  preview = "<p><u>Products Affected</u>" + affectedProducts + "</p>"
+                  // Get the reasons for the shortage
+                  reasons = data.split('Reason for the Shortage')[2];
+                  reasons = reasons.split('<!-- End Reason for the Shortage -->')[0];
+                  preview = preview + "<p><u>Reason for the Shortage</u>" + reasons + "</p>";
+
+                  $("#" + id).children('#loadingAnimation').hide();
+                  $("#" + id).prepend(preview);
+                  $("#" + id).append("<p><a href=" + url + "> View Full Report </a></p>")
               }
           }
         );
-    } else {
-        $('#content').load(url);
     }
 };
 
@@ -61,6 +71,17 @@ function filterData(data) {
     data = data.replace(/<script[^>]*>[\S\s]*?<\/script>/g, '');
     data = data.replace(/<script.*\/>/, '');
     return data;
+}
+
+// Provides accordion-like behavior by showing the div
+// underneath each link when it is clicked.
+function showPreview(url, id) {
+    if (alreadyParsedDrugIds.indexOf(id) == -1) {
+        scrapeHtml(url, id);
+        alreadyParsedDrugIds.push(id);
+    }
+
+    $("#" + id).slideToggle("slow");
 }
 </script>
 }

@@ -5,14 +5,22 @@
 
 <div id="body">
     <ul id="pending_shortages"></ul>
-</div>
 
-<div id="content">
+    <div id="create_shortage">
+        <span id="create_shortage_popup_title">Create Shortage</span>
+        <form>
+            <p>NDC: <input id="ndc" type="text" name="ndc"></p>
+            <p>@Html.RadioButton("Status", "good", false) Good </p>
+            <p>@Html.RadioButton("Status", "warning", false) Warning </p>
+            <p>@Html.RadioButton("Status", "severe", false) Severe </p>
+            <p><button type="button">Create Shortage</button></p>
+        </form>
+    </div>
 </div>
 
 @section scripts{
 <script type="text/javascript">
-    var previousId = -1; // All the IDs are positive integers, so this is a good default value when nothing is selected.
+    $("#create_shortage").hide();
     var alreadyParsedDrugIds = new Array();
 $(function ()
 {
@@ -43,20 +51,33 @@ function scrapeHtml(url, id) {
               if (data.results[0]) {
                   var data = filterData(data.results[0]);
                   var preview = ""
-                  
+                  var firstNdc = "";
+
                   // Get the affected products
                   affectedProducts = data.split("Products Affected - Description")[1];
                   affectedProducts = affectedProducts.split("<!-- End Products Affected  -->")[0];
 
-                  preview = "<p><u>Products Affected</u>" + affectedProducts + "</p>"
+                  /* Try to find the NDC of the first drug in Products Affected.
+                   * Note: Some shortages affect a lot of drugs. Others only affect one or two.
+                   * Not all shortages show the NDC... But if it's there, it'd be nice to populate the form.
+                   */
+                  var indexOfFirstNdc = affectedProducts.indexOf("NDC ");
+
+                  if (indexOfFirstNdc != -1) {
+                      // + 4 because of the length of 'NDC '
+                      // length of 13 because an NDC contains 10 numbers and two -'s
+                      firstNdc = affectedProducts.substr(indexOfFirstNdc + 4, 13);
+                  }
+
+                  preview = "<p><b>Products Affected</b>" + affectedProducts + "</p>"
                   // Get the reasons for the shortage
                   reasons = data.split('Reason for the Shortage')[2];
                   reasons = reasons.split('<!-- End Reason for the Shortage -->')[0];
-                  preview = preview + "<p><u>Reason for the Shortage</u>" + reasons + "</p>";
+                  preview = preview + "<p><b>Reason for the Shortage</b>" + reasons + "</p>";
 
                   $("#" + id).children('#loadingAnimation').hide();
                   $("#" + id).prepend(preview);
-                  $("#" + id).append("<p><a href=" + url + "> View Full Report </a></p>")
+                  $("#" + id).append("<p><a href=" + url + "> View Full Report </a><a href=\"javascript:void(0);\" onClick=\"toggleCreateShortage('" + firstNdc + "')\"> Create Shortage </a></p>")
               }
           }
         );
@@ -82,6 +103,12 @@ function showPreview(url, id) {
     }
 
     $("#" + id).slideToggle("slow");
+}
+
+function toggleCreateShortage(ndc) {
+    $('#create_shortage').find('form')[0].reset();
+    $("#create_shortage").toggle();
+    $('#ndc').val(ndc);
 }
 </script>
 }

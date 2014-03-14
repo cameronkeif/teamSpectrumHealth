@@ -4,6 +4,9 @@
 }
 
 <div id="body">
+    <div id="loadingAnimation">
+        <img src="~/Images/loading.gif">
+    </div>
     <div id="listContainer" >
         <div id="severeContainer" class="container">
             <span class="secondaryTitle">Severe</span>
@@ -36,16 +39,10 @@
 
 @section scripts{
 <script type="text/javascript">
+$('#listContainer').hide();
 var loggedInAs = '@Html.Encode(ViewData["Username"])';
 $(function()
 {
-    /***
-    I'm aware this is a garbled mess of sad, but it works. If I don't finish refactoring tonight, it will be done soon.
-
-    - Cam
-    ***/
-    // Get all watch list items for this user
-
     $.getJSON('/api/WatchListItem/' + loggedInAs, function (watchListJsonPayload) {
         var watchListNdcs = Array();
         $(watchListJsonPayload).each(function(i, watchListItem) {
@@ -54,7 +51,6 @@ $(function()
 
         // Get all drugs
         $.getJSON('/api/DrugEntry', function (drugJsonPayload) {
-            console.log(watchListNdcs.toString());
             $(drugJsonPayload).each(function (i, item) {
 
                 // This drug is in the user's watch list
@@ -85,6 +81,10 @@ $(function()
                     }
                 }
             });
+            
+            // Page has loaded. Stop the loading animation
+            $('#loadingAnimation').hide();
+            $('#listContainer').show();
         });
     });
 });
@@ -160,5 +160,23 @@ function removeFromWatchList(username, ndc, currentStatus) {
         },
     });
 }
+
+    // Filtering. Iterates over each of the 6 drug card containers (if you want to call them that?)
+    // hides all elements which don't match the searchbar text. Shows all that do.
+$("#searchbar").keyup(function () {
+    var query = $("#searchbar").val();
+    var drugListSelectors = ["#recentList", "#severeWatchList", "#warningWatchList", "#goodWatchList", "#severeList", "#warningList", "#goodList"];
+
+    $(drugListSelectors).each( function(index, value) {
+        $(value + " > li").each(function () {
+            if ($(this).text().search(query) > -1) {
+                $(this).show();
+            }
+            else {
+                $(this).hide();
+            }
+        });
+    });
+});
 </script>
 }

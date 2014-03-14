@@ -169,6 +169,7 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\DrugEntriesListController.cs" />
     <Compile Include="Controllers\DrugEntryController.cs" />
+    <Compile Include="Controllers\DrugEntryManualController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginAPIController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
@@ -270,6 +271,7 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
     <Content Include="Images\favorite.png" />
+    <Content Include="Images\loading.gif" />
     <Content Include="Images\logo.png" />
     <None Include="Properties\PublishProfiles\MedicationsShortagesDashboard.pubxml" />
     <None Include="Scripts\jquery-2.1.0.intellisense.js" />

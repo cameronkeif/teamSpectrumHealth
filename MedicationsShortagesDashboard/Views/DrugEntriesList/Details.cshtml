@@ -37,13 +37,13 @@
             $('#shortageHistory > ul').append('<li>' + item.Status + formatDateForOutput(item.DateTime) + '</li>');
 
             if (item.Status == "severe") {
-                shortageHistoryPlotData.push([item.DateTime.replace("T", " "), 2]);
+                shortageHistoryPlotData.push([item.DateTime.replace("T", " "), 0]);
             }
             else if (item.Status == "warning") {
                 shortageHistoryPlotData.push([item.DateTime.replace("T", " "), 1]);
             }
             else {
-                shortageHistoryPlotData.push([item.DateTime.replace("T", " "), 0]);
+                shortageHistoryPlotData.push([item.DateTime.replace("T", " "), 2]);
             }
         });
 
@@ -65,7 +65,7 @@
             axes: {
                 xaxis: { renderer: $.jqplot.DateAxisRenderer },
                 yaxis: {
-                    ticks: [[0, 'Good'], [1, 'Warning'], [2, 'Severe']]
+                    ticks: [[0, 'Severe'], [1, 'Warning'], [2, 'Good']]
                 }
             },
             series: [{
@@ -85,9 +85,9 @@
         var axisname = "yaxis";
         var ticks = $('div.jqplot-yaxis').find('div.jqplot-yaxis-tick');
 
-        $(ticks[0]).css('color', '#8DB987'); // Good
+        $(ticks[0]).css('color', '#FF334A'); // Severe
         $(ticks[1]).css('color', '#FFA84A'); // Warning
-        $(ticks[2]).css('color', '#FF334A'); // Severe
+        $(ticks[2]).css('color', '#8DB987'); // Good
     }
 
     function formatDateForOutput(dateTime) {

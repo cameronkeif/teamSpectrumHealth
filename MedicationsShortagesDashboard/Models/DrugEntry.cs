@@ -5,12 +5,8 @@
 //-----------------------------------------------------------------------
 namespace MedicationsShortagesDashboard.Models
 {
-    using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using System.Linq;
-    using System.Web;
     using FileHelpers;
 
     /// <summary>
@@ -45,6 +41,35 @@ namespace MedicationsShortagesDashboard.Models
         /// </summary>
         [FieldOptional]
         private string currentStatus;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DrugEntry"/> class
+        /// </summary>
+        public DrugEntry()
+        {
+            this.ndc = string.Empty;
+            this.dosage = string.Empty;
+            this.brand = string.Empty;
+            this.generic = string.Empty;
+            this.currentStatus = "good"; // By default, a drug has no shortages associated with it, and thus is considered 'good'
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DrugEntry"/> class.
+        /// </summary>
+        /// <param name="ndc">National Drug Code</param>
+        /// <param name="dosage">Dosage of the drug</param>
+        /// <param name="brand">Brand name</param>
+        /// <param name="generic">Generic name</param>
+        /// <param name="currentStatus">Current Status of the drug</param>
+        public DrugEntry(string ndc, string dosage, string brand, string generic, string currentStatus)
+        {
+            this.ndc = ndc;
+            this.dosage = dosage;
+            this.brand = brand;
+            this.generic = generic;
+            this.currentStatus = currentStatus;
+        }
 
         /// <summary>
         /// Gets or sets the NDC
@@ -138,7 +163,7 @@ namespace MedicationsShortagesDashboard.Models
         /// <returns>String representation of this drug</returns>
         public override string ToString()
         {
-            return this.ndc + " - " + this.dosage + " - " + this.brand + " - " + this.generic;
+            return this.ndc + " - " + this.dosage + " - " + this.brand + " - " + this.generic + " - " + this.currentStatus;
         }
     }
 }

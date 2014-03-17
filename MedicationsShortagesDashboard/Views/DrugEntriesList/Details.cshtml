@@ -1,4 +1,4 @@
-﻿<!--[if lt IE 9]><script language="javascript" type="text/javascript" src="excanvas.js"></script><![endif]-->
+﻿<!--[if IE]><script language="javascript" type="text/javascript" src="~/Scripts/jqPlot/excanvas.js"></script><![endif]-->
 <script type="text/javascript" src="~/Scripts/jqPlot/jquery.min.js"></script>
 <script type="text/javascript" src="~/Scripts/jqPlot/jquery.jqplot.min.js"></script>
 <script type="text/javascript" src="~/Scripts/jqPlot/plugins/jqplot.dateAxisRenderer.js"></script>
@@ -91,7 +91,15 @@
     }
 
     function formatDateForOutput(dateTime) {
-        dateObject = new Date(dateTime.replace("T", " "));
+        year = dateTime.substr(0, 4);
+        month = dateTime.substr(5, 2);
+        day = dateTime.substr(8, 2);
+
+        hours = dateTime.substr(11, 2);
+        minutes = dateTime.substr(14, 2);
+        seconds = dateTime.substr(17, 2);
+        dateObject = new Date(year, month, day, hours, minutes, seconds);
+        console.log(seconds);
         return " at " + dateObject.toLocaleTimeString() + " on " + dateObject.toLocaleDateString();
     }
 </script>

@@ -40,7 +40,7 @@
                         var user = (WindowsPrincipal)User;
                         if(user.IsInRole(WindowsBuiltInRole.User))
                         {
-                            <span>@user.Identity.Name</span>
+                            <span>@user.Identity.Name.Split('\\')[1]</span>
                         }
                         else 
                         {

@@ -6,6 +6,7 @@
 
 namespace MedicationsShortagesDashboard.Controllers
 {
+    using System;
     using System.Web.Http;
     using MedicationsShortagesDashboard.Models;
     using MedicationsShortagesDashboard.Services;
@@ -16,11 +17,6 @@ namespace MedicationsShortagesDashboard.Controllers
         /// Performs the actual querying of the message database.
         /// </summary>
         private MessageRepository messageRepository;
-
-        /// <summary>
-        /// Performs the actual querying of the shortage database.
-        /// </summary>
-        private ShortageRepository shortageRepository;
 
         /// <summary>
         /// Performs the actual querying of the drug entry database.
@@ -38,7 +34,6 @@ namespace MedicationsShortagesDashboard.Controllers
         public MessageController()
         {
             this.messageRepository = new MessageRepository();
-            this.shortageRepository = new ShortageRepository();
             this.drugEntryRepository = new DrugEntryRepository();
             this.loginRepository = new LoginRepository();
         }
@@ -85,12 +80,37 @@ namespace MedicationsShortagesDashboard.Controllers
                 throw new System.Exception("Message exists in table MESSAGE with same ID");
             }
             // Manually check if necessary foreign keys exist in DB
-            // SHORTAGE.ID, DRUGS.NDC, USER.USERNAME
+            // DRUGS.NDC, USER.USERNAME
             else
             {
-                System.Diagnostics.Debug.WriteLine("NDC: " + message.NDC);
-                //this.messageRepository.AddMessage(message);
+                if (this.drugEntryRepository.GetDrug(message.NDC) == null)
+                {
+                    throw new System.Exception("Drug " + message.NDC + " does not exist in database");
+                }
+                else if (this.loginRepository.GetLogin(message.User) == null)
+                {
+                    throw new System.Exception("User " + message.User + " does not exist in database");
+                }
+                else
+                {
+                    Message newMessage = new Message();
+
+                    DateTime dt = DateTime.Now;
+
+                    // Trim off the milliseconds.
+                    newMessage.Date = new DateTime(dt.Year, dt.Month, dt.Day, dt.Hour, dt.Minute, dt.Second, 0);
+                    newMessage.NDC = message.NDC;
+                    newMessage.Text = message.Text;
+                    newMessage.User = message.User;
+
+                    this.messageRepository.AddMessage(newMessage);
+                }
             }
+        }
+
+        public void GetMessageInfo(string NDC, string Text)
+        {
+            System.Diagnostics.Debug.WriteLine(NDC + " - " + Text);
         }
     }
 }

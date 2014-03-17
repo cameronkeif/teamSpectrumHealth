@@ -26,12 +26,6 @@ namespace MedicationsShortagesDashboard.Models
         private int id;
 
         /// <summary>
-        /// Shortage ID of shortage posted to
-        /// Foreign key to SHORTAGE's ID
-        /// </summary>
-        private int shortageID;
-
-        /// <summary>
         /// National Drug Code
         /// Foreign key to DRUGS' NDC
         /// </summary>
@@ -68,23 +62,6 @@ namespace MedicationsShortagesDashboard.Models
             set
             {
                 this.id = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets associated Shortage ID
-        /// </summary>
-        [Column("SHORTAGE_ID")]
-        public int ShortageID
-        {
-            get
-            {
-                return this.shortageID;
-            }
-
-            set
-            {
-                this.shortageID = value;
             }
         }
 

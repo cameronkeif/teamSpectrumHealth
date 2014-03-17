@@ -98,17 +98,17 @@
 </script>
 }
 
-<center>
 <div class="expandMessagePost">
     <input onclick="return changeMessagePostButtonText(this)" type="button" value="POST DISCUSSION" id="messageToggle" />
 </div>
 <div class="messagePosting" style="display:none">
     @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "createMessage", @action = "/api/Message" }))
     {
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
 
-        @Html.Hidden("ID", @Model.Item2.ID)
+        @Html.Hidden("NDC", @Model.Item1.NDC)
+        @Html.Hidden("User", @ViewData["Username"])
 
         <div class="editor-field">
             @Html.TextArea("Text", @Model.Item2.Text)
@@ -117,13 +117,11 @@
         
         <input type="submit" value="Post Discussion" />
     }
-
 </div>
 
-<div id="messageListing">
+<div id="messageListing" class="container">
     <ul></ul>
 </div>
-</center>
 
 <script type="text/javascript">
     $('.expandMessagePost').click(function () {
@@ -140,7 +138,9 @@
     $.getJSON("/api/Message/", function (messagesJsonPayload) {
         $(messagesJsonPayload).each(function (i, item) {
             if (item.NDC == '@Model.Item1.NDC') {
-                $("#messageListing").append("<li>" + item.User + " - " + item.Text + "</li>");
+                $("#messageListing").append('<li id="messagePost"> \
+                                                ' + item.User + ' - ' + formatDateForOutput(item.Date) + ' - ' + item.Text + ' \
+                                             </li>');
             }
         }
         );

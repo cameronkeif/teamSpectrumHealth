@@ -43,6 +43,7 @@
     background: -o-linear-gradient(#303844, #262c36); /* For Opera 11.1 to 12.0 */
     background: -moz-linear-gradient(#303844, #262c36); /* For Firefox 3.6 to 15 */
     background: linear-gradient(#4D545C, #303338); /* Standard syntax */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4D545C', endColorstr='#303338',GradientType=0 ); /* IE6-9 */
 }
 
 #menu ul 
@@ -95,6 +96,7 @@
     background: -o-linear-gradient(#7A818B, #4B4E55); /* For Opera 11.1 to 12.0 */
     background: -moz-linear-gradient(#7A818B, #4B4E55); /* For Firefox 3.6 to 15 */
     background: linear-gradient(#7A818B, #4B4E55);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7A818B', endColorstr='#4B4E55',GradientType=0 ); /* IE6-9 */
     border-radius:4px;
     padding-left:5px;
     padding-right:5px;

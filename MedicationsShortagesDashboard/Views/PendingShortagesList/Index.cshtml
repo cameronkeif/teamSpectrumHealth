@@ -23,6 +23,27 @@
 <script type="text/javascript">
     $("#create_shortage").hide();
     var alreadyParsedDrugIds = new Array();
+
+    // IE8 does not support Array.indexOf, so define it if it doesn't exist.
+    if (!Array.prototype.indexOf) {
+        Array.prototype.indexOf = function (elt /*, from*/) {
+            var len = this.length >>> 0;
+
+            var from = Number(arguments[1]) || 0;
+            from = (from < 0)
+                 ? Math.ceil(from)
+                 : Math.floor(from);
+            if (from < 0)
+                from += len;
+
+            for (; from < len; from++) {
+                if (from in this &&
+                    this[from] === elt)
+                    return from;
+            }
+            return -1;
+        };
+    }
 $(function ()
 {
         $.getJSON('/api/PendingShortage', function(pendingShortagesJsonPayload)
@@ -78,7 +99,8 @@ function scrapeHtml(url, id) {
 
                   $("#" + id).children('#loadingAnimation').hide();
                   $("#" + id).prepend(preview);
-                  $("#" + id).append("<p><a href=" + url + "> View Full Report </a><a href=\"javascript:void(0);\" onClick=\"toggleCreateShortage('" + firstNdc + "')\"> Create Shortage </a></p>")
+                  $("#" + id).append("<p><a href=" + url + "> View Full Report </a></p>")
+                  $("#" + id).append("<p><button onClick=\"showCreateShortage('" + firstNdc + "')\"> Create Shortage </button><span style='float:right'><button> Ignore </button></span></p>");
               }
           }
         );
@@ -107,9 +129,9 @@ function showPreview(url, id) {
 }
 
 // Toggles the create shortage form. Populates the NDC field with ndc
-function toggleCreateShortage(ndc) {
+function showCreateShortage(ndc) {
     $('#create_shortage').find('form')[0].reset();
-    $("#create_shortage").toggle();
+    $("#create_shortage").show();
     $('#ndc').val(ndc);
 }
 </script>

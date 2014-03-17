@@ -354,7 +354,51 @@ div.container
     border-radius:25px;
     display: inline-block;
     padding-left: 5px;
+    padding-right: 5px;
 }
+
+    /* These buttons follow the primary button style in the style guide. If you need to make similar ones, go with this.*/
+    .preview button {
+        color:white;
+        text-align:center;
+        vertical-align:middle;
+        height: 40px;
+        max-width: 200px;
+        background: -webkit-linear-gradient(#5e91cc, #4167b2); /* For Safari */
+        background: -o-linear-gradient(#5e91cc, #4167b2); /* For Opera 11.1 to 12.0 */
+        background: -moz-linear-gradient(#5e91cc, #4167b2); /* For Firefox 3.6 to 15 */
+        background: linear-gradient(#5e91cc, #4167b2);
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#5e91cc', endColorstr='#4167b2',GradientType=0 ); /* IE6-9 */
+        border-radius: 4px;
+        padding-left: 5px;
+        padding-right: 5px;
+        cursor: pointer;
+        border:1px solid;
+        border-radius:5px;
+        border-color: #3c6697;
+    }
+
+        .preview button:hover {
+            background: -webkit-linear-gradient(#82ace6, #5884d2); /* For Safari */
+            background: -o-linear-gradient(#82ace6, #5884d2); /* For Opera 11.1 to 12.0 */
+            background: -moz-linear-gradient(#82ace6, #5884d2); /* For Firefox 3.6 to 15 */
+            background: linear-gradient(#82ace6, #5884d2);
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#82ace6', endColorstr='#5884d2',GradientType=0 ); /* IE6-9 */
+            border:1px solid;
+            border-radius:5px;
+            border-color: #6398cf;
+        }
+
+        .preview button:active {
+            background: -webkit-linear-gradient(#396da9, #193f7d); /* For Safari */
+            background: -o-linear-gradient(#396da9, #193f7d); /* For Opera 11.1 to 12.0 */
+            background: -moz-linear-gradient(#396da9, #193f7d); /* For Firefox 3.6 to 15 */
+            background: linear-gradient(#396da9, #193f7d);
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#396da9', endColorstr='#193f7d',GradientType=0 ); /* IE6-9 */
+            border:1px solid;
+            border-radius:5px;
+            border-color: #366298;
+        }
 
 #pending_shortages {
     display: inline-block;
@@ -375,6 +419,47 @@ div.container
     display:block;
     font-weight: bold;
 }
+    #create_shortage button {
+        color:white;
+        text-align:center;
+        vertical-align:middle;
+        height: 40px;
+        max-width: 200px;
+        background: -webkit-linear-gradient(#5e91cc, #4167b2); /* For Safari */
+        background: -o-linear-gradient(#5e91cc, #4167b2); /* For Opera 11.1 to 12.0 */
+        background: -moz-linear-gradient(#5e91cc, #4167b2); /* For Firefox 3.6 to 15 */
+        background: linear-gradient(#5e91cc, #4167b2);
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#5e91cc', endColorstr='#4167b2',GradientType=0 ); /* IE6-9 */
+        border-radius: 4px;
+        padding-left: 5px;
+        padding-right: 5px;
+        cursor: pointer;
+        border:1px solid;
+        border-radius:5px;
+        border-color: #3c6697;
+    }
+
+        #create_shortage button:hover {
+            background: -webkit-linear-gradient(#82ace6, #5884d2); /* For Safari */
+            background: -o-linear-gradient(#82ace6, #5884d2); /* For Opera 11.1 to 12.0 */
+            background: -moz-linear-gradient(#82ace6, #5884d2); /* For Firefox 3.6 to 15 */
+            background: linear-gradient(#82ace6, #5884d2);
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#82ace6', endColorstr='#5884d2',GradientType=0 ); /* IE6-9 */
+            border:1px solid;
+            border-radius:5px;
+            border-color: #6398cf;
+        }
+
+        #create_shortage button:active {
+            background: -webkit-linear-gradient(#396da9, #193f7d); /* For Safari */
+            background: -o-linear-gradient(#396da9, #193f7d); /* For Opera 11.1 to 12.0 */
+            background: -moz-linear-gradient(#396da9, #193f7d); /* For Firefox 3.6 to 15 */
+            background: linear-gradient(#396da9, #193f7d);
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#396da9', endColorstr='#193f7d',GradientType=0 ); /* IE6-9 */
+            border:1px solid;
+            border-radius:5px;
+            border-color: #366298;
+        }
 
 #create_shortage_severe_label {
     color: #FF334A;

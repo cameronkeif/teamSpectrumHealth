@@ -222,6 +222,10 @@ div.container
     height:37px;
 }
 
+    .shortageCard a img {
+        border: 0;
+    }
+
 .shortageCard span 
 {
     display:table-cell;

@@ -287,8 +287,8 @@
     <Content Include="Scripts\jqPlot\jquery.jqplot.min.js" />
     <Content Include="Scripts\jqPlot\jquery.js" />
     <Content Include="Scripts\jqPlot\jquery.min.js" />
-    <Content Include="Scripts\jquery-2.1.0.js" />
-    <Content Include="Scripts\jquery-2.1.0.min.js" />
+    <Content Include="Scripts\jquery-1.11.0.js" />
+    <Content Include="Scripts\jquery-1.11.0.min.js" />
     <Content Include="Scripts\jquery-2.1.0.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui-1.8.24.js" />

@@ -422,6 +422,12 @@ div.container
     width: 100%;
 }
 
+.pending_shortage_title {
+    width: 100%;
+    display: inline-block;
+    cursor: pointer;
+}
+
 #create_shortage {
     display: none
 }

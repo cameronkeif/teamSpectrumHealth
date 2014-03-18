@@ -428,6 +428,12 @@ div.container
     cursor: pointer;
 }
 
+.pending_shortage_expand_icon {
+    float: right;
+    padding-right: 5px;
+    padding-left:5px;
+}
+
 #create_shortage {
     display: none
 }

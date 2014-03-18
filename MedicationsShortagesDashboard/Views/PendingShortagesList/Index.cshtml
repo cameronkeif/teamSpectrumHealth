@@ -56,7 +56,7 @@ $(function ()
             {
                 // ID from the ASHP website, which is at the end of the source URL
                 var id = item.SourceURL.split("Id=")[1];
-                $('#pending_shortages').append("<li class=pending_shortage><span class=pending_shortage_title onClick='showPreview(\"" + item.SourceURL + '", "' + id + "\")'>" + item.DrugName + "</span><br><span class='preview' id=" + id + "></span></li>");
+                $('#pending_shortages').append("<li class=pending_shortage><span class=pending_shortage_title onClick='showPreview(\"" + item.SourceURL + '", "' + id + "\")'>" + item.DrugName + "<span class=pending_shortage_expand_icon>+</span></span><br><span class='preview' id=" + id + "></span></li>");
                 $('#' + id).prepend('<div id="loadingAnimation"><img src="/Images/loading.gif" height="40" width="40"></div>');
                 $("#" + id).hide();
             });

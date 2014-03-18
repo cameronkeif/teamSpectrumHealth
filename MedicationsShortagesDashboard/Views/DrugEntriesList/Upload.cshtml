@@ -62,21 +62,9 @@
         <div class="editor-label">
             @Html.LabelFor(model => model.CurrentStatus)
         </div>
-        
-        <p>
-            <input type="radio" id="good" name="Status" value ="good" />
-            <label for="Status"><span id="create_shortage_good_label">Good</span></label>
-        </p>
-
-        <p>
-            <input type="radio" id="warning" name="Status" value ="warning" />
-            <label for="Status"><span id="create_shortage_warning_label">Warning</span></label>
-        </p>
-        
-        <p>
-            <input type="radio" id="severe" name="Status" value ="severe" />
-            <label for="Status"><span id="create_shortage_severe_label">Severe</span></label>
-        </p>
+        <p>@Html.RadioButton("Status", "good", false) Good </p>
+        <p>@Html.RadioButton("Status", "warning", false) Warning </p>
+        <p>@Html.RadioButton("Status", "severe", false) Severe </p>
 
         <p>
             <input type="submit" value="Add Drug" />

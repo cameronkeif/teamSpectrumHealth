@@ -16,20 +16,9 @@
         <form>
             <p>NDC: <input id="ndc" type="text" name="ndc"></p>
             Status:
-            <p>
-                <input type="radio" id="good" name="Status" value ="good" />
-                <label for="Status"><span id="create_shortage_good_label">Good</span></label>
-            </p>
-
-            <p>
-                <input type="radio" id="warning" name="Status" value ="warning" />
-                <label for="Status"><span id="create_shortage_warning_label">Warning</span></label>
-            </p>
-        
-            <p>
-                <input type="radio" id="severe" name="Status" value ="severe" />
-                <label for="Status"><span id="create_shortage_severe_label">Severe</span></label>
-            </p>
+            <p><span id="create_shortage_good_label">@Html.RadioButton("Status", "good", false) Good </span></p>
+            <p><span id="create_shortage_warning_label">@Html.RadioButton("Status", "warning", false) Warning </span></p>
+            <p><span id="create_shortage_severe_label">@Html.RadioButton("Status", "severe", false) Severe </span></p>
             <p><button type="button">Create Shortage</button></p>
         </form>
     </div>
@@ -148,10 +137,6 @@ function showCreateShortage(ndc) {
     $('#create_shortage').find('form')[0].reset();
     $("#create_shortage").dialog();
     $('#ndc').val(ndc);
-}
-
-function cutOffLongItemNames(drugName) {
-
 }
 </script>
 }

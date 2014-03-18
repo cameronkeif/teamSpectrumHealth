@@ -3,11 +3,16 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<div id="body">
-    <ul id="pending_shortages"></ul>
+<script src="http://code.jquery.com/jquery-migrate-1.2.1.js"></script>
+<script type="text/javascript" src="~/Scripts/jquery-ui-1.8.24.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 
-    <div id="create_shortage">
-        <span id="create_shortage_popup_title">Create Shortage</span>
+<div id="body">
+    <div id="pending_shortages_container">
+        <ul id="pending_shortages"></ul>
+    </div>
+
+    <div id="create_shortage" title="Create Shortage">
         <form>
             <p>NDC: <input id="ndc" type="text" name="ndc"></p>
             Status:
@@ -21,7 +26,6 @@
 
 @section scripts{
 <script type="text/javascript">
-    $("#create_shortage").hide();
     var alreadyParsedDrugIds = new Array();
 
     // IE8 does not support Array.indexOf, so define it if it doesn't exist.
@@ -52,7 +56,7 @@ $(function ()
             {
                 // ID from the ASHP website, which is at the end of the source URL
                 var id = item.SourceURL.split("Id=")[1];
-                $('#pending_shortages').append("<li><a href='javascript:void(0);' onClick='showPreview(\"" + item.SourceURL + '", "' + id + "\")'> " + item.DrugName + " </a><br><span class='preview' id=" + id + "></span></li>");
+                $('#pending_shortages').append("<li class=pending_shortage onClick='showPreview(\"" + item.SourceURL + '", "' + id + "\")'>" + item.DrugName + "<br><span class='preview' id=" + id + "></span></li>");
                 $('#' + id).prepend('<div id="loadingAnimation"><img src="/Images/loading.gif" height="40" width="40"></div>');
                 $("#" + id).hide();
             });
@@ -131,7 +135,7 @@ function showPreview(url, id) {
 // Toggles the create shortage form. Populates the NDC field with ndc
 function showCreateShortage(ndc) {
     $('#create_shortage').find('form')[0].reset();
-    $("#create_shortage").show();
+    $("#create_shortage").dialog();
     $('#ndc').val(ndc);
 }
 </script>

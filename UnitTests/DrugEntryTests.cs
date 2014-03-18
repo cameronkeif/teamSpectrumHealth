@@ -31,7 +31,7 @@ namespace UnitTests
         [TestMethod]
         public void DrugEntryParameterizedConstructor()
         {
-            DrugEntry d = new DrugEntry("111-111-2234", "100mg", "Tylenol", "Acetaminophen", "good");
+            DrugEntry d = new DrugEntry("111-111-2234", "100mg", "Tylenol", "Acetaminophen", "good", "");
             Assert.IsNotNull(d);
         }
 
@@ -41,7 +41,7 @@ namespace UnitTests
         [TestMethod]
         public void DrugEntryNDCGetter()
         {
-            DrugEntry d = new DrugEntry("111-111-2234", "100mg", "Tylenol", "Acetaminophen", "good");
+            DrugEntry d = new DrugEntry("111-111-2234", "100mg", "Tylenol", "Acetaminophen", "good", "");
             Assert.AreEqual(d.NDC, "111-111-2234");
         }
 
@@ -51,7 +51,7 @@ namespace UnitTests
         [TestMethod]
         public void DrugEntryNDCSetter()
         {
-            DrugEntry d = new DrugEntry("222-111-2234", "100mg", "Tylenol", "Acetaminophen", "good");
+            DrugEntry d = new DrugEntry("222-111-2234", "100mg", "Tylenol", "Acetaminophen", "good", "");
             d.NDC = "111-111-2234";
             Assert.AreEqual(d.NDC, "111-111-2234");
         }
@@ -62,7 +62,7 @@ namespace UnitTests
         [TestMethod]
         public void DrugEntryDosageGetter()
         {
-            DrugEntry d = new DrugEntry("111-111-2234", "100mg", "Tylenol", "Acetaminophen", "good");
+            DrugEntry d = new DrugEntry("111-111-2234", "100mg", "Tylenol", "Acetaminophen", "good", "");
             Assert.AreEqual(d.Dosage, "100mg");
         }
 
@@ -72,7 +72,7 @@ namespace UnitTests
         [TestMethod]
         public void DrugEntryDosageSetter()
         {
-            DrugEntry d = new DrugEntry("111-111-2234", "0mg", "Tylenol", "Acetaminophen", "good");
+            DrugEntry d = new DrugEntry("111-111-2234", "0mg", "Tylenol", "Acetaminophen", "good", "");
             d.Dosage = "100mg";
             Assert.AreEqual(d.Dosage, "100mg");
         }
@@ -83,7 +83,7 @@ namespace UnitTests
         [TestMethod]
         public void DrugEntryBrandGetter()
         {
-            DrugEntry d = new DrugEntry("111-111-2234", "100mg", "Tylenol", "Acetaminophen", "good");
+            DrugEntry d = new DrugEntry("111-111-2234", "100mg", "Tylenol", "Acetaminophen", "good", "");
             Assert.AreEqual(d.Brand, "Tylenol");
         }
 
@@ -93,7 +93,7 @@ namespace UnitTests
         [TestMethod]
         public void DrugEntryBrandSetter()
         {
-            DrugEntry d = new DrugEntry("111-111-2234", "100mg", string.Empty, "Acetaminophen", "good");
+            DrugEntry d = new DrugEntry("111-111-2234", "100mg", string.Empty, "Acetaminophen", "good", "");
             d.Brand = "Tylenol";
             Assert.AreEqual(d.Brand, "Tylenol");
         }
@@ -104,7 +104,7 @@ namespace UnitTests
         [TestMethod]
         public void DrugEntryGenericGetter()
         {
-            DrugEntry d = new DrugEntry("111-111-2234", "100mg", "Tylenol", "Acetaminophen", "good");
+            DrugEntry d = new DrugEntry("111-111-2234", "100mg", "Tylenol", "Acetaminophen", "good", "");
             Assert.AreEqual(d.Generic, "Acetaminophen");
         }
 
@@ -114,7 +114,7 @@ namespace UnitTests
         [TestMethod]
         public void DrugEntryGenericSetter()
         {
-            DrugEntry d = new DrugEntry("111-111-2234", "100mg", "Tylenol", string.Empty, "good");
+            DrugEntry d = new DrugEntry("111-111-2234", "100mg", "Tylenol", string.Empty, "good", "");
             d.Generic = "Acetaminophen";
             Assert.AreEqual(d.Generic, "Acetaminophen");
         }
@@ -125,8 +125,8 @@ namespace UnitTests
         [TestMethod]
         public void DrugEntryCurrentStatusGetter()
         {
-            DrugEntry d = new DrugEntry("111-111-2234", "100mg", "Tylenol", "Acetaminophen", "good");
-            Assert.AreEqual(d.CurrentStatus, "good");
+            DrugEntry d = new DrugEntry("111-111-2234", "100mg", "Tylenol", "Acetaminophen", "good", "");
+            Assert.AreEqual(d.CurrentStatus, "good", "");
         }
 
         /// <summary>
@@ -135,7 +135,7 @@ namespace UnitTests
         [TestMethod]
         public void DrugEntryCurrentStatusSetter()
         {
-            DrugEntry d = new DrugEntry("111-111-2234", "100mg", "Tylenol", "Acetaminophen", "good");
+            DrugEntry d = new DrugEntry("111-111-2234", "100mg", "Tylenol", "Acetaminophen", "good", "");
             d.CurrentStatus = "severe";
             Assert.AreEqual(d.CurrentStatus, "severe");
         }
@@ -146,7 +146,7 @@ namespace UnitTests
         [TestMethod]
         public void DrugEntryToString()
         {
-            DrugEntry d = new DrugEntry("111-111-2234", "100mg", "Tylenol", "Acetaminophen", "good");
+            DrugEntry d = new DrugEntry("111-111-2234", "100mg", "Tylenol", "Acetaminophen", "good", "");
             string expectedResult = "111-111-2234" + " - " + "100mg" + " - " + "Tylenol" + " - " + "Acetaminophen" + " - " + "good";
             Assert.AreEqual(d.ToString(), expectedResult);
         }

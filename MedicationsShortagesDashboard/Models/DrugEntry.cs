@@ -43,6 +43,12 @@ namespace MedicationsShortagesDashboard.Models
         private string currentStatus;
 
         /// <summary>
+        /// Last date that the drug was updated
+        /// </summary>
+        [FieldOptional]
+        private string lastUpdated;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="DrugEntry"/> class
         /// </summary>
         public DrugEntry()
@@ -52,6 +58,7 @@ namespace MedicationsShortagesDashboard.Models
             this.brand = string.Empty;
             this.generic = string.Empty;
             this.currentStatus = "good"; // By default, a drug has no shortages associated with it, and thus is considered 'good'
+            this.lastUpdated = string.Empty;
         }
 
         /// <summary>
@@ -62,13 +69,15 @@ namespace MedicationsShortagesDashboard.Models
         /// <param name="brand">Brand name</param>
         /// <param name="generic">Generic name</param>
         /// <param name="currentStatus">Current Status of the drug</param>
-        public DrugEntry(string ndc, string dosage, string brand, string generic, string currentStatus)
+        /// <param name="lastUpdated">The most recent time in which the drug was updated</param>
+        public DrugEntry(string ndc, string dosage, string brand, string generic, string currentStatus, string lastUpdated)
         {
             this.ndc = ndc;
             this.dosage = dosage;
             this.brand = brand;
             this.generic = generic;
             this.currentStatus = currentStatus;
+            this.lastUpdated = lastUpdated;
         }
 
         /// <summary>
@@ -158,12 +167,29 @@ namespace MedicationsShortagesDashboard.Models
         }
 
         /// <summary>
+        /// Gets or sets last updated
+        /// </summary>
+        [Column("LAST_UPDATED")]
+        public string LastUpdated
+        {
+            get
+            {
+                return this.lastUpdated;
+            }
+
+            set
+            {
+                this.lastUpdated = value;
+            }
+        }
+
+        /// <summary>
         /// Returns simple string version of entry
         /// </summary>
         /// <returns>String representation of this drug</returns>
         public override string ToString()
         {
-            return this.ndc + " - " + this.dosage + " - " + this.brand + " - " + this.generic + " - " + this.currentStatus;
+            return this.ndc + " - " + this.dosage + " - " + this.brand + " - " + this.generic + " - " + this.currentStatus + "-" + this.lastUpdated;
         }
     }
 }

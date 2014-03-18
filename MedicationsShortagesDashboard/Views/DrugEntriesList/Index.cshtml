@@ -49,9 +49,13 @@ $(function()
             watchListNdcs.push(watchListItem.Ndc);
         });
 
+        var recent = new Array();
+
         // Get all drugs
         $.getJSON('/api/DrugEntry', function (drugJsonPayload) {
             $(drugJsonPayload).each(function (i, item) {
+
+                recent.push(item);
 
                 // This drug is in the user's watch list
                 if ($.inArray(item.NDC, watchListNdcs) != -1) {
@@ -81,11 +85,19 @@ $(function()
                     }
                 }
             });
-            
+
+            recent.sort(function (a, b) { return a.LastUpdated < b.LastUpdated; });
+            for (var i = 0; i < recent.length && i < 25; i++) {
+                var item = recent[i];
+                var shortage = getShortageItemHTML(item.Brand, item.Dosage, item.NDC, item.CurrentStatus);
+                $('#recentList').append(shortage);
+            }
+
             // Page has loaded. Stop the loading animation
             $('#loadingAnimation').hide();
             $('#listContainer').show();
         });
+
     });
 });
 

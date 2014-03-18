@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------
 namespace MedicationsShortagesDashboard.Models
 {
+    using System;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using FileHelpers;
@@ -46,7 +47,7 @@ namespace MedicationsShortagesDashboard.Models
         /// Last date that the drug was updated
         /// </summary>
         [FieldOptional]
-        private string lastUpdated;
+        private DateTime lastUpdated;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DrugEntry"/> class
@@ -58,7 +59,7 @@ namespace MedicationsShortagesDashboard.Models
             this.brand = string.Empty;
             this.generic = string.Empty;
             this.currentStatus = "good"; // By default, a drug has no shortages associated with it, and thus is considered 'good'
-            this.lastUpdated = string.Empty;
+            this.lastUpdated = DateTime.Today;
         }
 
         /// <summary>
@@ -70,7 +71,7 @@ namespace MedicationsShortagesDashboard.Models
         /// <param name="generic">Generic name</param>
         /// <param name="currentStatus">Current Status of the drug</param>
         /// <param name="lastUpdated">The most recent time in which the drug was updated</param>
-        public DrugEntry(string ndc, string dosage, string brand, string generic, string currentStatus, string lastUpdated)
+        public DrugEntry(string ndc, string dosage, string brand, string generic, string currentStatus, DateTime lastUpdated)
         {
             this.ndc = ndc;
             this.dosage = dosage;
@@ -170,7 +171,7 @@ namespace MedicationsShortagesDashboard.Models
         /// Gets or sets last updated
         /// </summary>
         [Column("LAST_UPDATED")]
-        public string LastUpdated
+        public DateTime LastUpdated
         {
             get
             {

@@ -88,7 +88,8 @@ $(function()
 
 
 
-            recent.sort(function (a, b) { return a.LastUpdated < b.LastUpdated; });
+            recent.sort(function (a, b) { if (a.LastUpdated < b.LastUpdated) return 1; return -1; });
+
             for (var i = 0; i < recent.length && i < 10; i++) {
                 var item = recent[i];
                 var shortage;

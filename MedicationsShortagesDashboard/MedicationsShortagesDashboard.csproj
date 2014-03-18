@@ -278,6 +278,7 @@
     <None Include="Properties\PublishProfiles\MedicationsShortagesDashboard.pubxml" />
     <None Include="Scripts\jquery-2.1.0.intellisense.js" />
     <Content Include="Images\not_favorite.png" />
+    <Content Include="Images\close_dialog.png" />
     <Content Include="Scripts\jqPlot\css\jquery.jqplot.css" />
     <Content Include="Scripts\jqPlot\css\jquery.jqplot.min.css" />
     <Content Include="Scripts\jqPlot\excanvas.js" />

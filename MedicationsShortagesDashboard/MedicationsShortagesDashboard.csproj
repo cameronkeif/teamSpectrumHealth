@@ -259,6 +259,7 @@
     <Content Include="Content\themes\base\minified\jquery.ui.slider.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
+    <Content Include="Images\radio_checked.png" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Areas\HelpPage\Views\Web.config" />
@@ -279,6 +280,7 @@
     <None Include="Scripts\jquery-2.1.0.intellisense.js" />
     <Content Include="Images\not_favorite.png" />
     <Content Include="Images\close_dialog.png" />
+    <Content Include="Images\radio_unchecked.png" />
     <Content Include="Scripts\jqPlot\css\jquery.jqplot.css" />
     <Content Include="Scripts\jqPlot\css\jquery.jqplot.min.css" />
     <Content Include="Scripts\jqPlot\excanvas.js" />

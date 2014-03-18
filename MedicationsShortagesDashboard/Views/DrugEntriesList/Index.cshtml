@@ -86,10 +86,19 @@ $(function()
                 }
             });
 
+
+
             recent.sort(function (a, b) { return a.LastUpdated < b.LastUpdated; });
             for (var i = 0; i < recent.length && i < 10; i++) {
                 var item = recent[i];
-                var shortage = getShortageItemHTML(item.Brand, item.Dosage, item.NDC, item.CurrentStatus);
+                var shortage;
+
+                if ($.inArray(item.NDC, watchListNdcs) != -1) {
+                    shortage = getShortageItemHTMLWatchList(item.Brand, item.Dosage, item.NDC, item.CurrentStatus);
+                }
+                else {
+                    shortage = getShortageItemHTML(item.Brand, item.Dosage, item.NDC, item.CurrentStatus);
+                }
 
                 if (item.CurrentStatus === "severe") {
                     $(shortage).appendTo('#recentList').addClass("severeItem");
@@ -163,7 +172,10 @@ function addToWatchList(username, ndc, currentStatus) {
         success: function () {
             if ($("#" + ndc).length > 0) {
                 $("#" + ndc).prependTo("#" + currentStatus + "WatchList");
-                $("#" + ndc + " > .shortageCard > .right").replaceWith(getWatchListShortageCardButtonHtml(ndc, currentStatus));
+                $("#" + ndc + " .right").replaceWith(getWatchListShortageCardButtonHtml(ndc, currentStatus));
+            }
+            if ($("#recentList #" + ndc).length > 0) {
+                $("#recentList #" + ndc + " .right").replaceWith(getWatchListShortageCardButtonHtml(ndc, currentStatus));
             }
         }
     });
@@ -176,7 +188,10 @@ function removeFromWatchList(username, ndc, currentStatus) {
         success: function () {
             if ($("#" + ndc).length > 0) {
                 $("#" + ndc).prependTo("#" + currentStatus + "List");
-                $("#" + ndc + " > .shortageCard > .right").replaceWith(getNonWatchListShortageCardButtonHtml(ndc, currentStatus));
+                $("#" + ndc + " .right").replaceWith(getNonWatchListShortageCardButtonHtml(ndc, currentStatus));
+            }
+            if ($("#recentList #" + ndc).length > 0) {
+                $("#recentList #" + ndc + " .right").replaceWith(getNonWatchListShortageCardButtonHtml(ndc, currentStatus));
             }
         },
     });

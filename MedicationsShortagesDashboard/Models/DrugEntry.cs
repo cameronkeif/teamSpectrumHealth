@@ -190,7 +190,7 @@ namespace MedicationsShortagesDashboard.Models
         /// <returns>String representation of this drug</returns>
         public override string ToString()
         {
-            return this.ndc + " - " + this.dosage + " - " + this.brand + " - " + this.generic + " - " + this.currentStatus + "-" + this.lastUpdated;
+            return this.ndc + " - " + this.dosage + " - " + this.brand + " - " + this.generic + " - " + this.currentStatus + "-" + this.lastUpdated.ToString();
         }
     }
 }

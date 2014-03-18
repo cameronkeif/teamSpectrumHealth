@@ -148,7 +148,7 @@ namespace UnitTests
         public void DrugEntryToString()
         {
             DrugEntry d = new DrugEntry("111-111-2234", "100mg", "Tylenol", "Acetaminophen", "good", DateTime.Today);
-            string expectedResult = "111-111-2234" + " - " + "100mg" + " - " + "Tylenol" + " - " + "Acetaminophen" + " - " + "good";
+            string expectedResult = "111-111-2234" + " - " + "100mg" + " - " + "Tylenol" + " - " + "Acetaminophen" + " - " + "good" + "-" + DateTime.Today.ToString();
             Assert.AreEqual(d.ToString(), expectedResult);
         }
     }

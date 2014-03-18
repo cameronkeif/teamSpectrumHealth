@@ -62,35 +62,44 @@ $(function()
                     shortage = getShortageItemHTMLWatchList(item.Brand, item.Dosage, item.NDC, item.CurrentStatus);
 
                     if (item.CurrentStatus === "severe") {
-                        $('#severeWatchList').append(shortage);
+                        $(shortage).appendTo('#severeWatchList').addClass("severeItem");
                     }
                     else if (item.CurrentStatus === "warning") {
-                        $('#warningWatchList').append(shortage);
+                        $(shortage).appendTo('#warningWatchList').addClass("warningItem");
                     }
                     else {
-                        $('#goodWatchList').append(shortage);
+                        $(shortage).appendTo('#goodWatchList').addClass("goodItem");
                     }
                 }
                 else {
                     shortage = getShortageItemHTML(item.Brand, item.Dosage, item.NDC, item.CurrentStatus);
 
                     if (item.CurrentStatus === "severe") {
-                        $('#severeList').append(shortage);
+                        $(shortage).appendTo('#severeList').addClass("severeItem");
                     }
                     else if (item.CurrentStatus === "warning") {
-                        $('#warningList').append(shortage);
+                        $(shortage).appendTo('#warningList').addClass("warningItem");
                     }
                     else {
-                        $('#goodList').append(shortage);
+                        $(shortage).appendTo('#goodList').addClass("goodItem");
                     }
                 }
             });
 
             recent.sort(function (a, b) { return a.LastUpdated < b.LastUpdated; });
-            for (var i = 0; i < recent.length && i < 25; i++) {
+            for (var i = 0; i < recent.length && i < 10; i++) {
                 var item = recent[i];
                 var shortage = getShortageItemHTML(item.Brand, item.Dosage, item.NDC, item.CurrentStatus);
-                $('#recentList').append(shortage);
+
+                if (item.CurrentStatus === "severe") {
+                    $(shortage).appendTo('#recentList').addClass("severeItem");
+                }
+                else if (item.CurrentStatus === "warning") {
+                    $(shortage).appendTo('#recentList').addClass("warningItem");
+                }
+                else {
+                    $(shortage).appendTo('#recentList').addClass("goodItem");
+                }
             }
 
             // Page has loaded. Stop the loading animation

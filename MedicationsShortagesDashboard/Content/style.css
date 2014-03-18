@@ -348,11 +348,28 @@ div.container
     }
 
 /* Pending shortages */
+#pending_shortages {
+    padding: 0px;
+    max-width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.pending_shortage {
+    padding-left: 5px;
+    background: #ffffff;
+    border-bottom: 1px solid;
+    border-bottom-color: #cccccc;
+    list-style: none;
+}
+
+#pending_shortages_container a {
+    color: #000000;
+    text-decoration:none;
+}
+
 .preview {
-    
-    border:1px solid;
-    border-radius:25px;
-    display: inline-block;
+    width: 100%; 
     padding-left: 5px;
     padding-right: 5px;
 }
@@ -402,8 +419,7 @@ div.container
         }
 
 #pending_shortages_container {
-    display: table-cell;
-    max-width:65%;
+    width: 100%;
 }
 
 #create_shortage {

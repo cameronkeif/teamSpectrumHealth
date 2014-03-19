@@ -17,8 +17,6 @@
     </div>
 </form>
 
-<br /><div align="center">-----------------------------------------------------</div><br />
-
 @model MedicationsShortagesDashboard.Models.DrugEntry
 <body>
 @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "createDrugEntry", @action = "/api/DrugEntryManual" }))

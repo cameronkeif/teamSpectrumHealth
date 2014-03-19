@@ -51,7 +51,7 @@ namespace MedicationsShortagesDashboard.Controllers
         /// HTTP Get
         /// </summary>
         /// <param name="ndc">The National Drug Code of the entry</param>
-        /// <returns>All of the entries in the DRUGS table.</returns>
+        /// <returns>Drug in DRUG table with matching NDC</returns>
         public DrugEntry Get(string ndc)
         {
             return this.drugEntryRepository.GetDrug(ndc);

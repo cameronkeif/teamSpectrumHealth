@@ -175,6 +175,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginAPIController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\PendingShortageController.cs" />
     <Compile Include="Controllers\PendingShortagesListController.cs" />
     <Compile Include="Controllers\ShortageController.cs" />
@@ -187,6 +188,8 @@
     <Compile Include="Models\DrugEntryDBContext.cs" />
     <Compile Include="Models\Login.cs" />
     <Compile Include="Models\LoginDBContext.cs" />
+    <Compile Include="Models\Message.cs" />
+    <Compile Include="Models\MessageDBContext.cs" />
     <Compile Include="Models\PendingShortage.cs" />
     <Compile Include="Models\PendingShortageDBContext.cs" />
     <Compile Include="Models\Shortage.cs" />
@@ -197,6 +200,7 @@
     <Compile Include="Services\Authentication.cs" />
     <Compile Include="Services\DrugEntryRepository.cs" />
     <Compile Include="Services\LoginRepository.cs" />
+    <Compile Include="Services\MessageRepository.cs" />
     <Compile Include="Services\PendingShortageRepository.cs" />
     <Compile Include="Services\ShortageRepository.cs" />
     <Compile Include="Services\WatchListItemRepository.cs" />

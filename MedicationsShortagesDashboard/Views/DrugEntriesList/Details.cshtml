@@ -4,21 +4,22 @@
 <script type="text/javascript" src="~/Scripts/jqPlot/plugins/jqplot.dateAxisRenderer.js"></script>
 <link rel="stylesheet" type="text/css" href="~/Scripts/jqPlot/css/jquery.jqplot.css" />
 
+@using MedicationsShortagesDashboard.Models;
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    @model MedicationsShortagesDashboard.Models.DrugEntry
+    @model Tuple<DrugEntry, Message>
 }
 
 <div id="secondaryTitle">
-    @Html.DisplayFor(model => model.Brand)
+    @Html.DisplayFor(tuple => tuple.Item1.Brand)
 </div>
 <div id="basicDrugInformation">
     <ul>
-        <li>Dosage: @Html.DisplayFor(model => model.Dosage)</li>
-        <li>NDC: @Html.DisplayFor(model => model.NDC)</li>
-        <li>Generic Name: @Html.DisplayFor(model => model.Generic)</li>
-        <li>Current Status: @Html.DisplayFor(model => model.CurrentStatus)</li>
+        <li>Dosage: @Html.DisplayFor(tuple => tuple.Item1.Dosage)</li>
+        <li>NDC: @Html.DisplayFor(tuple => tuple.Item1.NDC)</li>
+        <li>Generic Name: @Html.DisplayFor(tuple => tuple.Item1.Generic)</li>
+        <li>Current Status: @Html.DisplayFor(tuple => tuple.Item1.CurrentStatus)</li>
     </ul>
 </div>
 
@@ -32,7 +33,7 @@
 @section scripts{
 <script type="text/javascript">
     var shortageHistoryPlotData = Array();
-    $.getJSON('/api/Shortage/' + '@Model.NDC', function (shortagesJsonPayload) {
+    $.getJSON('/api/Shortage/' + '@Model.Item1.NDC', function (shortagesJsonPayload) {
         $(shortagesJsonPayload).each(function (i, item) {
             $('#shortageHistory > ul').append('<li>' + item.Status + formatDateForOutput(item.DateTime) + '</li>');
 
@@ -104,3 +105,61 @@
     }
 </script>
 }
+
+<div class="expandMessagePost">
+    <input onclick="return changeMessagePostButtonText(this)" type="button" value="POST DISCUSSION" id="messageToggle" />
+</div>
+<div class="messagePosting" style="display:none">
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "createMessage", @action = "/api/Message" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+
+        @Html.Hidden("NDC", @Model.Item1.NDC)
+        @Html.Hidden("User", @ViewData["Username"])
+
+        <div class="editor-field">
+            @Html.TextArea("Text", @Model.Item2.Text)
+            @Html.ValidationMessageFor(tuple => tuple.Item2.Text)<br />
+        </div>
+        
+        <input type="submit" value="Post Discussion" />
+    }
+</div>
+
+<div id="messageListing" class="container">
+    <ul></ul>
+</div>
+
+<script type="text/javascript">
+    $('.expandMessagePost').click(function () {
+        $('.messagePosting').toggle();
+    });
+
+    function changeMessagePostButtonText(b) {
+        if (b.value == "POST DISCUSSION")
+            b.value = "HIDE POSTING";
+        else
+            b.value = "POST DISCUSSION";
+    }
+
+    $.getJSON("/api/Message/", function (messagesJsonPayload) {
+        $(messagesJsonPayload).each(function (i, item) {
+            if (item.NDC == '@Model.Item1.NDC') {
+                $("#messageListing").append('<li id="messagePost"> \
+                                                ' + item.User + ' - ' + formatDateForOutput(item.Date) + ' - ' + item.Text + ' \
+                                             </li>');
+            }
+        }
+        );
+
+        if ($(messagesJsonPayload).length > 0) {
+            $("#messageListing").prepend("<br ><u>DISCUSSION:</u>");
+        }
+        else {
+            $("#messageListing").prepend("No discussion has been posted for this shortage.");
+        }
+    }
+    );
+
+</script>

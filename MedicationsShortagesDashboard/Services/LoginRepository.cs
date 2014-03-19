@@ -54,6 +54,16 @@ namespace MedicationsShortagesDashboard.Services
         }
 
         /// <summary>
+        /// Returns single user
+        /// </summary>
+        /// <param name="user">Username to find</param>
+        /// <returns>Login of requested user</returns>
+        public Login GetLogin(string user)
+        {
+            return this.db.Logins.Find(user);
+        }
+
+        /// <summary>
         /// Check if a given login is valid
         /// </summary>
         /// <param name="login">The login to check</param>

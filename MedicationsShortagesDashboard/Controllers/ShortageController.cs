@@ -92,6 +92,7 @@ namespace MedicationsShortagesDashboard.Controllers
             }
 
             this.drugEntryRepository.UpdateDrugEntryStatus(shortage.Ndc, shortage.Status);
+            this.drugEntryRepository.UpdateDrugLastUpdatedTime(shortage.Ndc);
         }
 
         /// <summary>

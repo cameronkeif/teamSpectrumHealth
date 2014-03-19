@@ -141,6 +141,29 @@ namespace UnitTests
             Assert.AreEqual(d.CurrentStatus, "severe");
         }
 
+
+
+        /// <summary>
+        /// Last updated getter
+        /// </summary>
+        [TestMethod]
+        public void DrugEntryLastUpdatedGetter()
+        {
+            DrugEntry d = new DrugEntry("111-111-2234", "100mg", "Tylenol", "Acetaminophen", "good", DateTime.Today);
+            Assert.AreEqual(d.LastUpdated, DateTime.Today);
+        }
+
+        /// <summary>
+        /// Last updated setter
+        /// </summary>
+        [TestMethod]
+        public void DrugEntryLastUpdatedSetter()
+        {
+            DrugEntry d = new DrugEntry("111-111-2234", "100mg", "Tylenol", "Acetaminophen", "good", DateTime.Now);
+            d.LastUpdated = DateTime.Today;
+            Assert.AreEqual(d.LastUpdated, DateTime.Today);
+        }
+
         /// <summary>
         /// To string
         /// </summary>

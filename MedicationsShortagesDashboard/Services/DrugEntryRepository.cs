@@ -6,6 +6,7 @@
 
 namespace MedicationsShortagesDashboard.Services
 {
+    using System;
     using System.Collections.Generic;
     using System.Data;
     using System.Linq;
@@ -96,6 +97,21 @@ namespace MedicationsShortagesDashboard.Services
             if (d != null)
             {
                 d.CurrentStatus = status;
+                this.db.Entry(d).State = EntityState.Modified;
+                this.db.SaveChanges();
+            }
+        }
+
+        /// <summary>
+        /// Updates a drug's last updated time to now
+        /// </summary>
+        /// <param name="ndc">National drug code</param>
+        public void UpdateDrugLastUpdatedTime(string ndc)
+        {
+            DrugEntry d = this.db.DrugEntries.Find(ndc);
+            if (d != null)
+            {
+                d.LastUpdated = DateTime.Now;
                 this.db.Entry(d).State = EntityState.Modified;
                 this.db.SaveChanges();
             }

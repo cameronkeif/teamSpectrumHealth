@@ -49,43 +49,74 @@ $(function()
             watchListNdcs.push(watchListItem.Ndc);
         });
 
+        var recent = new Array();
+
         // Get all drugs
         $.getJSON('/api/DrugEntry', function (drugJsonPayload) {
             $(drugJsonPayload).each(function (i, item) {
+
+                recent.push(item);
 
                 // This drug is in the user's watch list
                 if ($.inArray(item.NDC, watchListNdcs) != -1) {
                     shortage = getShortageItemHTMLWatchList(item.Brand, item.Dosage, item.NDC, item.CurrentStatus);
 
                     if (item.CurrentStatus === "severe") {
-                        $('#severeWatchList').append(shortage);
+                        $(shortage).appendTo('#severeWatchList').addClass("severeItem");
                     }
                     else if (item.CurrentStatus === "warning") {
-                        $('#warningWatchList').append(shortage);
+                        $(shortage).appendTo('#warningWatchList').addClass("warningItem");
                     }
                     else {
-                        $('#goodWatchList').append(shortage);
+                        $(shortage).appendTo('#goodWatchList').addClass("goodItem");
                     }
                 }
                 else {
                     shortage = getShortageItemHTML(item.Brand, item.Dosage, item.NDC, item.CurrentStatus);
 
                     if (item.CurrentStatus === "severe") {
-                        $('#severeList').append(shortage);
+                        $(shortage).appendTo('#severeList').addClass("severeItem");
                     }
                     else if (item.CurrentStatus === "warning") {
-                        $('#warningList').append(shortage);
+                        $(shortage).appendTo('#warningList').addClass("warningItem");
                     }
                     else {
-                        $('#goodList').append(shortage);
+                        $(shortage).appendTo('#goodList').addClass("goodItem");
                     }
                 }
             });
-            
+
+
+
+            recent.sort(function (a, b) { if (a.LastUpdated < b.LastUpdated) return 1; return -1; });
+
+            for (var i = 0; i < recent.length && i < 10; i++) {
+                var item = recent[i];
+                var shortage;
+
+                if ($.inArray(item.NDC, watchListNdcs) != -1) {
+                    shortage = getShortageItemHTMLWatchList(item.Brand, item.Dosage, item.NDC, item.CurrentStatus);
+                }
+                else {
+                    shortage = getShortageItemHTML(item.Brand, item.Dosage, item.NDC, item.CurrentStatus);
+                }
+
+                if (item.CurrentStatus === "severe") {
+                    $(shortage).appendTo('#recentList').addClass("severeItem");
+                }
+                else if (item.CurrentStatus === "warning") {
+                    $(shortage).appendTo('#recentList').addClass("warningItem");
+                }
+                else {
+                    $(shortage).appendTo('#recentList').addClass("goodItem");
+                }
+            }
+
             // Page has loaded. Stop the loading animation
             $('#loadingAnimation').hide();
             $('#listContainer').show();
         });
+
     });
 });
 
@@ -142,7 +173,10 @@ function addToWatchList(username, ndc, currentStatus) {
         success: function () {
             if ($("#" + ndc).length > 0) {
                 $("#" + ndc).prependTo("#" + currentStatus + "WatchList");
-                $("#" + ndc + " > .shortageCard > .right").replaceWith(getWatchListShortageCardButtonHtml(ndc, currentStatus));
+                $("#" + ndc + " .right").replaceWith(getWatchListShortageCardButtonHtml(ndc, currentStatus));
+            }
+            if ($("#recentList #" + ndc).length > 0) {
+                $("#recentList #" + ndc + " .right").replaceWith(getWatchListShortageCardButtonHtml(ndc, currentStatus));
             }
         }
     });
@@ -155,7 +189,10 @@ function removeFromWatchList(username, ndc, currentStatus) {
         success: function () {
             if ($("#" + ndc).length > 0) {
                 $("#" + ndc).prependTo("#" + currentStatus + "List");
-                $("#" + ndc + " > .shortageCard > .right").replaceWith(getNonWatchListShortageCardButtonHtml(ndc, currentStatus));
+                $("#" + ndc + " .right").replaceWith(getNonWatchListShortageCardButtonHtml(ndc, currentStatus));
+            }
+            if ($("#recentList #" + ndc).length > 0) {
+                $("#recentList #" + ndc + " .right").replaceWith(getNonWatchListShortageCardButtonHtml(ndc, currentStatus));
             }
         },
     });

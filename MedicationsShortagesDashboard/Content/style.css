@@ -250,36 +250,19 @@ div.container
     margin:0;
 }
 
-#severeList .shortageCard 
-{
-    border-top-color:#FF334A;
-}
-
-
-#severeWatchList .shortageCard 
-{
-    border-top-color:#FF334A;
-}
-
-#warningList .shortageCard 
-{
-    border-top-color:#FFA84A;
-}
-
-#warningWatchList .shortageCard 
-{
-    border-top-color:#FFA84A;
-}
-
-
-#goodList .shortageCard 
+.goodItem .shortageCard
 {
     border-top-color:#8DB987;
 }
 
-#goodWatchList .shortageCard 
+.warningItem .shortageCard 
 {
-    border-top-color:#8DB987;
+    border-top-color:#FFA84A;
+}
+
+.severeItem .shortageCard 
+{
+    border-top-color:#FF334A;
 }
 
 .shortageList > li

@@ -78,7 +78,7 @@ function scrapeHtml(url, id) {
               if (data.results[0]) {
                   var data = filterData(data.results[0]);
                   var preview = ""
-                  var firstNdc = "";
+                  var NDCs = new Array();
 
                   // Get the affected products
                   affectedProducts = data.split("Products Affected - Description")[1];
@@ -88,14 +88,16 @@ function scrapeHtml(url, id) {
                    * Note: Some shortages affect a lot of drugs. Others only affect one or two.
                    * Not all shortages show the NDC... But if it's there, it'd be nice to populate the form.
                    */
-                  var indexOfFirstNdc = affectedProducts.indexOf("NDC ");
+                  var indexOfNdc = affectedProducts.indexOf("NDC ");
 
-                  if (indexOfFirstNdc != -1) {
+                  while (indexOfNdc != -1) {
                       // + 4 because of the length of 'NDC '
                       // length of 13 because an NDC contains 10 numbers and two -'s
-                      firstNdc = affectedProducts.substr(indexOfFirstNdc + 4, 13);
-                  }
+                      NDCs.push(affectedProducts.substr(indexOfNdc + 4, 13));
 
+                      indexOfNdc = affectedProducts.indexOf("NDC ", indexOfNdc + 4);
+                  }
+                  
                   preview = "<p><b>Products Affected</b>" + affectedProducts + "</p>"
                   // Get the reasons for the shortage
                   reasons = data.split('Reason for the Shortage')[2];
@@ -105,7 +107,7 @@ function scrapeHtml(url, id) {
                   $("#" + id).children('#loadingAnimation').hide();
                   $("#" + id).prepend(preview);
                   $("#" + id).append("<p><a href=" + url + "> View Full Report </a></p>")
-                  $("#" + id).append("<p><button onClick=\"showCreateShortage('" + firstNdc + "')\"> Create Shortage </button><span style='float:right'><button> Ignore </button></span></p>");
+                  $("#" + id).append("<p><button onClick=\"showCreateShortage('" + NDCs + "')\"> Create Shortage </button><span style='float:right'><button> Ignore </button></span></p>");
               }
           }
         );
@@ -145,10 +147,14 @@ function showPreview(url, id) {
 }
 
 // Toggles the create shortage form. Populates the NDC field with ndc
-function showCreateShortage(ndc) {
+function showCreateShortage(NDCs) {
+    NDCs = NDCs.split(","); // Kludge. Why is it being passed in as a string?!
     $('#create_shortage').find('form')[0].reset();
     $("#create_shortage").dialog();
-    $('#ndc').val(ndc);
+    
+    $("#ndc").autocomplete({
+        source: NDCs
+    });
 }
 </script>
 }

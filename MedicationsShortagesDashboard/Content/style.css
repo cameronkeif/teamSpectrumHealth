@@ -287,32 +287,6 @@ div.container
     margin-right: auto;
 }
 
-#expandMessagePost { /* Button to expand message posting */
-    text-align: center;
-}
-
-#messagePosting {
-    text-align: center;
-}
-
-#messageListing {
-    text-align: center;
-}
-
-li#messagePost {
-    vertical-align: middle;
-    background:white;
-    display:table-cell;
-    border-style:solid;
-    border-width:0;
-    border-top-width:2px;
-    border-top-left-radius:3px;
-    border-top-right-radius:3px;
-    width:100%;
-    padding:0;
-    margin:0;
-}
-
 /* jqplot stuff (for graphing) */
 .jqplot-point-label
     {

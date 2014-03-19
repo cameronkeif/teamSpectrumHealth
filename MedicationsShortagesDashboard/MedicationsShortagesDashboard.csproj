@@ -169,6 +169,7 @@
     <Compile Include="Controllers\DrugEntriesListController.cs" />
     <Compile Include="Controllers\DrugEntryController.cs" />
     <Compile Include="Controllers\DrugEntryManualController.cs" />
+    <Compile Include="Controllers\DrugVisitController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginAPIController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
@@ -183,6 +184,8 @@
     </Compile>
     <Compile Include="Models\DrugEntry.cs" />
     <Compile Include="Models\DrugEntryDBContext.cs" />
+    <Compile Include="Models\DrugVisit.cs" />
+    <Compile Include="Models\DrugVisitDBContext.cs" />
     <Compile Include="Models\Login.cs" />
     <Compile Include="Models\LoginDBContext.cs" />
     <Compile Include="Models\Message.cs" />
@@ -196,6 +199,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Authentication.cs" />
     <Compile Include="Services\DrugEntryRepository.cs" />
+    <Compile Include="Services\DrugVisitRepository.cs" />
     <Compile Include="Services\LoginRepository.cs" />
     <Compile Include="Services\MessageRepository.cs" />
     <Compile Include="Services\PendingShortageRepository.cs" />

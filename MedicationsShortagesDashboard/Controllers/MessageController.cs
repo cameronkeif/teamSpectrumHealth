@@ -59,7 +59,7 @@ namespace MedicationsShortagesDashboard.Controllers
         /// <summary>
         /// HTTP Get
         /// </summary>
-        /// <param name="ndc">Unique ID of a specific message</param>
+        /// <param name="id">Unique ID of a specific message</param>
         /// <returns>All of the entries in the MESSAGE table.</returns>
         public Message Get(int id)
         {

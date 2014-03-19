@@ -76,7 +76,7 @@ namespace MedicationsShortagesDashboard.Services
         }
 
         /// <summary>
-        /// Updates am existing drug
+        /// Updates an existing drug
         /// </summary>
         /// <param name="drug">The drug to modify.</param>
         public void UpdateDrug(DrugEntry drug)

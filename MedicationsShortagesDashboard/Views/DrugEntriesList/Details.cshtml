@@ -101,6 +101,7 @@
 <div class="expandMessagePost">
     <input onclick="return changeMessagePostButtonText(this)" type="button" value="POST DISCUSSION" id="messageToggle" />
 </div>
+
 <div class="messagePosting" style="display:none">
     @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "createMessage", @action = "/api/Message" }))
     {
@@ -124,22 +125,44 @@
 </div>
 
 <script type="text/javascript">
-    $('.expandMessagePost').click(function () {
-        $('.messagePosting').toggle();
-    });
-
-    function changeMessagePostButtonText(b) {
-        if (b.value == "POST DISCUSSION")
-            b.value = "HIDE POSTING";
-        else
-            b.value = "POST DISCUSSION";
+    // If user isn't logged in, hide submission/ignore drug visits
+    // Otherwise, continue to else statement and figure out drug visit stuff
+    var userLoggedIn = @Html.Raw(Json.Encode(ViewData["Username"])) + '';
+    var dateLastSeen = null;
+    if (userLoggedIn == "Guest") {
+        $('.expandMessagePost').hide();
+    }
+    // If they're logged in but no pairing of user/NDC exists, set all messages to unread
+    // If they're logged in and have visited the page, compare the date in the DrugVisit entry
+    // and compare that to the message dates, and if they're newer, set them to unread
+    else {
+        $.getJSON("/api/DrugVisit", function (drugVisitsJsonPayload) {
+            $(drugVisitsJsonPayload).each(function (i, item) {
+                // Page has been visited
+                if (item.NDC == '@Model.Item1.NDC' && item.Username == userLoggedIn) {
+                    dateLastSeen = item.Date;
+                }
+            });
+        });
     }
 
     $.getJSON("/api/Message/", function (messagesJsonPayload) {
         $(messagesJsonPayload).each(function (i, item) {
             if (item.NDC == '@Model.Item1.NDC') {
-                $("#messageListing").append('<li id="messagePost"> \
-                                                ' + item.User + ' - ' + formatDateForOutput(item.Date) + ' - ' + item.Text + ' \
+                var badge = "";
+                // Check (if user logged in) if unread, update DrugVisit entry
+                if (userLoggedIn != "Guest") {
+                    if (dateLastSeen != null) {
+                        if (item.Date > dateLastSeen) {
+                            badge = "[UNREAD] - ";
+                        }
+                    }
+                    else {
+                        badge = "[UNREAD] - ";
+                    }
+                }
+                $("#messageListing").append('<li> \
+                                            ' + badge + item.User + ' - ' + formatDateForOutput(item.Date) + ' - ' + item.Text + ' \
                                              </li>');
             }
         }
@@ -153,5 +176,25 @@
         }
     }
     );
+
+    // Update Drug Visit entry
+    var data = { "Username": userLoggedIn, "NDC": '@Model.Item1.NDC' };
+    $.ajax({
+        url: '/api/DrugVisit/Post',
+        type: 'POST',
+        contentType: 'application/json; charset=utf-8',
+        data: JSON.stringify(data),
+    });
+
+    $('.expandMessagePost').click(function () {
+        $('.messagePosting').toggle();
+    });
+
+    function changeMessagePostButtonText(b) {
+        if (b.value == "POST DISCUSSION")
+            b.value = "HIDE POSTING";
+        else
+            b.value = "POST DISCUSSION";
+    }
 
 </script>

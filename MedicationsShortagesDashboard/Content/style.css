@@ -287,6 +287,25 @@ div.container
     margin-right: auto;
 }
 
+#messageListing {
+    text-align: center;
+    list-style-type: none;
+}
+
+#messageListing > ul > li > .messageTitle {
+    background-color: aliceblue;
+    text-align: left;
+}
+
+#messageListing > ul > li > .messageTitle > em {
+    font-weight: bolder;
+    text-align: right;
+}
+
+#messageListing > ul > li > .messageBody {
+    background-color: slategray;
+}
+
 /* jqplot stuff (for graphing) */
 .jqplot-point-label
     {

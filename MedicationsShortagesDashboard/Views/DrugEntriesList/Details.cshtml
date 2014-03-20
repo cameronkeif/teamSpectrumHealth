@@ -120,7 +120,7 @@
     }
 </div>
 
-<div id="messageListing" class="container">
+<div id="messageListing">
     <ul></ul>
 </div>
 
@@ -143,48 +143,52 @@
                     dateLastSeen = item.Date;
                 }
             });
+        }).complete( function() {
+            $.getJSON("/api/Message/", function (messagesJsonPayload) {
+                $(messagesJsonPayload).each(function (i, item) {
+                    if (item.NDC == '@Model.Item1.NDC') {
+                        var badge = "";
+                        // Check (if user logged in) if unread, update DrugVisit entry
+                        if (userLoggedIn != "Guest") {
+                            if (dateLastSeen != null) {
+                                if (item.Date > dateLastSeen) {
+                                    badge = " - [UNREAD]";
+                                }
+                            }
+                            else {
+                                badge = " - [UNREAD]";
+                            }
+                        }
+                        $("#messageListing > ul").append('<li> \
+                                                    ' + '<div class="messageTitle">' + item.User + formatDateForOutput(item.Date) + '<em>' + badge + '</em>' + '</div>' + ' \
+                                                    ' + '<div class="messageBody">' + item.Text + '</div>' + ' \
+                                                     </li>');
+                    }
+                }
+                );
+
+                if ($(messagesJsonPayload).length > 0) {
+                    $("#messageListing").prepend("<br ><u>DISCUSSION:</u>");
+                }
+                else {
+                    $("#messageListing").prepend("No discussion has been posted for this shortage.");
+                }
+            });
         });
     }
 
-    $.getJSON("/api/Message/", function (messagesJsonPayload) {
-        $(messagesJsonPayload).each(function (i, item) {
-            if (item.NDC == '@Model.Item1.NDC') {
-                var badge = "";
-                // Check (if user logged in) if unread, update DrugVisit entry
-                if (userLoggedIn != "Guest") {
-                    if (dateLastSeen != null) {
-                        if (item.Date > dateLastSeen) {
-                            badge = "[UNREAD] - ";
-                        }
-                    }
-                    else {
-                        badge = "[UNREAD] - ";
-                    }
-                }
-                $("#messageListing").append('<li> \
-                                            ' + badge + item.User + ' - ' + formatDateForOutput(item.Date) + ' - ' + item.Text + ' \
-                                             </li>');
-            }
-        }
-        );
-
-        if ($(messagesJsonPayload).length > 0) {
-            $("#messageListing").prepend("<br ><u>DISCUSSION:</u>");
-        }
-        else {
-            $("#messageListing").prepend("No discussion has been posted for this shortage.");
-        }
-    }
-    );
+    
 
     // Update Drug Visit entry
-    var data = { "Username": userLoggedIn, "NDC": '@Model.Item1.NDC' };
-    $.ajax({
-        url: '/api/DrugVisit/Post',
-        type: 'POST',
-        contentType: 'application/json; charset=utf-8',
-        data: JSON.stringify(data),
-    });
+    if (userLoggedIn != "Guest") {
+        var data = { "Username": userLoggedIn, "NDC": '@Model.Item1.NDC' };
+        $.ajax({
+            url: '/api/DrugVisit/Post',
+            type: 'POST',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(data),
+        });
+    }
 
     $('.expandMessagePost').click(function () {
         $('.messagePosting').toggle();

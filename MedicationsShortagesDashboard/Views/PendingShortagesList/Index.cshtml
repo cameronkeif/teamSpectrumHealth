@@ -13,13 +13,13 @@
     </div>
 
     <div id="create_shortage" title="Create Shortage">
-        <form>
+        <form id="create_shortage_form">
             <p>NDC: <input id="ndc" type="text" name="ndc"></p>
             Status:
             <p><span id="create_shortage_good_label">@Html.RadioButton("Status", "good", false) Good </span></p>
             <p><span id="create_shortage_warning_label">@Html.RadioButton("Status", "warning", false) Warning </span></p>
             <p><span id="create_shortage_severe_label">@Html.RadioButton("Status", "severe", false) Severe </span></p>
-            <p><button type="button">Create Shortage</button></p>
+            <p><button id="submit" type="button">Create Shortage</button></p>
         </form>
     </div>
 </div>
@@ -156,5 +156,31 @@ function showCreateShortage(NDCs) {
         source: NDCs
     });
 }
+
+function createShortage() {
+    /*$.ajax({
+        url: '/api/Shortage',
+        type: 'POST',
+        success: function () {
+            alert(1);
+        }
+    });*/
+    console.log("yay");
+    ("#submit").preventDefault();
+}
+
+$('#submit').click(function (e) {
+    /*$.ajax({
+        url: '/api/Shortage',
+        type: 'POST',
+        success: function () {
+        }
+    });*/
+    $.post('/api/Shortage', $('#create_shortage_form').serialize())
+        .success(function () {
+            alert("Success!");
+        });
+    e.preventDefault();
+});
 </script>
 }

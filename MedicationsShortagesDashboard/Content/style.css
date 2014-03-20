@@ -463,15 +463,15 @@ div.container
             border-color: #366298;
         }
 
-#create_shortage_severe_label {
+.create_shortage_severe_label {
     color: #FF334A;
 }
 
-#create_shortage_warning_label {
+.create_shortage_warning_label {
     color: #FFA84A;
 }
 
-#create_shortage_good_label {
+.create_shortage_good_label {
     color: #8DB987;
 }
 

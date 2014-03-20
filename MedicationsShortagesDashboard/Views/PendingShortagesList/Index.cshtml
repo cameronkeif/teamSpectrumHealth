@@ -16,10 +16,11 @@
         <form id="create_shortage_form">
             <p>NDC: <input id="ndc" type="text" name="ndc"></p>
             Status:
-            <p><span id="create_shortage_good_label">@Html.RadioButton("Status", "good", false) Good </span></p>
-            <p><span id="create_shortage_warning_label">@Html.RadioButton("Status", "warning", false) Warning </span></p>
-            <p><span id="create_shortage_severe_label">@Html.RadioButton("Status", "severe", false) Severe </span></p>
+            <p><span class="create_shortage_good_label">@Html.RadioButton("Status", "good", false) Good </span></p>
+            <p><span class="create_shortage_warning_label">@Html.RadioButton("Status", "warning", false) Warning </span></p>
+            <p><span class="create_shortage_severe_label">@Html.RadioButton("Status", "severe", false) Severe </span></p>
             <p><button id="submit" type="button">Create Shortage</button></p>
+            <p><span class="create_shortage_good_label" id="success_message"></span></p>
         </form>
     </div>
 </div>
@@ -150,7 +151,7 @@ function showPreview(url, id) {
 function showCreateShortage(NDCs) {
     NDCs = NDCs.split(","); // Kludge. Why is it being passed in as a string?!
     $('#create_shortage').find('form')[0].reset();
-    $("#create_shortage").dialog();
+    $("#create_shortage").dialog({width: 350});
     
     $("#ndc").autocomplete({
         source: NDCs
@@ -178,7 +179,7 @@ $('#submit').click(function (e) {
     });*/
     $.post('/api/Shortage', $('#create_shortage_form').serialize())
         .success(function () {
-            alert("Success!");
+            $("#success_message").append("Shortage successfully created!");
         });
     e.preventDefault();
 });

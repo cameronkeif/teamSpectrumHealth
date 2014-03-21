@@ -159,14 +159,9 @@ function showCreateShortage(NDCs) {
 }
 
 $('#submit').click(function (e) {
-    /*$.ajax({
-        url: '/api/Shortage',
-        type: 'POST',
-        success: function () {
-        }
-    });*/
     $.post('/api/Shortage', $('#create_shortage_form').serialize())
         .success(function () {
+            $('#create_shortage').find('form')[0].reset();
             $("#success_message").append("Shortage successfully created!");
         });
     e.preventDefault();

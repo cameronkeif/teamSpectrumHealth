@@ -8,8 +8,24 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 
 <div id="body">
+    <div id="pending_shortages_headers">
+        <span id="feed">
+            <a href="javascript:void(0)" onclick="showPendingShortagesList()">ASHP Feed</a>
+        </span>
+        |
+        <span id="ignore">
+            <a href="javascript:void(0)" onclick="showIgnoredPendingShortagesList()">Ignore List</a>
+        </span>
+    </div>
     <div id="pending_shortages_container">
         <ul id="pending_shortages"></ul>
+    </div>
+    <div id="ignored_pending_shortages_container">
+        <ul id="ignored_pending_shortages">
+            <li>Test1</li>
+            <li>Test2</li>
+            <li>Test3</li>
+        </ul>
     </div>
 
     <div id="create_shortage" title="Create Shortage">
@@ -108,7 +124,7 @@ function scrapeHtml(url, id) {
                   $("#" + id).children('#loadingAnimation').hide();
                   $("#" + id).prepend(preview);
                   $("#" + id).append("<p><a href=" + url + "> View Full Report </a></p>")
-                  $("#" + id).append("<p><button onClick=\"showCreateShortage('" + NDCs + "')\"> Create Shortage </button><span style='float:right'><button> Ignore </button></span></p>");
+                  $("#" + id).append("<div style<p><button onClick=\"showCreateShortage('" + NDCs + "')\"> Create Shortage </button><span style='float:right'><button> Ignore </button></span></p>");
               }
           }
         );
@@ -166,5 +182,15 @@ $('#submit').click(function (e) {
         });
     e.preventDefault();
 });
+
+function showPendingShortagesList() {
+    $('#pending_shortages_container').show();
+    $('#ignored_pending_shortages_container').hide();
+}
+
+function showIgnoredPendingShortagesList() {
+    $('#pending_shortages_container').hide();
+    $('#ignored_pending_shortages_container').show();
+}
 </script>
 }

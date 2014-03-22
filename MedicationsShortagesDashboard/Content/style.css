@@ -404,8 +404,23 @@ div.container
             border-color: #366298;
         }
 
+#pending_shortages_headers {
+    text-align:center;
+    width: 100%;
+}
+
+    #pending_shortages_headers a {
+        text-decoration: none;
+        color:#6A6f71;
+    }
+
 #pending_shortages_container {
     width: 100%;
+}
+
+#ignored_pending_shortages_container {
+    width: 100%;
+    display: none;
 }
 
 .pending_shortage_title {

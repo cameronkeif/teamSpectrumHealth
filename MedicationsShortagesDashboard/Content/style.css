@@ -344,6 +344,7 @@ div.container
     border-bottom: 1px solid;
     border-bottom-color: #cccccc;
     list-style: none;
+    font-family: Arial;
 }
 
 #pending_shortages_container a {

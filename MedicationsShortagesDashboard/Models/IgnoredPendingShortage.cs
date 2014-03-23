@@ -50,7 +50,7 @@ namespace MedicationsShortagesDashboard.Models
         /// Gets or sets username
         /// </summary>
         [Key]
-        [Column("USERNAME", Order = 0)]
+        [Column("USERNAME", Order = 1)]
         public string Username
         {
             get
@@ -68,7 +68,7 @@ namespace MedicationsShortagesDashboard.Models
         /// Gets or sets sourceUrl
         /// </summary>
         [Key]
-        [Column("SOURCE_URL", Order = 1)]
+        [Column("SOURCE_URL", Order = 0)]
         public string SourceUrl
         {
             get

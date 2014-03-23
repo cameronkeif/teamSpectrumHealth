@@ -44,6 +44,7 @@
 @section scripts{
 <script type="text/javascript">
     var alreadyParsedDrugIds = new Array();
+    var loggedInAs = '@Html.Encode(ViewData["Username"])';
 
     // IE8 does not support Array.indexOf, so define it if it doesn't exist.
     if (!Array.prototype.indexOf) {
@@ -125,7 +126,7 @@ function scrapeHtml(url, id) {
                   $("#" + id).prepend(preview);
                   $("#" + id).append("<p><a href=" + url + "> View Full Report </a></p>")
                   $("#" + id).append("<div style<p><button onClick=\"showCreateShortage('" + NDCs + "')\"> Create Shortage </button><span style='float:right'>" +
-                      "<button onClick='ignore(" + id + ")'> Ignore </button></span></p>");
+                      "<button onClick='ignore(" + id + ", \"" + loggedInAs +  "\")'> Ignore </button></span></p>");
               }
           }
         );
@@ -184,8 +185,15 @@ $('#submit').click(function (e) {
     e.preventDefault();
 });
 
-function ignore(id) {
-    $("#ps_" + id).hide()
+function ignore(id, username) {
+    $.ajax({
+        url: '/api/IgnoredPendingShortage/' + username + "/" + String(id),
+        type: 'POST',
+        success: function () {
+            $("#ps_" + id).hide();
+        }
+    });
+
     return false;
 }
 

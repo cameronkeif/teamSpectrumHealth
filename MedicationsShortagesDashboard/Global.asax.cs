@@ -33,6 +33,7 @@ namespace MedicationsShortagesDashboard
             Database.SetInitializer<ShortageDBContext>(null);
             Database.SetInitializer<LoginDBContext>(null);
             Database.SetInitializer<DrugEntryDBContext>(null);
+            Database.SetInitializer<IgnoredPendingShortageDBContext>(null);
         }
     }
 }

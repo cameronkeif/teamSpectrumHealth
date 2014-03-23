@@ -22,6 +22,12 @@ namespace MedicationsShortagesDashboard
             name: "Nested Watch List",
             routeTemplate: "api/WatchListItem/{username}/{ndc}",
             defaults: new { controller = "WatchListItem" }
+            );
+
+            config.Routes.MapHttpRoute(
+            name: "Nested Ignored",
+            routeTemplate: "api/IgnoredPendingShortage/{username}/{id}",
+            defaults: new { controller = "IgnoredPendingShortage" }
         );
 
             // Uncomment the following line of code to enable query support for actions with an IQueryable or IQueryable<T> return type.

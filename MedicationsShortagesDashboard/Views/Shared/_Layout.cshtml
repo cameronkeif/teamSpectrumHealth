@@ -30,8 +30,8 @@
                     }
                     else
                     {
-                        <li class="rightMost">
-                        <div id="userDisplay" class="button">Logout</div>
+                        <li class="rightMost" onclick="alert('a')">
+                            <div id="logoutButton" class="button">Logout</div>
                         </li>
                     }
                 }
@@ -67,5 +67,6 @@
     @RenderBody()
 
     @RenderSection("scripts", required: false)
+    
 </body>
 </html>

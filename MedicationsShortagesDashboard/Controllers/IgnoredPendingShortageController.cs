@@ -48,5 +48,17 @@ namespace MedicationsShortagesDashboard.Controllers
             {
             }
         }
+
+        public void Delete(string username, string id)
+        {
+            try
+            {
+                string sourceUrl = "http://www.ashp.org/DrugShortages/Current/Bulletin.aspx?Source=Current&Type=Rss&Id=" + id;
+                this.ignoredPendingShortageRepository.RemoveIgnoredPendingShortage(username, sourceUrl);
+            }
+            catch (InvalidOperationException)
+            {
+            }
+        }
     }
 }

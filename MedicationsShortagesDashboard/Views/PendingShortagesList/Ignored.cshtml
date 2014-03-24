@@ -1,0 +1,96 @@
+﻿@{
+    ViewBag.Title = "Ignored";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div id="body">
+    <div id="pending_shortages_headers">
+        <span id="feed">
+            <a href="/PendingShortagesList/">ASHP Feed</a>
+        </span>
+        |
+        <span id="ignore">
+            <a href="/PendingShortagesList/Ignored" >Ignored Notifications</a>
+        </span>
+    </div>
+    <div id="loadingAnimation">
+        <img src="~/Images/loading.gif">
+    </div>
+    <div id="ignored_pending_shortages_container">
+        <div id="no_ignored_pending_shortages_message">You have not ignored any notifications.</div>
+        <ul id="ignored_pending_shortages"></ul>
+    </div>
+</div>
+
+ @section scripts{
+<script type="text/javascript">
+    var ignoredUrls = new Array();
+    var loggedInAs = '@Html.Encode(ViewData["Username"])';
+    
+    // IE8 does not support Array.indexOf, so define it if it doesn't exist.
+    if (!Array.prototype.indexOf) {
+        Array.prototype.indexOf = function (elt /*, from*/) {
+            var len = this.length >>> 0;
+
+            var from = Number(arguments[1]) || 0;
+            from = (from < 0)
+                 ? Math.ceil(from)
+                 : Math.floor(from);
+            if (from < 0)
+                from += len;
+
+            for (; from < len; from++) {
+                if (from in this &&
+                    this[from] === elt)
+                    return from;
+            }
+            return -1;
+        };
+    }
+
+     // Only show the loading animation until all the JSON has been processed.
+    $("#loadingAnimation").show();
+    $("#ignored_pending_shortages_warning").hide()
+
+    $.getJSON('/api/IgnoredPendingShortage/' + loggedInAs, function (ignoredPendingShortagesJsonPayload) {
+        $(ignoredPendingShortagesJsonPayload).each(function (i, item) {
+            var id = item.SourceUrl.split("Id=")[1];
+            ignoredUrls.push(item.SourceUrl);
+            $("#ignored_pending_shortages").append("<li id=ignored_ps_" + id + "><a href='javascript:void(0)' onclick='unIgnore(\"" + loggedInAs + "\", \"" + id + "\")'><img src='/Images/remove.png' /> </a>" +
+                "<span class='ignored_pending_shortage'>" + item.DrugName + "</span></li>");
+        });
+
+        $("#loadingAnimation").hide();
+
+        // Displays a message to the user notifying them that they have not ignored anything.
+        displayNoIgnoredPendingShortagesMessage();
+
+        $('#ignored_pending_shortages_container').show();
+    });
+
+    function unIgnore(username, id) {
+        $.ajax({
+            url: '/api/IgnoredPendingShortage/' + username + "/" + String(id),
+            type: 'DELETE',
+            success: function () {
+                url = "http://www.ashp.org/DrugShortages/Current/Bulletin.aspx?Source=Current&Type=Rss&Id=" + id;
+                $("#ignored_ps_" + id).hide();
+                ignoredUrls.splice(ignoredUrls.indexOf(url), 1);
+                
+                displayNoIgnoredPendingShortagesMessage();
+            }
+        });
+
+        return false;
+    }
+
+    function displayNoIgnoredPendingShortagesMessage() {
+        // Displays a message to the user notifying them that they have not ignored anything.
+        if (ignoredUrls.length == 0) {
+            $("#no_ignored_pending_shortages_message").show()
+        } else {
+            $("#no_ignored_pending_shortages_message").hide()
+        }
+    }
+</script>
+}

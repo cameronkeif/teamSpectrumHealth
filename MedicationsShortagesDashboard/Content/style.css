@@ -278,6 +278,7 @@ div.container
     display: block;
     margin-left: auto;
     margin-right: auto;
+    margin-top: 16px;
 }
 
 /* Drug Detail View */
@@ -407,7 +408,6 @@ div.container
 #pending_shortages_headers {
     text-align:center;
     width: 100%;
-    display: none;
 }
 
     #pending_shortages_headers a {
@@ -422,6 +422,25 @@ div.container
 #ignored_pending_shortages_container {
     width: 100%;
     display: none;
+    font-family: Arial;
+    font-size: 18px;
+    text-align: center;
+    margin-top: 16px;
+}
+    #ignored_pending_shortages_container a {
+        text-decoration: none;
+    }
+
+#ignored_pending_shortages {
+    list-style: none;
+    padding-left: 0px;
+}
+
+.ignored_pending_shortage {
+    display:inline-block; 
+    height: 100%;
+    vertical-align:middle;
+    padding-left: 5px;
 }
 
 .pending_shortage_title {

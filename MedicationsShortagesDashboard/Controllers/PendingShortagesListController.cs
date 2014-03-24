@@ -30,5 +30,21 @@ namespace MedicationsShortagesDashboard.Controllers
             this.ViewData["PageTitle"] = "Pending Shortages";
             return this.View();
         }
+
+        /// <summary>
+        /// Creates page listing all ignored pending shortages
+        /// </summary>
+        /// <returns>The page as a view</returns>
+        public ActionResult Ignored()
+        {
+            if (Authentication.Type != "pharmadmin")
+            {
+                Response.Redirect("~");
+            }
+            this.ViewData["Username"] = Authentication.Username;
+            this.ViewData["Type"] = Authentication.Type;
+            this.ViewData["PageTitle"] = "Ignored Pending Shortages";
+            return this.View();
+        }
     }
 }

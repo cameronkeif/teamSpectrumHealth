@@ -286,6 +286,7 @@
     <None Include="Scripts\jquery-2.1.0.intellisense.js" />
     <Content Include="Images\not_favorite.png" />
     <Content Include="Images\close_dialog.png" />
+    <Content Include="Images\remove.png" />
     <Content Include="Scripts\jqPlot\css\jquery.jqplot.css" />
     <Content Include="Scripts\jqPlot\css\jquery.jqplot.min.css" />
     <Content Include="Scripts\jqPlot\excanvas.js" />
@@ -349,6 +350,7 @@
     <Content Include="Views\DrugEntriesList\Index.cshtml" />
     <Content Include="Views\DrugEntriesList\Details.cshtml" />
     <Content Include="Views\Shared\_AdminLayout.cshtml" />
+    <Content Include="Views\PendingShortagesList\Ignored.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

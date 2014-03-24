@@ -8,24 +8,20 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 
 <div id="body">
-    <div id="loadingAnimation">
-        <img src="~/Images/loading.gif">
-    </div>
     <div id="pending_shortages_headers">
         <span id="feed">
-            <a href="javascript:void(0)" onclick="showPendingShortagesList()">ASHP Feed</a>
+            <a href="/PendingShortagesList/">ASHP Feed</a>
         </span>
         |
         <span id="ignore">
-            <a href="javascript:void(0)" onclick="showIgnoredPendingShortagesList()">Ignored Notifications</a>
+            <a href="/PendingShortagesList/Ignored" >Ignored Notifications</a>
         </span>
+    </div>
+    <div id="loadingAnimation">
+        <img src="~/Images/loading.gif">
     </div>
     <div id="pending_shortages_container">
         <ul id="pending_shortages"></ul>
-    </div>
-    <div id="ignored_pending_shortages_container">
-        <ul id="ignored_pending_shortages">
-        </ul>
     </div>
 
     <div id="create_shortage" title="Create Shortage">
@@ -67,34 +63,33 @@
             return -1;
         };
     }
-$(function ()
-{
+
+    // Show only the loading animation
+    $("#loadingAnimation").show();
+
     $.getJSON('/api/IgnoredPendingShortage/' + loggedInAs, function (ignoredPendingShortagesJsonPayload) {
         $(ignoredPendingShortagesJsonPayload).each(function (i, item) {
             ignoredUrls.push(item.SourceUrl);
-            $("#ignored_pending_shortages").append("<li>" + item.DrugName + "</li>");
+        });
+
+        $.getJSON('/api/PendingShortage', function (pendingShortagesJsonPayload) {
+            $(pendingShortagesJsonPayload).each(function (i, item) {
+                // Only process items which are not ignored.
+                if (ignoredUrls.indexOf(item.SourceURL) == -1) {
+                    // ID from the ASHP website, which is at the end of the source URL
+                    var id = item.SourceURL.split("Id=")[1];
+                    $('#pending_shortages').append("<li id='ps_" + id + "' class=pending_shortage><span class=pending_shortage_title onClick='showPreview(\"" + item.SourceURL + '", "' + id + '", "' + item.DrugName + "\")'>" + item.DrugName +
+                        "<span class=pending_shortage_expand_icon id=expand_" + id + ">+</span></span><br><span class='preview' id=" + id + "></span></li>");
+
+                    $('#' + id).prepend('<div id="loadingAnimation"><img src="/Images/loading.gif" height="40" width="40"></div>');
+                    $("#" + id).hide();
+                }
+            });
+
+            $("#loadingAnimation").hide();
+            $('#pending_shortages_container').show();
         });
     });
-
-    $.getJSON('/api/PendingShortage', function(pendingShortagesJsonPayload)
-    {
-        $(pendingShortagesJsonPayload).each(function(i, item)
-        {
-            // Only process items which are not ignored.
-            if (ignoredUrls.indexOf(item.SourceURL) == -1) {
-                // ID from the ASHP website, which is at the end of the source URL
-                var id = item.SourceURL.split("Id=")[1];
-                $('#pending_shortages').append("<li id='ps_" + id + "' class=pending_shortage><span class=pending_shortage_title onClick='showPreview(\"" + item.SourceURL + '", "' + id + '", "' + item.DrugName + "\")'>" + item.DrugName +
-                    "<span class=pending_shortage_expand_icon id=expand_" + id + ">+</span></span><br><span class='preview' id=" + id + "></span></li>");
-
-                $('#' + id).prepend('<div id="loadingAnimation"><img src="/Images/loading.gif" height="40" width="40"></div>');
-                $("#" + id).hide();
-            }
-        });
-        $("#pending_shortages_headers").show();
-        $("#loadingAnimation").hide();
-    });
-});
 
     // Scrapes the HTML from the source URL of the pending shortage, appends
     // the reasons for the shortage to a div.
@@ -205,16 +200,6 @@ function ignore(id, username, drugName) {
     });
 
     return false;
-}
-
-function showPendingShortagesList() {
-    $('#pending_shortages_container').show();
-    $('#ignored_pending_shortages_container').hide();
-}
-
-function showIgnoredPendingShortagesList() {
-    $('#pending_shortages_container').hide();
-    $('#ignored_pending_shortages_container').show();
 }
 </script>
 }

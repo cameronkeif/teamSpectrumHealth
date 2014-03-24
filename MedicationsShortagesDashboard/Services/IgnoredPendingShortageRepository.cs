@@ -53,8 +53,6 @@ namespace MedicationsShortagesDashboard.Services
             }
             catch (DbUpdateException)
             {
-                int i = 0;
-                i++;
             }
         }
 

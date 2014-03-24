@@ -90,5 +90,26 @@ namespace MedicationsShortagesDashboard.Services
 
             return false;
         }
+
+        /// <summary>
+        /// Check if a given login is valid assuming a windows login
+        /// </summary>
+        /// <param name="login">The login to check</param>
+        /// <returns>True if the login is valid</returns>
+        public bool CheckWindowsLogin(Login login)
+        {
+            foreach (Login l in this.db.Logins.ToList())
+            {
+                if (l.Username == login.Username)
+                {
+                    Authentication.Authenticated = true;
+                    login.Type = Authentication.Type = l.Type;
+                    Authentication.Username = login.Username;
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 }

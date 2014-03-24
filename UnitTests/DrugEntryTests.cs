@@ -141,8 +141,6 @@ namespace UnitTests
             Assert.AreEqual(d.CurrentStatus, "severe");
         }
 
-
-
         /// <summary>
         /// Last updated getter
         /// </summary>

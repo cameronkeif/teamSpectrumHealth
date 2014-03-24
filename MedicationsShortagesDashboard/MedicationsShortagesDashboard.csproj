@@ -173,6 +173,7 @@
     <Compile Include="Controllers\DrugEntryManualController.cs" />
     <Compile Include="Controllers\LoginAPIController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\LogoutAPIController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\PendingShortageController.cs" />
     <Compile Include="Controllers\PendingShortagesListController.cs" />

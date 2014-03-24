@@ -15,24 +15,29 @@
                 <a href="~/DrugEntriesList/" class="button">Home</a>
             </li>
             <li class="left">
-                <a href="~/Admin/" class="button">Admin</a>
+                <a href="~/PendingShortagesList/" class="button">Admin</a>
             </li>
                 @{       
                     if(ViewData["Username"] == "Guest")
                     {
-                        <li class="rightMost" id="loginRedir">
-                        <a href="~/Login" class="button">Login</a>
+                        <li class="rightMost">
+                            <a href="~/Login" class="button">Debug Login</a>
+                        </li>
+                        <li class="right" id="loginMenuButton">
+                            <div class="button">Login</div>
                         </li>
                     }
                     else
                     {
                         <li class="rightMost">
-                        <div id="userDisplay" class="button">Logout</div>
+                            <div id="logoutButton" class="button" onclick="logout()">Logout</div>
                         </li>
                     }
                 }
             <li class="right">
-                <div class="menuText">Welcome, @Html.Encode(ViewData["Username"])</div>
+                <div class="menuText">
+                    Welcome, @Html.Encode(ViewData["Username"])
+                </div>
             </li>
         </ul>
     </div>
@@ -43,7 +48,7 @@
             @{
                 if (ViewData["PageTitle"] == "Current Shortages" || ViewData["PageTitle"] == "All Shortages" || ViewData["PageTitle"] == "Pending Shortages") 
                 {
-                    <input type="search" placeholder="search"/>
+                    <input id="searchbar" type="search" placeholder="search"/>
                 }
             }
         </li>
@@ -73,6 +78,17 @@
 </html>
 
 <script>
+
+    function logout() {
+        $.post("api/logoutapi",
+            null,
+            function (value) {
+                location.reload();
+            },
+            "json"
+        );
+    }
+
     var str = @Html.Raw(Json.Encode(ViewData["PageTitle"])) + '';
     if (str == "Pending Shortages") {
         $("#pendingShortagesMenu").addClass("selected");

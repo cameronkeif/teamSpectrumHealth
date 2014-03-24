@@ -10,6 +10,17 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
+    <script>
+        function logout() {
+            $.post("api/logoutapi",
+                null,
+                function (value) {
+                    location.reload();
+                },
+                "json"
+            );
+        }
+    </script>
     <div id="menu">
         <ul>
             <li class="leftMost">
@@ -31,21 +42,13 @@
                     else
                     {
                         <li class="rightMost">
-                            <div id="logoutButton" class="button">Logout</div>
+                            <div id="logoutButton" class="button" onclick="logout()">Logout</div>
                         </li>
                     }
                 }
             <li class="right">
                 <div class="menuText">
-                    Welcome, 
-                    @using System.Security.Principal;
-                    @{
-                        var user = (WindowsPrincipal)User;
-                        if(user.IsInRole(WindowsBuiltInRole.User))
-                        {
-                            <span id="usernameText">@user.Identity.Name.Split('\\')[1]</span>
-                        }
-                    }
+                    Welcome, @Html.Encode(ViewData["Username"])
                 </div>
             </li>
         </ul>

@@ -22,9 +22,6 @@
     </div>
     <div id="ignored_pending_shortages_container">
         <ul id="ignored_pending_shortages">
-            <li>Test1</li>
-            <li>Test2</li>
-            <li>Test3</li>
         </ul>
     </div>
 
@@ -72,6 +69,8 @@ $(function ()
     $.getJSON('/api/IgnoredPendingShortage/' + loggedInAs, function (ignoredPendingShortagesJsonPayload) {
         $(ignoredPendingShortagesJsonPayload).each(function (i, item) {
             ignoredUrls.push(item.SourceUrl);
+            $("#ignored_pending_shortages").append("<li>" + item.DrugName + "</li>");
+            console.log(item.DrugName);
         });
     });
 

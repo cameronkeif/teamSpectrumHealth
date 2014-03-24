@@ -407,6 +407,7 @@ div.container
 #pending_shortages_headers {
     text-align:center;
     width: 100%;
+    display: none;
 }
 
     #pending_shortages_headers a {

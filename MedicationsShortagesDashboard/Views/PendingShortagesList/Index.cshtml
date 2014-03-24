@@ -8,6 +8,9 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 
 <div id="body">
+    <div id="loadingAnimation">
+        <img src="~/Images/loading.gif">
+    </div>
     <div id="pending_shortages_headers">
         <span id="feed">
             <a href="javascript:void(0)" onclick="showPendingShortagesList()">ASHP Feed</a>
@@ -70,7 +73,6 @@ $(function ()
         $(ignoredPendingShortagesJsonPayload).each(function (i, item) {
             ignoredUrls.push(item.SourceUrl);
             $("#ignored_pending_shortages").append("<li>" + item.DrugName + "</li>");
-            console.log(item.DrugName);
         });
     });
 
@@ -89,6 +91,8 @@ $(function ()
                 $("#" + id).hide();
             }
         });
+        $("#pending_shortages_headers").show();
+        $("#loadingAnimation").hide();
     });
 });
 

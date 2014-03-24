@@ -27,14 +27,21 @@ namespace MedicationsShortagesDashboard.Models
         private string sourceUrl;
 
         /// <summary>
+        /// The drug's name.
+        /// </summary>
+        private string drugName;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="IgnoredPendingShortage"/> class.
         /// </summary>
         /// <param name="username">The user's username</param>
         /// <param name="sourceUrl">The source URL</param>
-        public IgnoredPendingShortage(string username, string sourceUrl)
+        /// <param name="drugName">The drug name</param>
+        public IgnoredPendingShortage(string username, string sourceUrl, string drugName)
         {
             this.username = username;
             this.sourceUrl = sourceUrl;
+            this.drugName = drugName;
         }
 
         /// <summary>
@@ -44,6 +51,7 @@ namespace MedicationsShortagesDashboard.Models
         {
             this.username = string.Empty;
             this.sourceUrl = string.Empty;
+            this.drugName = string.Empty;
         }
 
         /// <summary>
@@ -79,6 +87,23 @@ namespace MedicationsShortagesDashboard.Models
             set
             {
                 this.sourceUrl = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets drugName
+        /// </summary>
+        [Column("DRUG_NAME")]
+        public string DrugName
+        {
+            get
+            {
+                return this.drugName;
+            }
+
+            set
+            {
+                this.drugName = value;
             }
         }
     }

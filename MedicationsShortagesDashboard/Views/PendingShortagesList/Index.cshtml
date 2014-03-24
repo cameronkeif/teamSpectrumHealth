@@ -74,7 +74,7 @@ $(function ()
             {
                 // ID from the ASHP website, which is at the end of the source URL
                 var id = item.SourceURL.split("Id=")[1];
-                $('#pending_shortages').append("<li id='ps_" + id + "' class=pending_shortage><span class=pending_shortage_title onClick='showPreview(\"" + item.SourceURL + '", "' + id + "\")'>" + item.DrugName +
+                $('#pending_shortages').append("<li id='ps_" + id + "' class=pending_shortage><span class=pending_shortage_title onClick='showPreview(\"" + item.SourceURL + '", "' + id + '", "' + item.DrugName +  "\")'>" + item.DrugName +
                     "<span class=pending_shortage_expand_icon id=expand_" + id + ">+</span></span><br><span class='preview' id=" + id + "></span></li>");
                 $('#' + id).prepend('<div id="loadingAnimation"><img src="/Images/loading.gif" height="40" width="40"></div>');
                 $("#" + id).hide();
@@ -85,7 +85,7 @@ $(function ()
     // Scrapes the HTML from the source URL of the pending shortage, appends
     // the reasons for the shortage to a div.
     /*** Right now this is hardcoded to be the bottom of the page, should obviously be changed. ***/
-function scrapeHtml(url, id) {
+function scrapeHtml(url, id, drugName) {
     if (url.match('^http')) {
         // Use YML to bypass cross domain issues.
         $.getJSON("http://query.yahooapis.com/v1/public/yql?" +
@@ -102,10 +102,6 @@ function scrapeHtml(url, id) {
                   affectedProducts = data.split("Products Affected - Description")[1];
                   affectedProducts = affectedProducts.split("<!-- End Products Affected  -->")[0];
 
-                  /* Try to find the NDC of the first drug in Products Affected.
-                   * Note: Some shortages affect a lot of drugs. Others only affect one or two.
-                   * Not all shortages show the NDC... But if it's there, it'd be nice to populate the form.
-                   */
                   var indexOfNdc = affectedProducts.indexOf("NDC ");
 
                   while (indexOfNdc != -1) {
@@ -126,7 +122,7 @@ function scrapeHtml(url, id) {
                   $("#" + id).prepend(preview);
                   $("#" + id).append("<p><a href=" + url + "> View Full Report </a></p>")
                   $("#" + id).append("<div style<p><button onClick=\"showCreateShortage('" + NDCs + "')\"> Create Shortage </button><span style='float:right'>" +
-                      "<button onClick='ignore(" + id + ", \"" + loggedInAs +  "\")'> Ignore </button></span></p>");
+                      "<button onClick='ignore(" + id + ", \"" + loggedInAs + "\", \"" + drugName + "\")'> Ignore </button></span></p>");
               }
           }
         );
@@ -145,7 +141,7 @@ function filterData(data) {
 
 // Provides accordion-like behavior by showing the div
 // underneath each link when it is clicked.
-function showPreview(url, id) {
+function showPreview(url, id, drugName) {
 
     // Set the +/- symbol
     expand_symbol = $('#expand_' + id).text()
@@ -158,7 +154,7 @@ function showPreview(url, id) {
 
     // If the drug has not had its ASHP page parsed yet, get that content
     if (alreadyParsedDrugIds.indexOf(id) == -1) {
-        scrapeHtml(url, id);
+        scrapeHtml(url, id, drugName);
         alreadyParsedDrugIds.push(id);
     }
 
@@ -185,9 +181,9 @@ $('#submit').click(function (e) {
     e.preventDefault();
 });
 
-function ignore(id, username) {
+function ignore(id, username, drugName) {
     $.ajax({
-        url: '/api/IgnoredPendingShortage/' + username + "/" + String(id),
+        url: '/api/IgnoredPendingShortage/' + username + "/" + String(id) + "/" + drugName,
         type: 'POST',
         success: function () {
             $("#ps_" + id).hide();

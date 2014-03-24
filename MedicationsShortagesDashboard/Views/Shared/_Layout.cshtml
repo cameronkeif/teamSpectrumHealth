@@ -11,6 +11,20 @@
 </head>
 <body>
     <script>
+
+        function auth() {
+            var url = '@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "loginapi", })';
+            $.post(url,
+                {},
+                function (value) {
+                    location.reload();
+                },
+                "json"
+            ).fail(function () {
+                //$("#loginError").show();
+            });
+        }
+
         function logout() {
             var url = '@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "logoutapi", })';
             $.post(url,
@@ -35,7 +49,7 @@
                     <li class="rightMost">
                         <a href="~/Login" class="button">Debug Login</a>
                     </li>
-                    <li class="right" id="loginMenuButton">
+                    <li class="right" id="loginMenuButton" onclick="auth()">
                         <div class="button">Login</div>
                     </li>
                 }

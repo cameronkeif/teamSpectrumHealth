@@ -216,20 +216,5 @@ $("#searchbar").keyup(function () {
     });
 });
 
-function auth() {
-    var url = '@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "loginapi", })';
-    $.post(url,
-            { },
-            function (value) {
-                location.reload();
-            },
-            "json"
-        ).fail(function () {
-            //$("#loginError").show();
-        });
-}
-$('#loginMenuButton').click(auth);
-
-
 </script>
 }

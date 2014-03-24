@@ -21,8 +21,11 @@
                 @{       
                     if(ViewData["Username"] == "Guest")
                     {
-                        <li class="rightMost" id="loginRedir">
-                        <a href="~/Login" class="button">Login</a>
+                        <li class="rightMost">
+                            <a href="~/Login/" id="debugLoginButton" class="button">Debug Login</a>
+                        </li>
+                        <li class="right" id="loginRedir">
+                            <a href="~/Login" class="button">Login</a>
                         </li>
                     }
                     else

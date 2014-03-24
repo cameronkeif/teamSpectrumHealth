@@ -217,7 +217,8 @@ $("#searchbar").keyup(function () {
 });
 
 function auth() {
-    $.post("api/loginapi",
+    var url = '@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "loginapi", })';
+    $.post(url,
             { },
             function (value) {
                 location.reload();

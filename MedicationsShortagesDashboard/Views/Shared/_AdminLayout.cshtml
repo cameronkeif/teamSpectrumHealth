@@ -83,7 +83,8 @@
 <script>
 
     function logout() {
-        $.post("api/logoutapi",
+        var url = '@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "logoutapi", })';
+        $.post(url,
             null,
             function (value) {
                 window.location.replace("/DrugEntriesList");

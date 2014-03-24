@@ -12,13 +12,16 @@
 <body>
     <script>
         function logout() {
-            $.post("api/logoutapi",
+            var url = '@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "logoutapi", })';
+            $.post(url,
                 null,
                 function (value) {
                     location.reload();
                 },
                 "json"
-            );
+            ).fail(function () {
+                alert('dicks');
+            });;
         }
     </script>
     <div id="menu">
@@ -42,12 +45,6 @@
                     {
                         <li class="left">
                             <a href="~/PendingShortagesList/" class="button">Admin</a>
-                        </li>
-                    }
-                    else 
-                    {
-                                                <li class="left">
-                            <a href="~/PendingShortagesList/" class="button">**@Html.Encode(ViewData["Type"])**</a>
                         </li>
                     }
                     <li class="rightMost">

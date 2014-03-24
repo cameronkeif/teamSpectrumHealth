@@ -44,6 +44,7 @@
 @section scripts{
 <script type="text/javascript">
     var alreadyParsedDrugIds = new Array();
+    var ignoredUrls = new Array();
     var loggedInAs = '@Html.Encode(ViewData["Username"])';
 
     // IE8 does not support Array.indexOf, so define it if it doesn't exist.
@@ -68,18 +69,28 @@
     }
 $(function ()
 {
-        $.getJSON('/api/PendingShortage', function(pendingShortagesJsonPayload)
+    $.getJSON('/api/IgnoredPendingShortage/' + loggedInAs, function (ignoredPendingShortagesJsonPayload) {
+        $(ignoredPendingShortagesJsonPayload).each(function (i, item) {
+            ignoredUrls.push(item.SourceUrl);
+        });
+    });
+
+    $.getJSON('/api/PendingShortage', function(pendingShortagesJsonPayload)
+    {
+        $(pendingShortagesJsonPayload).each(function(i, item)
         {
-            $(pendingShortagesJsonPayload).each(function(i, item)
-            {
+            // Only process items which are not ignored.
+            if (ignoredUrls.indexOf(item.SourceURL) == -1) {
                 // ID from the ASHP website, which is at the end of the source URL
                 var id = item.SourceURL.split("Id=")[1];
-                $('#pending_shortages').append("<li id='ps_" + id + "' class=pending_shortage><span class=pending_shortage_title onClick='showPreview(\"" + item.SourceURL + '", "' + id + '", "' + item.DrugName +  "\")'>" + item.DrugName +
+                $('#pending_shortages').append("<li id='ps_" + id + "' class=pending_shortage><span class=pending_shortage_title onClick='showPreview(\"" + item.SourceURL + '", "' + id + '", "' + item.DrugName + "\")'>" + item.DrugName +
                     "<span class=pending_shortage_expand_icon id=expand_" + id + ">+</span></span><br><span class='preview' id=" + id + "></span></li>");
+
                 $('#' + id).prepend('<div id="loadingAnimation"><img src="/Images/loading.gif" height="40" width="40"></div>');
                 $("#" + id).hide();
-            });
+            }
         });
+    });
 });
 
     // Scrapes the HTML from the source URL of the pending shortage, appends

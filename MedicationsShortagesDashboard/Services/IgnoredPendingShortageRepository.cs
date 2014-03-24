@@ -46,6 +46,7 @@ namespace MedicationsShortagesDashboard.Services
         /// <param name="item">The item to add to the user's watch list.</param>
         public void AddIgnoredPendingShortage(IgnoredPendingShortage item)
         {
+            item.SourceUrl = "http://www.ashp.org/DrugShortages/Current/Bulletin.aspx?Source=Current&Type=Rss&Id=" + item.SourceUrl;
             this.db.IgnoredPendingShortages.Add(item);
             try
             {

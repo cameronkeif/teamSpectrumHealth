@@ -131,7 +131,7 @@ function scrapeHtml(url, id, drugName) {
                   $("#" + id).prepend(preview);
                   $("#" + id).append("<p><a href=" + url + "> View Full Report </a></p>")
                   $("#" + id).append("<div style<p><button onClick=\"showCreateShortage('" + NDCs + "')\"> Create Shortage </button><span style='float:right'>" +
-                      "<button onClick='ignore(" + id + ", \"" + loggedInAs + "\", \"" + drugName + "\")'> Ignore </button></span></p>");
+                      "<button onClick='ignore(\"" + url + "\", \"" + loggedInAs + "\", \"" + drugName + "\")'> Ignore </button></span></p>");
               }
           }
         );
@@ -190,13 +190,11 @@ $('#submit').click(function (e) {
     e.preventDefault();
 });
 
-function ignore(id, username, drugName) {
-    $.ajax({
-        url: '/api/IgnoredPendingShortage/' + username + "/" + String(id) + "/" + drugName,
-        type: 'POST',
-        success: function () {
-            $("#ps_" + id).hide();
-        }
+function ignore(url, username, drugName) {
+    var id = url.split("Id=")[1];
+    $.post('/api/IgnoredPendingShortage', "username=" + username + "&sourceUrl=" + id + "&drugName=" + drugName)
+    .success(function() {
+        $("#ps_" + id).hide();
     });
 
     return false;

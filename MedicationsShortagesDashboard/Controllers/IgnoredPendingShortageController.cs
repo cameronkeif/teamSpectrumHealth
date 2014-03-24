@@ -31,17 +31,15 @@ namespace MedicationsShortagesDashboard.Controllers
             return this.ignoredPendingShortageRepository.GetIgnoredPendingShortages(id);
         }
 
+
         /// <summary>
         /// HTTP Post
         /// </summary>
-        /// <param name="username">The username of the user</param>
-        /// <param name="id">The source URL of the pending shortage from the ASHP feed</param>
-        public void Post(string username, string id, string drugName)
+        /// <param name="ignored">The IgnoredPendingShortage to enter into the database.</param>
+        public void Post([FromBody] IgnoredPendingShortage ignored)
         {
             try
             {
-                string sourceUrl = "http://www.ashp.org/DrugShortages/Current/Bulletin.aspx?Source=Current&Type=Rss&Id=" + id;
-                IgnoredPendingShortage ignored = new IgnoredPendingShortage(username, sourceUrl, drugName);
                 this.ignoredPendingShortageRepository.AddIgnoredPendingShortage(ignored);
             }
             catch (InvalidOperationException)

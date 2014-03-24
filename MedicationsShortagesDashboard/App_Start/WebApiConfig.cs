@@ -25,12 +25,6 @@ namespace MedicationsShortagesDashboard
             );
 
             config.Routes.MapHttpRoute(
-            name: "Nested Ignored Three",
-            routeTemplate: "api/IgnoredPendingShortage/{username}/{id}/{drugName}",
-            defaults: new { controller = "IgnoredPendingShortage" }
-        );
-
-            config.Routes.MapHttpRoute(
             name: "Nested Ignored Two",
             routeTemplate: "api/IgnoredPendingShortage/{username}/{id}",
             defaults: new { controller = "IgnoredPendingShortage" }

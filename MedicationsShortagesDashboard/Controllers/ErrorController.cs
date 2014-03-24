@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="LoginController.cs" company="Spectrum Health">
+// <copyright file="ErrorController.cs" company="Spectrum Health">
 //      Spectrum Health
 // </copyright>
 //-----------------------------------------------------------------------
@@ -14,9 +14,9 @@ namespace MedicationsShortagesDashboard.Controllers
     using MedicationsShortagesDashboard.Services;
 
     /// <summary>
-    /// Class controlling the login page
+    /// Class controlling the Error page
     /// </summary>
-    public class LoginController : Controller
+    public class ErrorController : Controller
     {
         /// <summary>
         /// Creates an index page
@@ -24,13 +24,9 @@ namespace MedicationsShortagesDashboard.Controllers
         /// <returns>The page as a view</returns>
         public ActionResult Index()
         {
-            if (Authentication.Authenticated)
-            {
-                Response.Redirect("~/Error");
-            }
             this.ViewData["Username"] = Authentication.Username;
             this.ViewData["Type"] = Authentication.Type;
-            this.ViewData["PageTitle"] = "Login";
+            this.ViewData["PageTitle"] = "Error";
             return this.View();
         }
     }

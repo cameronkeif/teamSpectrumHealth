@@ -21,6 +21,10 @@ namespace MedicationsShortagesDashboard.Controllers
         /// <returns>The page as a view</returns>
         public ActionResult Index()
         {
+            if (Authentication.Type != "pharmadmin")
+            {
+                Response.Redirect("~");
+            }
             this.ViewData["Username"] = Authentication.Username;
             this.ViewData["Type"] = Authentication.Type;
             this.ViewData["PageTitle"] = "Pending Shortages";

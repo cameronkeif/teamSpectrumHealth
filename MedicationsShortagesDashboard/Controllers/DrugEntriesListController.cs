@@ -34,6 +34,10 @@ namespace MedicationsShortagesDashboard.Controllers
         /// <returns>Upload page view</returns>
         public ActionResult Upload()
         {
+            if (Authentication.Type != "pharmadmin")
+            {
+                Response.Redirect("~");
+            }
             this.ViewData["Username"] = Authentication.Username;
             this.ViewData["Type"] = Authentication.Type;
             this.ViewData["PageTitle"] = "Upload Formulary";

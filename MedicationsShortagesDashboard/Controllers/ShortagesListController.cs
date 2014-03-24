@@ -21,6 +21,10 @@ namespace MedicationsShortagesDashboard.Controllers
         /// <returns>Index page view</returns>
         public ActionResult Index()
         {
+            if (Authentication.Type != "pharmadmin")
+            {
+                Response.Redirect("~");
+            }
             this.ViewData["Username"] = Authentication.Username;
             this.ViewData["Type"] = Authentication.Type;
             this.ViewData["PageTitle"] = "All Shortages";
@@ -33,6 +37,10 @@ namespace MedicationsShortagesDashboard.Controllers
         /// <returns>Create page view</returns>
         public ActionResult Create()
         {
+            if (Authentication.Type != "pharmadmin")
+            {
+                Response.Redirect("~");
+            }
             this.ViewData["Username"] = Authentication.Username;
             this.ViewData["Type"] = Authentication.Type;
             this.ViewData["PageTitle"] = "Create Shortage";
@@ -46,6 +54,11 @@ namespace MedicationsShortagesDashboard.Controllers
         /// <returns>Edit page view</returns>
         public ActionResult Edit(int id = 0)
         {
+
+            if (Authentication.Type != "pharmadmin")
+            {
+                Response.Redirect("~");
+            }
             ShortageRepository db = new ShortageRepository();
 
             Shortage shortage = db.GetShortage(id);

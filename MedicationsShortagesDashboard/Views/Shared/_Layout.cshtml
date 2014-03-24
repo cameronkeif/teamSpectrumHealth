@@ -10,43 +10,51 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
+    <script>
+        function logout() {
+            var url = '@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "logoutapi", })';
+            $.post(url,
+                null,
+                function (value) {
+                    location.reload();
+                },
+                "json"
+            ).fail(function () {
+                alert('dicks');
+            });;
+        }
+    </script>
     <div id="menu">
         <ul>
             <li class="leftMost">
                 <a href="~/DrugEntriesList/" class="button">Home</a>
             </li>
-            <li class="left">
-                <a href="~/PendingShortagesList/" class="button">Admin</a>
-            </li>
-                @{       
-                    if(ViewData["Username"] == "Guest")
-                    {
-                        <li class="rightMost" id="loginRedir">
-                        <a href="~/Login" class="button">Login</a>
-                        </li>
-                    }
-                    else
-                    {
-                        <li class="rightMost">
-                        <div id="userDisplay" class="button">Logout</div>
-                        </li>
-                    }
+            @{       
+                if(ViewData["Username"] == "Guest")
+                {
+                    <li class="rightMost">
+                        <a href="~/Login" class="button">Debug Login</a>
+                    </li>
+                    <li class="right" id="loginMenuButton">
+                        <div class="button">Login</div>
+                    </li>
                 }
+                else
+                {
+                    if (@Html.Encode(ViewData["Type"]) == "pharmadmin")
+                    {
+                        <li class="left">
+                            <a href="~/PendingShortagesList/" class="button">Admin</a>
+                        </li>
+                    }
+                    <li class="rightMost">
+                        <div id="logoutButton" class="button" onclick="logout()">Logout</div>
+                    </li>
+                }
+            }
             <li class="right">
                 <div class="menuText">
-                    Welcome, 
-                    @using System.Security.Principal;
-                    @{
-                        var user = (WindowsPrincipal)User;
-                        if(user.IsInRole(WindowsBuiltInRole.User))
-                        {
-                            <span>@user.Identity.Name.Split('\\')[1]</span>
-                        }
-                        else 
-                        {
-                            <span>LESS AWESOME</span>   
-                        }
-                    }
+                    Welcome, @Html.Encode(ViewData["Username"])
                 </div>
             </li>
         </ul>
@@ -56,7 +64,7 @@
         <li class="pageTitle">@Html.Encode(ViewData["PageTitle"])</li>
         <li class="search">
             @{
-                if (ViewData["PageTitle"] == "Current Shortages" || ViewData["PageTitle"] == "All Shortages" || ViewData["PageTitle"] == "Pending Shortages") 
+                if (ViewData["PageTitle"] == "Current Shortages" || ViewData["PageTitle"] == "All Shortages" || ViewData["PageTitle"] == "Pending Shortages")
                 {
                     <input id="searchbar" type="search" placeholder="search"/>
                 }
@@ -68,5 +76,6 @@
     @RenderBody()
 
     @RenderSection("scripts", required: false)
+    
 </body>
 </html>

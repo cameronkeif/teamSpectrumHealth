@@ -23,6 +23,7 @@ namespace MedicationsShortagesDashboard.Controllers
         public ActionResult Index()
         {
             this.ViewData["Username"] = Authentication.Username;
+            this.ViewData["Type"] = Authentication.Type;
             this.ViewData["PageTitle"] = "Current Shortages";
             return this.View();
         }
@@ -33,7 +34,12 @@ namespace MedicationsShortagesDashboard.Controllers
         /// <returns>Upload page view</returns>
         public ActionResult Upload()
         {
+            if (Authentication.Type != "pharmadmin")
+            {
+                Response.Redirect("~");
+            }
             this.ViewData["Username"] = Authentication.Username;
+            this.ViewData["Type"] = Authentication.Type;
             this.ViewData["PageTitle"] = "Upload Formulary";
             return this.View();
         }
@@ -57,6 +63,7 @@ namespace MedicationsShortagesDashboard.Controllers
             var tuple = new Tuple<DrugEntry, Message>(drug, message);
 
             this.ViewData["Username"] = Authentication.Username;
+            this.ViewData["Type"] = Authentication.Type;
             this.ViewData["PageTitle"] = "Medication Details";
             return this.View(tuple);
         }

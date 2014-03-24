@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="LoginAPIController.cs" company="Spectrum Health">
+// <copyright file="LogoutAPIController.cs" company="Spectrum Health">
 //      Spectrum Health
 // </copyright>
 //-----------------------------------------------------------------------
@@ -18,7 +18,7 @@ namespace MedicationsShortagesDashboard.Controllers
     /// <summary>
     /// Class allowing the view to interact with the API
     /// </summary>
-    public class LoginAPIController : ApiController
+    public class LogoutAPIController : ApiController
     {
         /// <summary>
         /// Allows access to the database
@@ -26,18 +26,18 @@ namespace MedicationsShortagesDashboard.Controllers
         private LoginRepository loginRepo;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="LoginAPIController"/> class
+        /// Initializes a new instance of the <see cref="LogoutAPIController"/> class
         /// </summary>
-        public LoginAPIController()
+        public LogoutAPIController()
         {
             this.loginRepo = new LoginRepository();
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="LoginAPIController"/> class using a login repository
+        /// Initializes a new instance of the <see cref="LogoutAPIController"/> class using a login repository
         /// </summary>
         /// <param name="loginRepo">The repository to initialize with</param>
-        public LoginAPIController(LoginRepository loginRepo)
+        public LogoutAPIController(LoginRepository loginRepo)
         {
             this.loginRepo = loginRepo;
         }
@@ -65,25 +65,11 @@ namespace MedicationsShortagesDashboard.Controllers
         /// <summary>
         /// HTTP Post
         /// </summary>
-        /// <param name="login">The login information to check</param>
-        /// <returns>A http response indicating whether or not the login was successful</returns>
-        public HttpResponseMessage Post(Login login)
+        /// <returns>A http response indicating the action was successful</returns>
+        public HttpResponseMessage Post()
         {
-            if (login == null)
-            {
-                login = new Login();
-                login.Username = User.Identity.Name.Split('\\')[1];
-                if (this.loginRepo.CheckWindowsLogin(login))
-                {
-                    return Request.CreateResponse<Login>(System.Net.HttpStatusCode.Accepted, login);
-                }
-            }
-            else if (this.loginRepo.CheckLogin(login))
-            {
-                return Request.CreateResponse<Login>(System.Net.HttpStatusCode.Accepted, login);
-            }
-
-            return Request.CreateResponse<Login>(System.Net.HttpStatusCode.BadRequest, login);
+            Authentication.Reset();
+            return Request.CreateResponse<Login>(System.Net.HttpStatusCode.Accepted, null);
         }
     }
 }

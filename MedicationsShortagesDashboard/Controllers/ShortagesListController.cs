@@ -22,6 +22,7 @@ namespace MedicationsShortagesDashboard.Controllers
         public ActionResult Index()
         {
             this.ViewData["Username"] = Authentication.Username;
+            this.ViewData["Type"] = Authentication.Type;
             this.ViewData["PageTitle"] = "All Shortages";
             return this.View();
         }
@@ -33,6 +34,7 @@ namespace MedicationsShortagesDashboard.Controllers
         public ActionResult Create()
         {
             this.ViewData["Username"] = Authentication.Username;
+            this.ViewData["Type"] = Authentication.Type;
             this.ViewData["PageTitle"] = "Create Shortage";
             return this.View();
         }
@@ -53,6 +55,7 @@ namespace MedicationsShortagesDashboard.Controllers
             }
 
             this.ViewData["Username"] = Authentication.Username;
+            this.ViewData["Type"] = Authentication.Type;
             this.ViewData["PageTitle"] = "Edit Shortage";
             return this.View(shortage);
         }

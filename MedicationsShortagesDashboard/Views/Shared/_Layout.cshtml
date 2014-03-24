@@ -26,26 +26,35 @@
             <li class="leftMost">
                 <a href="~/DrugEntriesList/" class="button">Home</a>
             </li>
-            <li class="left">
-                <a href="~/PendingShortagesList/" class="button">Admin</a>
-            </li>
-                @{       
-                    if(ViewData["Username"] == "Guest")
-                    {
-                        <li class="rightMost">
-                            <a href="~/Login" class="button">Debug Login</a>
-                        </li>
-                        <li class="right" id="loginMenuButton">
-                            <div class="button">Login</div>
-                        </li>
-                    }
-                    else
-                    {
-                        <li class="rightMost">
-                            <div id="logoutButton" class="button" onclick="logout()">Logout</div>
-                        </li>
-                    }
+            @{       
+                if(ViewData["Username"] == "Guest")
+                {
+                    <li class="rightMost">
+                        <a href="~/Login" class="button">Debug Login</a>
+                    </li>
+                    <li class="right" id="loginMenuButton">
+                        <div class="button">Login</div>
+                    </li>
                 }
+                else
+                {
+                    if (@Html.Encode(ViewData["Type"]) == "pharmadmin")
+                    {
+                        <li class="left">
+                            <a href="~/PendingShortagesList/" class="button">Admin</a>
+                        </li>
+                    }
+                    else 
+                    {
+                                                <li class="left">
+                            <a href="~/PendingShortagesList/" class="button">**@Html.Encode(ViewData["Type"])**</a>
+                        </li>
+                    }
+                    <li class="rightMost">
+                        <div id="logoutButton" class="button" onclick="logout()">Logout</div>
+                    </li>
+                }
+            }
             <li class="right">
                 <div class="menuText">
                     Welcome, @Html.Encode(ViewData["Username"])
@@ -58,7 +67,7 @@
         <li class="pageTitle">@Html.Encode(ViewData["PageTitle"])</li>
         <li class="search">
             @{
-                if (ViewData["PageTitle"] == "Current Shortages" || ViewData["PageTitle"] == "All Shortages" || ViewData["PageTitle"] == "Pending Shortages") 
+                if (ViewData["PageTitle"] == "Current Shortages" || ViewData["PageTitle"] == "All Shortages" || ViewData["PageTitle"] == "Pending Shortages")
                 {
                     <input id="searchbar" type="search" placeholder="search"/>
                 }

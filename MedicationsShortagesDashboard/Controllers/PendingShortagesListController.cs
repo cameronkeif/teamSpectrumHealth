@@ -22,6 +22,7 @@ namespace MedicationsShortagesDashboard.Controllers
         public ActionResult Index()
         {
             this.ViewData["Username"] = Authentication.Username;
+            this.ViewData["Type"] = Authentication.Type;
             this.ViewData["PageTitle"] = "Pending Shortages";
             return this.View();
         }

@@ -21,11 +21,11 @@
                 @{       
                     if(ViewData["Username"] == "Guest")
                     {
-                        <li class="rightMost" id="loginRedir">
-                            <div class="button">Login</div>
-                        </li>
-                        <li class="right">
+                        <li class="rightMost">
                             <a href="~/Login" class="button">Debug Login</a>
+                        </li>
+                        <li class="right" id="loginMenuButton">
+                            <div class="button">Login</div>
                         </li>
                     }
                     else
@@ -43,11 +43,7 @@
                         var user = (WindowsPrincipal)User;
                         if(user.IsInRole(WindowsBuiltInRole.User))
                         {
-                            <span>@user.Identity.Name.Split('\\')[1]</span>
-                        }
-                        else 
-                        {
-                            <span>LESS AWESOME</span>   
+                            <span id="usernameText">@user.Identity.Name.Split('\\')[1]</span>
                         }
                     }
                 </div>

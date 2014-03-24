@@ -90,5 +90,21 @@ namespace MedicationsShortagesDashboard.Services
 
             return false;
         }
+
+        public bool CheckWindowsLogin(Login login)
+        {
+
+            foreach (Login l in this.db.Logins.ToList())
+            {
+                if (l.Username == login.Username)
+                {
+                    Authentication.Authenticated = true;
+                    login.Type = Authentication.Type = l.Type;
+                    Authentication.Username = login.Username;
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }

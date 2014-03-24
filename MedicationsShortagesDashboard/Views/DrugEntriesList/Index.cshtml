@@ -215,5 +215,20 @@ $("#searchbar").keyup(function () {
         });
     });
 });
+
+function auth() {
+    $.post("api/loginapi",
+            { Username: $("#usernameText").text(), Password: "", Type: "" },
+            function (value) {
+                location.reload();
+            },
+            "json"
+        ).fail(function () {
+            //$("#loginError").show();
+        });
+}
+$('#loginMenuButton').click(auth);
+
+
 </script>
 }

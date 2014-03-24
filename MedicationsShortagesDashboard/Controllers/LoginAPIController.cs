@@ -69,7 +69,11 @@ namespace MedicationsShortagesDashboard.Controllers
         /// <returns>A http response indicating whether or not the login was successful</returns>
         public HttpResponseMessage Post(Login login)
         {
-            if (this.loginRepo.CheckLogin(login))
+            if (login.Password == null && this.loginRepo.CheckWindowsLogin(login))
+            {
+                return Request.CreateResponse<Login>(System.Net.HttpStatusCode.Accepted, login);
+            }
+            else if (this.loginRepo.CheckLogin(login))
             {
                 return Request.CreateResponse<Login>(System.Net.HttpStatusCode.Accepted, login);
             }

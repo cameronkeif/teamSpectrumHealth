@@ -35,7 +35,8 @@
     var shortageHistoryPlotData = Array();
     $.getJSON('/api/Shortage/' + '@Model.Item1.NDC', function (shortagesJsonPayload) {
         $(shortagesJsonPayload).each(function (i, item) {
-            $('#shortageHistory > ul').append('<li>' + item.Status + formatDateForOutput(item.DateTime) + '<a href="/ShortagesList/Edit/' + item.Id + '"> Edit </a> <a onclick="DeleteConfirm(' + item.Id + ')" href="#"> Delete </a></li></div></li>');
+            $('#shortageHistory > ul').append('<li id=shortage_' + item.Id + '>' + item.Status + formatDateForOutput(item.DateTime) + '<a href="/ShortagesList/Edit/' + item.Id + '">' +
+                'Edit </a> <a onclick="Delete(' + item.Id + ', ' + i + ')" href="#"> Delete </a></li></div></li>');
 
             if (item.Status == "severe") {
                 shortageHistoryPlotData.push([item.DateTime.replace("T", " "), 0]);
@@ -58,21 +59,17 @@
         }
     });
 
-    function DeleteConfirm(id) {
+    function Delete(id, plotDataIndex) {
         var result = confirm("Do you really want to delete this shortage?");
         if (result == true) {
-            Delete(id);
-        }
-    }
-
-    function Delete(id) {
-        $.ajax({
-            url: '/api/Shortage' + '/' + id,
-            type: 'DELETE',
-            success: function () {
-                $('#shortage' + id).remove();
-            },
-        });
+            $.ajax({
+                url: '/api/Shortage' + '/' + id,
+                type: 'DELETE',
+                success: function () {
+                    window.location.reload();
+                },
+            });
+        } 
     }
 
     // Plots the shortage history chart
@@ -117,7 +114,6 @@
         minutes = dateTime.substr(14, 2);
         seconds = dateTime.substr(17, 2);
         dateObject = new Date(year, month, day, hours, minutes, seconds);
-        console.log(seconds);
         return " at " + dateObject.toLocaleTimeString() + " on " + dateObject.toLocaleDateString();
     }
 </script>

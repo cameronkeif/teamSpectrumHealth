@@ -14,6 +14,11 @@
             </ul>
             <ul id="severeList" class="shortageList">
             </ul>
+            <a href='#' class="pagingButton"><<</a>
+            <a href='#' class="pagingButton"><</a>
+            <span class="pageNumber">1</span>
+            <a href='#' class="pagingButton">></a>
+            <a href='#' class="pagingButton">>></a>
         </div>
         <div id="warningContainer" class="container">
             <span class="secondaryTitle">Warning</span>
@@ -21,6 +26,11 @@
             </ul>
             <ul id="warningList" class="shortageList">
             </ul>
+            <a href='#' class="pagingButton"><<</a>
+            <a href='#' class="pagingButton"><</a>
+            <span class="pageNumber">1</span>
+            <a href='#' class="pagingButton">></a>
+            <a href='#' class="pagingButton">>></a>
         </div>
         <div id="goodContainer" class="container">
             <span class="secondaryTitle">Good</span>
@@ -28,11 +38,21 @@
             </ul>
             <ul id="goodList" class="shortageList">
             </ul>
+            <a href='#' class="pagingButton"><<</a>
+            <a href='#' class="pagingButton"><</a>
+            <span class="pageNumber">1</span>
+            <a href='#' class="pagingButton">></a>
+            <a href='#' class="pagingButton">>></a>
         </div>
         <div id="recentContainer" class="container">
             <span class="secondaryTitle">Recent</span>
             <ul id="recentList" class="shortageList">
             </ul>
+            <a href='#' class="pagingButton"><<</a>
+            <a href='#' class="pagingButton"><</a>
+            <span class="pageNumber">1</span>
+            <a href='#' class="pagingButton">></a>
+            <a href='#' class="pagingButton">>></a>
         </div>
     </div>
 </div>
@@ -43,7 +63,7 @@
     var loggedInAs = '@Html.Encode(ViewData["Username"])';
 
     var numRecentItems = 10;
-    var itemsPerList = 5;
+    var itemsPerPage = 5;
 
     var recentItems = [];
     var goodItems = [];
@@ -52,26 +72,15 @@
     var watchListNdcs = [];
 
     function displayList(list, appendTarget) {
-        for (var i = 0; i < list.length; i++) {
+        for (var i = 0; i < list.length && i < itemsPerPage; i++) {
             var item = list[i];
             var shortage;
             if ($.inArray(item.NDC, watchListNdcs) != -1) {
                 shortage = getShortageItemHTMLWatchList(item.Brand, item.Dosage, item.NDC, item.CurrentStatus);
                 $(shortage).appendTo('#' + appendTarget + 'WatchList').addClass(appendTarget + "Item");
-
-                /*if (item.CurrentStatus === "severe") {
-                    $(shortage).appendTo('#severeWatchList').addClass("severeItem");
-                }
-                else if (item.CurrentStatus === "warning") {
-                    $(shortage).appendTo('#warningWatchList').addClass("warningItem");
-                }
-                else {
-                    $(shortage).appendTo('#goodWatchList').addClass("goodItem");
-                }*/
             }
             else {
                 shortage = getShortageItemHTML(item.Brand, item.Dosage, item.NDC, item.CurrentStatus);
-
                 $(shortage).appendTo('#' + appendTarget + 'List').addClass(appendTarget + "Item");
             }
         }
@@ -84,7 +93,7 @@
         displayList(warningItems, 'warning');
         displayList(severeItems, 'severe');
 
-        for (var i = 0; i < recentItems.length ; i++) {
+        for (var i = 0; i < recentItems.length && i < itemsPerPage; i++) {
             var item = recentItems[i];
             var shortage;
 

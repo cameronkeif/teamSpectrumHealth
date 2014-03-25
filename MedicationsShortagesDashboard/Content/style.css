@@ -504,6 +504,10 @@ div.container
             border-color: #366298;
         }
 
+#additionalInfo {
+    display: none;
+}
+
 .create_shortage_severe_label {
     color: #FF334A;
 }

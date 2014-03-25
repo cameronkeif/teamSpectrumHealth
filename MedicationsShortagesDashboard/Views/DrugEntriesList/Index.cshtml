@@ -14,11 +14,11 @@
             </ul>
             <ul id="severeList" class="shortageList">
             </ul>
-            <a href='#' class="pagingButton"><<</a>
-            <a href='#' class="pagingButton"><</a>
-            <span class="pageNumber">1</span>
-            <a href='#' class="pagingButton">></a>
-            <a href='#' class="pagingButton">>></a>
+            <a id="severeFirst" href='#' class="pagingButton"><<</a>
+            <a id="severePrevious" href='#' class="pagingButton"><</a>
+            <span id="severePageNumber" class="pageNumber">1</span>
+            <a id="severeNext" href='#' class="pagingButton">></a>
+            <a id="severeLast" href='#' class="pagingButton">>></a>
         </div>
         <div id="warningContainer" class="container">
             <span class="secondaryTitle">Warning</span>
@@ -26,11 +26,11 @@
             </ul>
             <ul id="warningList" class="shortageList">
             </ul>
-            <a href='#' class="pagingButton"><<</a>
-            <a href='#' class="pagingButton"><</a>
-            <span class="pageNumber">1</span>
-            <a href='#' class="pagingButton">></a>
-            <a href='#' class="pagingButton">>></a>
+            <a id="warningFirst" href='#' class="pagingButton"><<</a>
+            <a id="warningPrevious" href='#' class="pagingButton"><</a>
+            <span id="warningPageNumber" class="pageNumber">1</span>
+            <a id="warningNext" href='#' class="pagingButton">></a>
+            <a id="warningLast" href='#' class="pagingButton">>></a>
         </div>
         <div id="goodContainer" class="container">
             <span class="secondaryTitle">Good</span>
@@ -38,21 +38,21 @@
             </ul>
             <ul id="goodList" class="shortageList">
             </ul>
-            <a href='#' class="pagingButton"><<</a>
-            <a href='#' class="pagingButton"><</a>
-            <span class="pageNumber">1</span>
-            <a href='#' class="pagingButton">></a>
-            <a href='#' class="pagingButton">>></a>
+            <a id="goodFirst" href='#' class="pagingButton"><<</a>
+            <a id="goodPrevious" href='#' class="pagingButton"><</a>
+            <span id="goodPageNumber" class="pageNumber">1</span>
+            <a id="goodNext" href='#' class="pagingButton">></a>
+            <a id="goodLast" href='#' class="pagingButton">>></a>
         </div>
         <div id="recentContainer" class="container">
             <span class="secondaryTitle">Recent</span>
             <ul id="recentList" class="shortageList">
             </ul>
-            <a href='#' class="pagingButton"><<</a>
-            <a href='#' class="pagingButton"><</a>
-            <span class="pageNumber">1</span>
-            <a href='#' class="pagingButton">></a>
-            <a href='#' class="pagingButton">>></a>
+            <a id="recentFirst" href='#' class="pagingButton"><<</a>
+            <a id="recentPrevious" href='#' class="pagingButton"><</a>
+            <span id="recentPageNumber" class="pageNumber">1</span>
+            <a id="recentNext" href='#' class="pagingButton">></a>
+            <a id="recentLast" href='#' class="pagingButton">>></a>
         </div>
     </div>
 </div>
@@ -72,14 +72,21 @@
     var watchListNdcs = [];
 
     function displayList(list, appendTarget) {
-        for (var i = 0; i < list.length && i < itemsPerPage; i++) {
+        var count = 0;
+        for (var i = 0; i < list.length && count < itemsPerPage; i++) {
             var item = list[i];
             var shortage;
             if ($.inArray(item.NDC, watchListNdcs) != -1) {
+                count++;
                 shortage = getShortageItemHTMLWatchList(item.Brand, item.Dosage, item.NDC, item.CurrentStatus);
                 $(shortage).appendTo('#' + appendTarget + 'WatchList').addClass(appendTarget + "Item");
             }
-            else {
+        }
+        for (var i = 0; i < list.length && count < itemsPerPage; i++) {
+            var item = list[i];
+            var shortage;
+            if ($.inArray(item.NDC, watchListNdcs) == -1) {
+                count++;
                 shortage = getShortageItemHTML(item.Brand, item.Dosage, item.NDC, item.CurrentStatus);
                 $(shortage).appendTo('#' + appendTarget + 'List').addClass(appendTarget + "Item");
             }
@@ -254,5 +261,22 @@
             });
         });
     });
+
+    $("#recentFirst, #goodFirst, #warningFirst, #severeFirst").click(function () {
+        $(this).siblings('.shortageList').empty();
+    });
+
+    $("#recentPrevious, #goodPrevious, #warningPrevious, #severePrevious").click(function () {
+
+    });
+
+    $("#recentNext, #goodNext, #warningNext, #severeNext").click(function () {
+
+    });
+
+    $("#recentLast, #goodLast, #warningLast, #severeLast").click(function () {
+
+    });
+
 </script>
 }

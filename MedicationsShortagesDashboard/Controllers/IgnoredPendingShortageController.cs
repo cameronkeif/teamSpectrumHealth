@@ -31,7 +31,6 @@ namespace MedicationsShortagesDashboard.Controllers
             return this.ignoredPendingShortageRepository.GetIgnoredPendingShortages(id);
         }
 
-
         /// <summary>
         /// HTTP Post
         /// </summary>
@@ -47,6 +46,11 @@ namespace MedicationsShortagesDashboard.Controllers
             }
         }
 
+        /// <summary>
+        /// HTTP Delete
+        /// </summary>
+        /// <param name="username">Username of the user</param>
+        /// <param name="id"> id of the drug (found at the end of the ASHP URL</param>
         public void Delete(string username, string id)
         {
             try

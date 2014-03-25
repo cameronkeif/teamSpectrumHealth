@@ -11,6 +11,9 @@ namespace MedicationsShortagesDashboard.Services
     using System.Linq;
     using MedicationsShortagesDashboard.Models;
 
+    /// <summary>
+    /// Performs database interactions with the IGNORED_PENDING_SHORTAGES table.
+    /// </summary>
     public class IgnoredPendingShortageRepository
     {
         /// <summary>

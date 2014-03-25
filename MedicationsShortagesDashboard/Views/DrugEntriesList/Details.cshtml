@@ -152,25 +152,23 @@
                         if (userLoggedIn != "Guest") {
                             if (dateLastSeen != null) {
                                 if (item.Date > dateLastSeen) {
-                                    badge = " - [UNREAD]";
+                                    badge = "[UNREAD]";
                                 }
                             }
                             else {
-                                badge = " - [UNREAD]";
+                                badge = "[UNREAD]";
                             }
                         }
-                        $("#messageListing > ul").append('<li> \
-                                                    ' + '<div class="messageTitle">' + item.User + formatDateForOutput(item.Date) + '<em>' + badge + '</em>' + '</div>' + ' \
-                                                    ' + '<div class="messageBody">' + item.Text + '</div>' + ' \
+                        $("#messageListing > ul").append('<li><div class="messageEntry"><div class="messageTitle"> \
+                                                    ' + '<div class="messageInfo">' + item.User + formatDateForOutput(item.Date) + '</div>' + '\
+                                                    ' + '<div class="messageBadge">' + badge + '</div></div>' + ' \
+                                                    ' + '<div class="messageText">' + item.Text + '</div></div>' + ' \
                                                      </li>');
                     }
                 }
                 );
 
-                if ($(messagesJsonPayload).length > 0) {
-                    $("#messageListing").prepend("<br ><u>DISCUSSION:</u>");
-                }
-                else {
+                if ($(messagesJsonPayload).length <= 0) {
                     $("#messageListing").prepend("No discussion has been posted for this shortage.");
                 }
             });

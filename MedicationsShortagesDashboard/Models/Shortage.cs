@@ -57,6 +57,16 @@ namespace MedicationsShortagesDashboard.Models
         private string greyMarketVendor;
 
         /// <summary>
+        /// The date that the shortage is expected to be resolved at.
+        /// </summary>
+        private DateTime expectedResolutionDate;
+
+        /// <summary>
+        /// Back order information
+        /// </summary>
+        private string backorderInformation;
+
+        /// <summary>
         /// Gets or sets id
         /// </summary>
         [Key]
@@ -190,6 +200,40 @@ namespace MedicationsShortagesDashboard.Models
             set
             {
                 this.greyMarketVendor = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets backorderInformation
+        /// </summary>
+        [Column("BACKORDER_INFORMATION")]
+        public string BackorderInformation
+        {
+            get
+            {
+                return this.backorderInformation;
+            }
+
+            set
+            {
+                this.backorderInformation = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets expectedResolutionDate
+        /// </summary>
+        [Column("EXPECTED_RESOLUTION_DATE")]
+        public DateTime ExpectedResolutionDate
+        {
+            get
+            {
+                return this.expectedResolutionDate;
+            }
+
+            set
+            {
+                this.expectedResolutionDate = value;
             }
         }
     }

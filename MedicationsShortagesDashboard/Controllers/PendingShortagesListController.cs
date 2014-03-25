@@ -23,7 +23,7 @@ namespace MedicationsShortagesDashboard.Controllers
         {
             if (Authentication.Type != "pharmadmin")
             {
-                Response.Redirect("~");
+                Response.Redirect("~/Error");
             }
             this.ViewData["Username"] = Authentication.Username;
             this.ViewData["Type"] = Authentication.Type;

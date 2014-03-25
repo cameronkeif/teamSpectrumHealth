@@ -24,7 +24,7 @@
 
  @section scripts{
 <script type="text/javascript">
-    var ignoredUrls = new Array();
+    var ignoredIDs = new Array();
     var loggedInAs = '@Html.Encode(ViewData["Username"])';
     
     // IE8 does not support Array.indexOf, so define it if it doesn't exist.
@@ -54,9 +54,8 @@
 
     $.getJSON('/api/IgnoredPendingShortage/' + loggedInAs, function (ignoredPendingShortagesJsonPayload) {
         $(ignoredPendingShortagesJsonPayload).each(function (i, item) {
-            var id = item.SourceUrl.split("Id=")[1];
-            ignoredUrls.push(item.SourceUrl);
-            $("#ignored_pending_shortages").append("<li id=ignored_ps_" + id + "><a href='javascript:void(0)' onclick='unIgnore(\"" + loggedInAs + "\", \"" + id + "\", \"" + item.DrugName+ "\")'>" +
+            ignoredIDs.push(item.Id);
+            $("#ignored_pending_shortages").append("<li id=ignored_ps_" + item.Id + "><a href='javascript:void(0)' onclick='unIgnore(\"" + loggedInAs + "\", \"" + item.Id + "\", \"" + item.DrugName+ "\")'>" +
                 "<img src='/Images/remove.png' /> </a>" +
                 "<span class='ignored_pending_shortage'>" + item.DrugName + "</span></li>");
         });
@@ -73,12 +72,11 @@
         var r = confirm("Do you really want to remove " + drugName + " from your ignore list?");
         if (r == true) {
             $.ajax({
-                url: '/api/IgnoredPendingShortage/' + username + "/" + String(id),
+                url: '/api/IgnoredPendingShortage/' + username + "/" + id,
                 type: 'DELETE',
                 success: function () {
-                    url = "http://www.ashp.org/DrugShortages/Current/Bulletin.aspx?Source=Current&Type=Rss&Id=" + id;
                     $("#ignored_ps_" + id).hide();
-                    ignoredUrls.splice(ignoredUrls.indexOf(url), 1);
+                    ignoredIDs.splice(ignoredIDs.indexOf(id), 1);
 
                     displayNoIgnoredPendingShortagesMessage();
                 }
@@ -90,7 +88,7 @@
 
     function displayNoIgnoredPendingShortagesMessage() {
         // Displays a message to the user notifying them that they have not ignored anything.
-        if (ignoredUrls.length == 0) {
+        if (ignoredIDs.length == 0) {
             $("#no_ignored_pending_shortages_message").show()
         } else {
             $("#no_ignored_pending_shortages_message").hide()

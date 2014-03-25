@@ -24,7 +24,7 @@ namespace MedicationsShortagesDashboard.Models
         /// <summary>
         /// The source URL of the pending shortage the user is ignoring.
         /// </summary>
-        private string sourceUrl;
+        private int id;
 
         /// <summary>
         /// The drug's name.
@@ -37,10 +37,10 @@ namespace MedicationsShortagesDashboard.Models
         /// <param name="username">The user's username</param>
         /// <param name="sourceUrl">The source URL</param>
         /// <param name="drugName">The drug name</param>
-        public IgnoredPendingShortage(string username, string sourceUrl, string drugName)
+        public IgnoredPendingShortage(string username, int id, string drugName)
         {
             this.username = username;
-            this.sourceUrl = sourceUrl;
+            this.id = id;
             this.drugName = drugName;
         }
 
@@ -50,7 +50,7 @@ namespace MedicationsShortagesDashboard.Models
         public IgnoredPendingShortage()
         {
             this.username = string.Empty;
-            this.sourceUrl = string.Empty;
+            this.id = -1;
             this.drugName = string.Empty;
         }
 
@@ -76,17 +76,17 @@ namespace MedicationsShortagesDashboard.Models
         /// Gets or sets sourceUrl
         /// </summary>
         [Key]
-        [Column("SOURCE_URL", Order = 0)]
-        public string SourceUrl
+        [Column("ID", Order = 0)]
+        public int Id
         {
             get
             {
-                return this.sourceUrl;
+                return this.id;
             }
 
             set
             {
-                this.sourceUrl = value;
+                this.id = value;
             }
         }
 

@@ -6,6 +6,7 @@
 
 namespace MedicationsShortagesDashboard.Models
 {
+    using System;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
@@ -18,14 +19,17 @@ namespace MedicationsShortagesDashboard.Models
         /// <summary>
         /// Name of the drug.
         /// </summary>
-        [Column("DRUG_NAME")]
         private string drugName;
 
         /// <summary>
         /// URL that the drug originated from
         /// </summary>
-        [Column("SOURCE_URL")]
-        private string sourceURL;
+        private int id;
+
+        /// <summary>
+        /// Timestamp when the drug was published to the feed
+        /// </summary>
+        private DateTime uploadTime;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PendingShortage"/> 
@@ -33,10 +37,10 @@ namespace MedicationsShortagesDashboard.Models
         /// </summary>
         /// <param name="name">Name of the drug</param>
         /// <param name="source">Source URL of the drug</param>
-        public PendingShortage(string name, string source)
+        public PendingShortage(string name, int id)
         {
             this.drugName = name;
-            this.sourceURL = source;
+            this.id = id;
         }
 
         /// <summary>
@@ -46,7 +50,7 @@ namespace MedicationsShortagesDashboard.Models
         public PendingShortage()
         {
             this.drugName = string.Empty;
-            this.sourceURL = string.Empty;
+            this.id = -1;
         }
 
         /// <summary>
@@ -70,17 +74,34 @@ namespace MedicationsShortagesDashboard.Models
         /// Gets or sets the source URL
         /// </summary>
         [Key]
-        [Column("SOURCE_URL")]
-        public string SourceURL
+        [Column("ID")]
+        public int Id
         {
             get
             {
-                return this.sourceURL;
+                return this.id;
             }
 
             set
             {
-                this.sourceURL = value;
+                this.id = value;
+            }
+        }
+
+         /// <summary>
+        /// Gets or sets the source URL
+        /// </summary>
+        [Column("UPLOAD_TIME")]
+        public DateTime UploadTime
+        {
+            get
+            {
+                return this.uploadTime;
+            }
+
+            set
+            {
+                this.uploadTime = value;
             }
         }
 
@@ -91,7 +112,7 @@ namespace MedicationsShortagesDashboard.Models
         /// <returns>boolean indicating if the two pending shortages are equal.</returns>
         public bool Equals(PendingShortage s)
         {
-            return this.drugName.Equals(s.DrugName) & this.sourceURL.Equals(s.SourceURL);
+            return this.drugName.Equals(s.DrugName) & this.id == s.Id;
         }
     }
 }

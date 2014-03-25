@@ -40,7 +40,7 @@
 @section scripts{
 <script type="text/javascript">
     var alreadyParsedDrugIds = new Array();
-    var ignoredUrls = new Array();
+    var ignoredIDs = new Array();
     var loggedInAs = '@Html.Encode(ViewData["Username"])';
 
     // IE8 does not support Array.indexOf, so define it if it doesn't exist.
@@ -69,20 +69,20 @@
 
     $.getJSON('/api/IgnoredPendingShortage/' + loggedInAs, function (ignoredPendingShortagesJsonPayload) {
         $(ignoredPendingShortagesJsonPayload).each(function (i, item) {
-            ignoredUrls.push(item.SourceUrl);
+            ignoredIDs.push(item.Id);
         });
 
         $.getJSON('/api/PendingShortage', function (pendingShortagesJsonPayload) {
             $(pendingShortagesJsonPayload).each(function (i, item) {
                 // Only process items which are not ignored.
-                if (ignoredUrls.indexOf(item.SourceURL) == -1) {
+                if (ignoredIDs.indexOf(item.Id) == -1) {
                     // ID from the ASHP website, which is at the end of the source URL
-                    var id = item.SourceURL.split("Id=")[1];
-                    $('#pending_shortages').append("<li id='ps_" + id + "' class=pending_shortage><span class=pending_shortage_title onClick='showPreview(\"" + item.SourceURL + '", "' + id + '", "' + item.DrugName + "\")'>" + item.DrugName +
-                        "<span class=pending_shortage_expand_icon id=expand_" + id + ">+</span></span><br><span class='preview' id=" + id + "></span></li>");
+                    sourceUrl = "http://www.ashp.org/DrugShortages/Current/Bulletin.aspx?Source=Current&Type=Rss&Id=" + item.Id
+                    $('#pending_shortages').append("<li id='ps_" + item.Id + "' class=pending_shortage><span class=pending_shortage_title onClick='showPreview(\"" + sourceUrl + '", "' + item.Id + '", "' + item.DrugName + "\")'>" + item.DrugName +
+                        "<span class=pending_shortage_expand_icon id=expand_" + item.Id + ">+</span></span><br><span class='preview' id=" + item.Id + "></span></li>");
 
-                    $('#' + id).prepend('<div id="loadingAnimation"><img src="/Images/loading.gif" height="40" width="40"></div>');
-                    $("#" + id).hide();
+                    $('#' + item.Id).prepend('<div id="loadingAnimation"><img src="/Images/loading.gif" height="40" width="40"></div>');
+                    $("#" + item.Id).hide();
                 }
             });
 
@@ -131,7 +131,7 @@ function scrapeHtml(url, id, drugName) {
                   $("#" + id).prepend(preview);
                   $("#" + id).append("<p><a href=" + url + "> View Full Report </a></p>")
                   $("#" + id).append("<div style<p><button onClick=\"showCreateShortage('" + NDCs + "')\"> Create Shortage </button><span style='float:right'>" +
-                      "<button onClick='ignore(\"" + url + "\", \"" + loggedInAs + "\", \"" + drugName + "\")'> Ignore </button></span></p>");
+                      "<button onClick='ignore(\"" + id + "\", \"" + loggedInAs + "\", \"" + drugName + "\")'> Ignore </button></span></p>");
               }
           }
         );
@@ -190,9 +190,8 @@ $('#submit').click(function (e) {
     e.preventDefault();
 });
 
-function ignore(url, username, drugName) {
-    var id = url.split("Id=")[1];
-    $.post('/api/IgnoredPendingShortage', "username=" + username + "&sourceUrl=" + id + "&drugName=" + drugName)
+function ignore(id, username, drugName) {
+    $.post('/api/IgnoredPendingShortage', "username=" + username + "&id=" + id + "&drugName=" + drugName)
     .success(function() {
         $("#ps_" + id).hide();
     });

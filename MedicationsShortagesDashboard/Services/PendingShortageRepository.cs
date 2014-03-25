@@ -45,7 +45,7 @@ namespace MedicationsShortagesDashboard.Services
         {
             List<PendingShortage> pendingShortages = new List<PendingShortage>();
 
-            foreach (PendingShortage pendingShortage in this.db.PendingShortages.ToList())
+            foreach (PendingShortage pendingShortage in this.db.PendingShortages.OrderByDescending(i => i.UploadTime).ToList())
             {
                 pendingShortages.Add(pendingShortage);
             }

@@ -49,7 +49,6 @@ namespace MedicationsShortagesDashboard.Services
         /// <param name="item">The item to add to the user's watch list.</param>
         public void AddIgnoredPendingShortage(IgnoredPendingShortage item)
         {
-            item.SourceUrl = "http://www.ashp.org/DrugShortages/Current/Bulletin.aspx?Source=Current&Type=Rss&Id=" + item.SourceUrl;
             this.db.IgnoredPendingShortages.Add(item);
             try
             {
@@ -65,11 +64,11 @@ namespace MedicationsShortagesDashboard.Services
         /// </summary>
         /// <param name="username">The user</param>
         /// <param name="sourceUrl">The source URL of the pending shortage to be ignored</param>
-        public void RemoveIgnoredPendingShortage(string username, string sourceUrl)
+        public void RemoveIgnoredPendingShortage(string username, int id)
         {
             try
             {
-                var existingItem = this.db.IgnoredPendingShortages.First(item => item.Username == username && item.SourceUrl == sourceUrl);
+                var existingItem = this.db.IgnoredPendingShortages.First(item => item.Username == username && item.Id == id);
                 this.db.IgnoredPendingShortages.Remove(existingItem);
                 this.db.SaveChanges();
             }

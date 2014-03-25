@@ -51,12 +51,11 @@ namespace MedicationsShortagesDashboard.Controllers
         /// </summary>
         /// <param name="username">Username of the user</param>
         /// <param name="id"> id of the drug (found at the end of the ASHP URL</param>
-        public void Delete(string username, string id)
+        public void Delete(string username, int id)
         {
             try
             {
-                string sourceUrl = "http://www.ashp.org/DrugShortages/Current/Bulletin.aspx?Source=Current&Type=Rss&Id=" + id;
-                this.ignoredPendingShortageRepository.RemoveIgnoredPendingShortage(username, sourceUrl);
+                this.ignoredPendingShortageRepository.RemoveIgnoredPendingShortage(username, id);
             }
             catch (InvalidOperationException)
             {

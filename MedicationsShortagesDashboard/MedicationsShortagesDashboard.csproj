@@ -353,6 +353,7 @@
     <Content Include="Views\Shared\_AdminLayout.cshtml" />
     <Content Include="Views\PendingShortagesList\Ignored.cshtml" />
     <Content Include="Views\Error\Index.cshtml" />
+    <Content Include="Views\ShortagesList\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -72,5 +72,26 @@ namespace MedicationsShortagesDashboard.Controllers
             this.ViewData["PageTitle"] = "Edit Shortage";
             return this.View(shortage);
         }
+
+        /// <summary>
+        /// Get Details page
+        /// </summary>
+        /// <param name="id">Id of the shortage being examined</param>
+        /// <returns>Edit page view</returns>
+        public ActionResult Details(int id = 0)
+        {
+            ShortageRepository db = new ShortageRepository();
+
+            Shortage shortage = db.GetShortage(id);
+            if (shortage == null)
+            {
+                return this.HttpNotFound();
+            }
+
+            this.ViewData["Username"] = Authentication.Username;
+            this.ViewData["Type"] = Authentication.Type;
+            this.ViewData["PageTitle"] = "Details";
+            return this.View(shortage);
+        }
     }
 }

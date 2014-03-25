@@ -59,7 +59,7 @@ namespace MedicationsShortagesDashboard.Models
         /// <summary>
         /// The date that the shortage is expected to be resolved at.
         /// </summary>
-        private DateTime expectedResolutionDate;
+        private DateTime? expectedResolutionDate;
 
         /// <summary>
         /// Back order information
@@ -224,7 +224,7 @@ namespace MedicationsShortagesDashboard.Models
         /// Gets or sets expectedResolutionDate
         /// </summary>
         [Column("EXPECTED_RESOLUTION_DATE")]
-        public DateTime ExpectedResolutionDate
+        public DateTime? ExpectedResolutionDate
         {
             get
             {

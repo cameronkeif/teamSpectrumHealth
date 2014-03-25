@@ -24,7 +24,7 @@ namespace MedicationsShortagesDashboard.Models
         }
 
         /// <summary>
-        /// Gets or sets pending drugs
+        /// Gets or sets messages
         /// </summary>
         public DbSet<Message> Messages
         {

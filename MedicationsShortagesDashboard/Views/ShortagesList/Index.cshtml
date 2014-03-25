@@ -48,22 +48,5 @@ $(function()
             });
         });
 });
-
-function DeleteConfirm(id) {
-    var result = confirm("Do you really want to delete this shortage?");
-    if (result == true) {
-        Delete(id);
-    }
-}
-
-function Delete(id) {
-    $.ajax({
-        url: '/api/Shortage' + '/' + id,
-        type: 'DELETE',
-        success: function () {
-            $('#shortage' + id).remove();
-        },
-    });
-}
 </script>
 }

@@ -35,7 +35,7 @@
     var shortageHistoryPlotData = Array();
     $.getJSON('/api/Shortage/' + '@Model.Item1.NDC', function (shortagesJsonPayload) {
         $(shortagesJsonPayload).each(function (i, item) {
-            $('#shortageHistory > ul').append('<li>' + item.Status + formatDateForOutput(item.DateTime) + '</li>');
+            $('#shortageHistory > ul').append('<li>' + item.Status + formatDateForOutput(item.DateTime) + '<a href="/ShortagesList/Edit/' + item.Id + '"> Edit </a> <a onclick="DeleteConfirm(' + item.Id + ')" href="#"> Delete </a></li></div></li>');
 
             if (item.Status == "severe") {
                 shortageHistoryPlotData.push([item.DateTime.replace("T", " "), 0]);
@@ -57,6 +57,23 @@
             $('#shortageHistory').prepend('No shortages have been reported for this medication.');
         }
     });
+
+    function DeleteConfirm(id) {
+        var result = confirm("Do you really want to delete this shortage?");
+        if (result == true) {
+            Delete(id);
+        }
+    }
+
+    function Delete(id) {
+        $.ajax({
+            url: '/api/Shortage' + '/' + id,
+            type: 'DELETE',
+            success: function () {
+                $('#shortage' + id).remove();
+            },
+        });
+    }
 
     // Plots the shortage history chart
     function plotShortageHistory() {

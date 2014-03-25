@@ -176,6 +176,7 @@ function showCreateShortage(NDCs) {
     $('#create_shortage').find('form')[0].reset();
     $("#create_shortage").dialog({width: 350});
     
+    NDCs.sort();
     $("#ndc").autocomplete({
         source: NDCs
     });

@@ -60,10 +60,16 @@
 @section scripts{
 <script type="text/javascript">
     $('#listContainer').hide();
+
     var loggedInAs = '@Html.Encode(ViewData["Username"])';
 
     var numRecentItems = 10;
     var itemsPerPage = 5;
+
+    var recentIndex = 0;
+    var goodIndex = 0;
+    var warningIndex = 0;
+    var severeIndex = 0;
 
     var recentItems = [];
     var goodItems = [];
@@ -71,36 +77,49 @@
     var severeItems = [];
     var watchListNdcs = [];
 
-    function displayList(list, appendTarget) {
-        var count = 0;
-        for (var i = 0; i < list.length && count < itemsPerPage; i++) {
+    function setupButton(name, list, index) {
+        if (index == 0) {
+            $("#" + name + "First").addClass('disabled');
+            $("#" + name + "Previous").addClass('disabled');
+        }
+        else {
+            $("#" + name + "First").removeClass('disabled');
+            $("#" + name + "Previous").removeClass('disabled');
+        }
+        if (index == itemsPerPage * Math.ceil(list.length / itemsPerPage) - itemsPerPage) {
+            $("#" + name + "Last").addClass('disabled');
+            $("#" + name + "Next").addClass('disabled');
+        }
+        else {
+            $("#" + name + "Last").removeClass('disabled');
+            $("#" + name + "Next").removeClass('disabled');
+        }
+    }
+
+    function setupButtons() {
+        setupButton('recent', recentItems, recentIndex);
+        setupButton('good', goodItems, goodIndex);
+        setupButton('severe', severeItems, severeIndex);
+        setupButton('warning', warningItems, warningIndex);
+    }
+
+    function displayList(list, appendTarget, startingIndex) {
+        for (var i = startingIndex; i < list.length && i < itemsPerPage + startingIndex; i++) {
             var item = list[i];
             var shortage;
             if ($.inArray(item.NDC, watchListNdcs) != -1) {
-                count++;
                 shortage = getShortageItemHTMLWatchList(item.Brand, item.Dosage, item.NDC, item.CurrentStatus);
                 $(shortage).appendTo('#' + appendTarget + 'WatchList').addClass(appendTarget + "Item");
             }
-        }
-        for (var i = 0; i < list.length && count < itemsPerPage; i++) {
-            var item = list[i];
-            var shortage;
-            if ($.inArray(item.NDC, watchListNdcs) == -1) {
-                count++;
+            else {
                 shortage = getShortageItemHTML(item.Brand, item.Dosage, item.NDC, item.CurrentStatus);
                 $(shortage).appendTo('#' + appendTarget + 'List').addClass(appendTarget + "Item");
             }
         }
     }
 
-    function display() {
-        // This drug is in the user's watch list
-
-        displayList(goodItems, 'good');
-        displayList(warningItems, 'warning');
-        displayList(severeItems, 'severe');
-
-        for (var i = 0; i < recentItems.length && i < itemsPerPage; i++) {
+    function displayRecent() {
+        for (var i = recentIndex; i < recentItems.length && i < itemsPerPage + recentIndex; i++) {
             var item = recentItems[i];
             var shortage;
 
@@ -121,6 +140,21 @@
                 $(shortage).appendTo('#recentList').addClass("goodItem");
             }
         }
+    }
+
+    function display() {
+        // This drug is in the user's watch list
+
+        goodItems.sort(function (a, b) { if ($.inArray(a.NDC, watchListNdcs) != -1 && $.inArray(b.NDC, watchListNdcs) == -1) return -1; return 1; });
+        warningItems.sort(function (a, b) { if ($.inArray(a.NDC, watchListNdcs) != -1 && $.inArray(b.NDC, watchListNdcs) == -1) return -1; return 1; });
+        severeItems.sort(function (a, b) { if ($.inArray(a.NDC, watchListNdcs) != -1 && $.inArray(b.NDC, watchListNdcs) == -1) return -1; return 1; });
+
+        displayList(goodItems, 'good', goodIndex);
+        displayList(warningItems, 'warning', warningIndex);
+        displayList(severeItems, 'severe', severeIndex);
+
+        displayRecent();
+        setupButtons();
     }
 
     $(document).ready(function()
@@ -162,7 +196,6 @@
                 $('#loadingAnimation').hide();
                 $('#listContainer').show();
             });
-
         });
     });
 
@@ -264,18 +297,114 @@
 
     $("#recentFirst, #goodFirst, #warningFirst, #severeFirst").click(function () {
         $(this).siblings('.shortageList').empty();
+        var id = $(this).attr('id');
+        var index = id.indexOf("First");
+        var listType = id.substr(0, index); // Good, warning, severe, or recent
+        if (listType == "good") {
+            goodIndex = 0;
+            $("#goodPageNumber").text(1);
+            displayList(goodItems, 'good', goodIndex);
+        }
+        else if (listType == "severe") {
+            severeIndex = 0;
+            $("#severePageNumber").text(1);
+            displayList(severeItems, 'severe', severeIndex);
+        }
+        else if (listType == "warning") {
+            warningIndex = 0;
+            $("#warningPageNumber").text(1);
+            displayList(warningItems, 'warning', warningIndex);
+        }
+        else if (listType == "recent") {
+            recentIndex = 0;
+            $("#recentPageNumber").text(1);
+            displayRecent();
+        }
+        setupButtons();
     });
 
     $("#recentPrevious, #goodPrevious, #warningPrevious, #severePrevious").click(function () {
-
+        $(this).siblings('.shortageList').empty();
+        var id = $(this).attr('id');
+        var index = id.indexOf('Previous');
+        var listType = id.substr(0, index); // Good, warning, severe, or recent
+        if (listType == "good") {
+            goodIndex -= itemsPerPage;
+            $("#goodPageNumber").text(goodIndex / itemsPerPage + 1);
+            displayList(goodItems, 'good', goodIndex);
+        }
+        else if (listType == "severe") {
+            severeIndex -= itemsPerPage;
+            $("#severePageNumber").text(severeIndex / itemsPerPage + 1);
+            displayList(severeItems, 'severe', severeIndex);
+        }
+        else if (listType == "warning") {
+            warningIndex -= itemsPerPage;
+            $("#warningPageNumber").text(warningIndex / itemsPerPage + 1);
+            displayList(warningItems, 'warning', warningIndex);
+        }
+        else if (listType == "recent") {
+            recentIndex -= itemsPerPage;
+            $("#recentPageNumber").text(recentIndex / itemsPerPage + 1);
+            displayRecent();
+        }
+        setupButtons();
     });
 
     $("#recentNext, #goodNext, #warningNext, #severeNext").click(function () {
-
+        $(this).siblings('.shortageList').empty();
+        var id = $(this).attr('id');
+        var index = id.indexOf('Next');
+        var listType = id.substr(0, index); // Good, warning, severe, or recent
+        if (listType == "good") {
+            goodIndex += itemsPerPage;
+            $("#goodPageNumber").text(goodIndex / itemsPerPage + 1);
+            displayList(goodItems, 'good', goodIndex);
+        }
+        else if (listType == "severe") {
+            severeIndex += itemsPerPage;
+            $("#severePageNumber").text(severeIndex / itemsPerPage + 1);
+            displayList(severeItems, 'severe', severeIndex);
+        }
+        else if (listType == "warning") {
+            warningIndex += itemsPerPage;
+            $("#warningPageNumber").text(warningIndex / itemsPerPage + 1);
+            displayList(warningItems, 'warning', warningIndex);
+        }
+        else if (listType == "recent") {
+            recentIndex += itemsPerPage;
+            $("#recentPageNumber").text(recentIndex / itemsPerPage + 1);
+            displayRecent();
+        }
+        setupButtons();
     });
 
     $("#recentLast, #goodLast, #warningLast, #severeLast").click(function () {
-
+        $(this).siblings('.shortageList').empty();
+        var id = $(this).attr('id');
+        var index = id.indexOf('Last');
+        var listType = id.substr(0, index); // Good, warning, severe, or recent
+        if (listType == "good") {
+            goodIndex = itemsPerPage * Math.ceil(goodItems.length / itemsPerPage) - itemsPerPage;
+            $("#goodPageNumber").text(goodIndex / itemsPerPage + 1);
+            displayList(goodItems, 'good', goodIndex);
+        }
+        else if (listType == "severe") {
+            severeIndex = itemsPerPage * Math.ceil(severeItems.length / itemsPerPage) - itemsPerPage;
+            $("#severePageNumber").text(severeIndex / itemsPerPage + 1);
+            displayList(severeItems, 'severe', severeIndex);
+        }
+        else if (listType == "warning") {
+            warningIndex = itemsPerPage * Math.ceil(warningItems.length / itemsPerPage) - itemsPerPage;
+            $("#warningPageNumber").text(warningIndex / itemsPerPage + 1);
+            displayList(warningItems, 'warning', warningIndex);
+        }
+        else if (listType == "recent") {
+            recentIndex = itemsPerPage * Math.ceil(recentItems.length / itemsPerPage) - itemsPerPage;
+            $("#recentPageNumber").text(recentIndex / itemsPerPage + 1);
+            displayRecent();
+        }
+        setupButtons();
     });
 
 </script>

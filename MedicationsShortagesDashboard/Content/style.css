@@ -291,6 +291,13 @@ div.container
     font-weight:bold;
 }
 
+.pagingButton.disabled {
+    color:#cccccc;
+    font-weight:normal;
+    pointer-events: none;
+    cursor: default;
+}
+
 .pageNumber {
     padding-left:4px;
     padding-right:4px;

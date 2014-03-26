@@ -5,7 +5,7 @@
 
 <div id="body">
     <div id="loadingAnimation">
-        <img src="~/MedicationsShortagesDashboard/Images/loading.gif">
+        <img src="/MedicationsShortagesDashboard/Images/loading.gif">
     </div>
     <div id="listContainer" >
         <div id="severeContainer" class="container">
@@ -271,7 +271,7 @@
 
         return '<li class="right"> \
                     <a href="#" onClick="addToWatchList(' + '\'' + loggedInAs + '\',\'' + ndc + '\', \'' + currentStatus + '\')"> \
-                        <img src="/images/not_favorite.png"> \
+                        <img src="/MedicationsShortagesDashboard/Images/not_favorite.png"> \
                     </a> \
                </li>';
     }
@@ -283,7 +283,7 @@
 
         return '<li class="right"> \
                     <a href="#" onClick="removeFromWatchList(' + '\'' + loggedInAs + '\',\'' + ndc + '\', \'' + currentStatus + '\')"> \
-                        <img src="/images/favorite.png"> \
+                        <img src="/MedicationsShortagesDashboard/Images/favorite.png"> \
                     </a> \
                 </li>';
     }

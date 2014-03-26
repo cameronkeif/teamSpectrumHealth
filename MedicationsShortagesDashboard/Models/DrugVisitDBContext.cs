@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="MessageDBContext.cs" company="Spectrum Health">
+// <copyright file="DrugVisitDBContext.cs" company="Spectrum Health">
 //      Spectrum Health
 // </copyright>
 //-----------------------------------------------------------------------
@@ -9,33 +9,33 @@ namespace MedicationsShortagesDashboard.Models
     using System.Data.Entity;
 
     /// <summary>
-    /// DB Context for messages
+    /// DB Context for drug visits
     /// </summary>
-    public class MessageDBContext : DbContext
+    public class DrugVisitDBContext : DbContext
     {
         /// <summary>
         /// Collection of all entities in the DB context
         /// </summary>
-        private DbSet<Message> messages;
+        private DbSet<DrugVisit> drugVisits;
 
-        public MessageDBContext()
+        public DrugVisitDBContext()
         {
-            Database.SetInitializer<Models.MessageDBContext>(null);
+            Database.SetInitializer<Models.DrugVisitDBContext>(null);
         }
 
         /// <summary>
-        /// Gets or sets messages
+        /// Gets or sets drug visits
         /// </summary>
-        public DbSet<Message> Messages
+        public DbSet<DrugVisit> DrugVisits
         {
             get
             {
-                return this.messages;
+                return this.drugVisits;
             }
 
             set
             {
-                this.messages = value;
+                this.drugVisits = value;
             }
         }
     }

@@ -338,6 +338,53 @@ div.container
     margin-right: auto;
 }
 
+/* Message List stuff */
+#messageListing {
+    width: 70%;
+    font-family: Arial;
+    list-style-type: none;
+    padding-left: 15%;
+    padding-right: 15%;
+}
+
+    #messageListing > ul {
+        list-style-type: none;
+    }
+        #messageListing > ul > li > .messageEntry > .messageTitle {
+            width: 100%;
+            display: inline-block;
+            background-color: #6BA390;
+            padding: 5px 10px;
+            border-top: 1px solid black;
+            border-left: 1px solid black;
+            border-right: 1px solid black;
+            border-bottom: 1px solid black;
+            border-top-right-radius: 5px;
+            border-top-left-radius: 5px;
+            margin-bottom: -4px;
+        }
+    
+            #messageListing > ul > li > .messageEntry > .messageTitle > .messageInfo {
+                float: left;
+            }
+        
+            #messageListing > ul > li > .messageEntry > .messageTitle > .messageBadge {
+                float: right;
+            }
+    
+        #messageListing > ul > li > .messageEntry > .messageText {
+            width: 100%;
+            display: inline-block;
+            background-color: #548CC9;
+            padding: 5px 10px;
+            border-bottom: 1px solid black;
+            border-left: 1px solid black;
+            border-right: 1px solid black;
+            border-bottom-right-radius: 5px;
+            border-bottom-left-radius: 5px;
+            margin-bottom: 5px;
+        }
+
 /* jqplot stuff (for graphing) */
 .jqplot-point-label
     {
@@ -532,6 +579,10 @@ div.container
             border-radius:5px;
             border-color: #366298;
         }
+
+#additionalInfo {
+    display: none;
+}
 
 .create_shortage_severe_label {
     color: #FF334A;

@@ -122,29 +122,86 @@
 <div class="expandMessagePost">
     <input onclick="return changeMessagePostButtonText(this)" type="button" value="POST DISCUSSION" id="messageToggle" />
 </div>
+
 <div class="messagePosting" style="display:none">
-    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "createMessage", @action = "/api/Message" }))
-    {
-        @Html.AntiForgeryToken()
-        @Html.ValidationSummary(true)
-
-        @Html.Hidden("NDC", @Model.Item1.NDC)
-        @Html.Hidden("User", @ViewData["Username"])
-
-        <div class="editor-field">
-            @Html.TextArea("Text", @Model.Item2.Text)
-            @Html.ValidationMessageFor(tuple => tuple.Item2.Text)<br />
-        </div>
-        
-        <input type="submit" value="Post Discussion" />
-    }
+    <form id="postDiscussionForm">
+        <input type=hidden name="ndc" id="ndc" value='@Model.Item1.NDC' />
+        <input type=hidden name="user" id="user" value='@Html.Encode(ViewData["Username"])' />
+        <textarea class="messagePostingBox" id="text" name="text" rows="5" cols ="50"></textarea>
+        <button class="submitButton" id="submit" type="button">Post Discussion</button>
+    </form>
 </div>
 
-<div id="messageListing" class="container">
+<div id="messageListing">
     <ul></ul>
 </div>
 
 <script type="text/javascript">
+    // If user isn't logged in, hide submission/ignore drug visits
+    // Otherwise, continue to else statement and figure out drug visit stuff
+    var userLoggedIn = @Html.Raw(Json.Encode(ViewData["Username"])) + '';
+    var dateLastSeen = null;
+    if (userLoggedIn == "Guest") {
+        $('.expandMessagePost').hide();
+    }
+    // If they're logged in but no pairing of user/NDC exists, set all messages to unread
+    // If they're logged in and have visited the page, compare the date in the DrugVisit entry
+    // and compare that to the message dates, and if they're newer, set them to unread
+    else {
+        $.getJSON("/api/DrugVisit", function (drugVisitsJsonPayload) {
+            $(drugVisitsJsonPayload).each(function (i, item) {
+                // Page has been visited
+                if (item.NDC == '@Model.Item1.NDC' && item.Username == userLoggedIn) {
+                    dateLastSeen = item.Date;
+                }
+            });
+        }).complete( function() {
+            $.getJSON("/api/Message/", function (messagesJsonPayload) {
+                $(messagesJsonPayload).each(function (i, item) {
+                    if (item.NDC == '@Model.Item1.NDC') {
+                        var badge = "";
+                        // Check (if user logged in) if unread, update DrugVisit entry
+                        if (userLoggedIn != "Guest") {
+                            if (dateLastSeen != null) {
+                                if (item.Date > dateLastSeen) {
+                                    badge = "[UNREAD]";
+                                }
+                            }
+                            else {
+                                badge = "[UNREAD]";
+                            }
+                        }
+                        $("#messageListing > ul").append('<li><div class="messageEntry"><div class="messageTitle"> \
+                                                    ' + '<div class="messageInfo">' + item.User + formatDateForOutput(item.Date) + '</div>' + '\
+                                                    ' + '<div class="messageBadge">' + badge + '</div></div>' + ' \
+                                                    ' + '<div class="messageText">' + item.Text + '</div></div>' + ' \
+                                                     </li>');
+                    }
+                }
+                );
+
+                if ($(messagesJsonPayload).length <= 0) {
+                    $("#messageListing").prepend("No discussion has been posted for this shortage.");
+                }
+            });
+        });
+    }
+
+    updateLastVisit();
+
+    // Update Drug Visit entry
+    function updateLastVisit() {
+        if (userLoggedIn != "Guest") {
+            var data = { "Username": userLoggedIn, "NDC": '@Model.Item1.NDC' };
+            $.ajax({
+                url: '/api/DrugVisit/Post',
+                type: 'POST',
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify(data),
+            });
+        }
+    }
+
     $('.expandMessagePost').click(function () {
         $('.messagePosting').toggle();
     });
@@ -156,23 +213,17 @@
             b.value = "POST DISCUSSION";
     }
 
-    $.getJSON("/api/Message/", function (messagesJsonPayload) {
-        $(messagesJsonPayload).each(function (i, item) {
-            if (item.NDC == '@Model.Item1.NDC') {
-                $("#messageListing").append('<li id="messagePost"> \
-                                                ' + item.User + ' - ' + formatDateForOutput(item.Date) + ' - ' + item.Text + ' \
-                                             </li>');
-            }
-        }
-        );
-
-        if ($(messagesJsonPayload).length > 0) {
-            $("#messageListing").prepend("<br ><u>DISCUSSION:</u>");
-        }
-        else {
-            $("#messageListing").prepend("No discussion has been posted for this shortage.");
-        }
-    }
-    );
-
+    $('#submit').click(function (e) {
+        var submitData = $('#postDiscussionForm').serialize();
+        console.log(submitData);
+        $.post('/api/Message', submitData)
+        .success(function () {
+            updateLastVisit();
+        });
+        $.ajax({
+            url: '/api/DrugEntryManual/UpdateDrugLastPostTime',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify
+        });
+    });
 </script>

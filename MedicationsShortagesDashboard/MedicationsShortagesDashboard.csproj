@@ -173,6 +173,7 @@
     <Compile Include="Controllers\DrugEntryController.cs" />
     <Compile Include="Controllers\DrugEntryManualController.cs" />
     <Compile Include="Controllers\IgnoredPendingShortageController.cs" />
+    <Compile Include="Controllers\DrugVisitController.cs" />
     <Compile Include="Controllers\LoginAPIController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\LogoutAPIController.cs" />
@@ -189,6 +190,8 @@
     <Compile Include="Models\DrugEntryDBContext.cs" />
     <Compile Include="Models\IgnoredPendingShortage.cs" />
     <Compile Include="Models\IgnoredPendingShortageDBContext.cs" />
+    <Compile Include="Models\DrugVisit.cs" />
+    <Compile Include="Models\DrugVisitDBContext.cs" />
     <Compile Include="Models\Login.cs" />
     <Compile Include="Models\LoginDBContext.cs" />
     <Compile Include="Models\Message.cs" />
@@ -203,6 +206,7 @@
     <Compile Include="Services\Authentication.cs" />
     <Compile Include="Services\DrugEntryRepository.cs" />
     <Compile Include="Services\IgnoredPendingShortageRepository.cs" />
+    <Compile Include="Services\DrugVisitRepository.cs" />
     <Compile Include="Services\LoginRepository.cs" />
     <Compile Include="Services\MessageRepository.cs" />
     <Compile Include="Services\PendingShortageRepository.cs" />
@@ -285,6 +289,7 @@
     <Content Include="Images\logo.png" />
     <None Include="Properties\PublishProfiles\MedicationsShortagesDashboard.pubxml" />
     <None Include="Scripts\jquery-2.1.0.intellisense.js" />
+    <Content Include="Images\message_badge.png" />
     <Content Include="Images\not_favorite.png" />
     <Content Include="Images\close_dialog.png" />
     <Content Include="Images\remove.png" />

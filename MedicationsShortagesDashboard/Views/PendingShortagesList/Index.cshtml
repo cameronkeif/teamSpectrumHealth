@@ -28,9 +28,21 @@
         <form id="create_shortage_form">
             <p>NDC: <input id="ndc" type="text" name="ndc"></p>
             Status:
-            <p><span class="create_shortage_good_label">@Html.RadioButton("Status", "good", false) Good </span></p>
-            <p><span class="create_shortage_warning_label">@Html.RadioButton("Status", "warning", false) Warning </span></p>
-            <p><span class="create_shortage_severe_label">@Html.RadioButton("Status", "severe", false) Severe </span></p>
+            <p><span class="create_shortage_good_label"><input id="good" name="status" value="good" type="radio" onclick="javascript:statusCheck();" /> Good </span></p>
+            <p><span class="create_shortage_warning_label"><input id="warning" name="status" value="warning" type="radio" onclick="javascript: statusCheck();" /> Warning </span></p>
+            <p><span class="create_shortage_severe_label"><input id="severe" name="status" type="radio" value="severe" onclick="javascript: statusCheck();" /> Severe </span></p>
+            <div id="additionalInfo">
+                <p>Seven day supply (250 character limit):</p>
+                <p><textarea class="createShortageTextArea" id="sevenDaySupply" name="sevenDaySupply" rows="5" cols="50" ></textarea></p>
+                <p>Seven day usage (250 character limit):</p>
+                <p><textarea class="createShortageTextArea" id="sevenDayUsage" name="sevenDayUsage" rows="5" cols="50" ></textarea></p>
+                <p>Migitation Actions (5000 character limit):</p>
+                <p><textarea class="createShortageTextArea" id="mitigationActions" name="mitigationActions" rows="5" cols="50" ></textarea></p>
+                <p>Backorder Information (5000 character limit):</p>
+                <p><textarea class="createShortageTextArea" id="backorderInformation" name="backorderInformation" rows="5" cols="50" ></textarea></p>
+                <p>Grey Market Vendor: <input id="greyMarketVendor" type="text" name="greyMarketVendor" /></p>
+                <p>Expected Resolution Date: <input id="expectedResolutionDate" type="text" name="expectedResolutionDate" /></p>
+            </div>
             <p><button id="submit" type="button">Create Shortage</button></p>
             <p><span class="create_shortage_good_label" id="success_message"></span></p>
         </form>
@@ -39,6 +51,7 @@
 
 @section scripts{
 <script type="text/javascript">
+    $("#expectedResolutionDate").datepicker();
     var alreadyParsedDrugIds = new Array();
     var ignoredIDs = new Array();
     var loggedInAs = '@Html.Encode(ViewData["Username"])';
@@ -90,6 +103,14 @@
             $('#pending_shortages_container').show();
         });
     });
+
+function statusCheck() {
+    if (document.getElementById('warning').checked || document.getElementById('severe').checked) {
+        document.getElementById('additionalInfo').style.display = 'block';
+    } else {
+        document.getElementById('additionalInfo').style.display = 'none';
+    }
+}
 
     // Scrapes the HTML from the source URL of the pending shortage, appends
     // the reasons for the shortage to a div.
@@ -174,7 +195,7 @@ function showPreview(url, id, drugName) {
 function showCreateShortage(NDCs) {
     NDCs = NDCs.split(","); // Kludge. Why is it being passed in as a string?!
     $('#create_shortage').find('form')[0].reset();
-    $("#create_shortage").dialog({width: 350});
+    $("#create_shortage").dialog({ width: 550 }).css("maxHeight", 600);;
     
     NDCs.sort();
     $("#ndc").autocomplete({
@@ -183,7 +204,11 @@ function showCreateShortage(NDCs) {
 }
 
 $('#submit').click(function (e) {
-    $.post('/api/Shortage', $('#create_shortage_form').serialize())
+    var submitData = $('#create_shortage_form').serialize();
+    if (submitData.indexOf("&status=good") != -1) {
+        submitData = submitData.split('&sevenDaySupply=')[0];
+    }
+    $.post('/api/Shortage', submitData)
         .success(function () {
             $('#create_shortage').find('form')[0].reset();
             $("#success_message").append("Shortage successfully created!");

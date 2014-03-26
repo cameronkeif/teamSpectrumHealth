@@ -1,4 +1,10 @@
-﻿namespace MedicationsShortagesDashboard.Services
+﻿//-----------------------------------------------------------------------
+// <copyright file="MessageRepository.cs" company="Spectrum Health">
+//      Spectrum Health
+// </copyright>
+//-----------------------------------------------------------------------
+
+namespace MedicationsShortagesDashboard.Services
 {
     using System.Collections.Generic;
     using System.Data;

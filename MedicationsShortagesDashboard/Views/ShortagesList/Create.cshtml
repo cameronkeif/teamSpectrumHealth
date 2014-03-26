@@ -9,7 +9,16 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 
 <div id="body">
-    <p>NDC: @Html.DisplayFor(model => model.NDC)</p>
+    <div id="secondaryTitle">
+        @Html.DisplayFor(model => model.Brand)
+    </div>
+    <div id="basicDrugInformation">
+        <ul>
+            <li>NDC: @Html.DisplayFor(model => model.NDC)</li>
+            <li>Dosage: @Html.DisplayFor(model => model.Dosage)</li>
+            <li>Generic Name: @Html.DisplayFor(model => model.Generic)</li>
+        </ul>
+    </div>
     <form id="create_shortage_form">
         <input type="hidden" name="ndc" id="ndc" value="@Html.DisplayFor(model => model.NDC)">
         <span class='formErrorNotification' id="statusError">*</span>Status:

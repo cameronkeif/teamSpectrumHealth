@@ -66,18 +66,30 @@ namespace MedicationsShortagesDashboard.Controllers
             {
                 Response.Redirect("~/Error");
             }
+
             ShortageRepository db = new ShortageRepository();
+            DrugEntryRepository drugDb = new DrugEntryRepository();
 
             Shortage shortage = db.GetShortage(id);
+            
             if (shortage == null)
             {
                 return this.HttpNotFound();
             }
 
+            DrugEntry drugEntry = drugDb.GetDrug(shortage.Ndc);
+
+            if (drugEntry == null)
+            {
+                return this.HttpNotFound();
+            }
+
+            var tuple = new Tuple<Shortage, DrugEntry>(shortage, drugEntry);
+
             this.ViewData["Username"] = Authentication.Username;
             this.ViewData["Type"] = Authentication.Type;
             this.ViewData["PageTitle"] = "Edit Shortage";
-            return this.View(shortage);
+            return this.View(tuple);
         }
 
         /// <summary>

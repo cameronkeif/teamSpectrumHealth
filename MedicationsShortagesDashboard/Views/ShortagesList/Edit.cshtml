@@ -1,7 +1,7 @@
-﻿@model MedicationsShortagesDashboard.Models.Shortage 
-
+﻿@using MedicationsShortagesDashboard.Models;
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Edit Shortage";
+    @model Tuple<Shortage, DrugEntry>
 }
 
 <script src="http://code.jquery.com/jquery-migrate-1.2.1.js"></script>
@@ -9,10 +9,19 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 
 <div id="body">
-    <p>NDC: @Html.DisplayFor(model => model.Ndc)</p>
+    <div id="secondaryTitle">
+        @Html.DisplayFor(tuple => tuple.Item2.Brand)
+    </div>
+    <div id="basicDrugInformation">
+        <ul>
+            <li>NDC: @Html.DisplayFor(tuple => tuple.Item2.NDC)</li>
+            <li>Dosage: @Html.DisplayFor(tuple => tuple.Item2.Dosage)</li>
+            <li>Generic Name: @Html.DisplayFor(tuple => tuple.Item2.Generic)</li>
+        </ul>
+    </div>
     <form id="create_shortage_form">
-        <input type="hidden" name="id" id="id" value="@Html.DisplayFor(model => model.Id)">
-        <input type="hidden" name="ndc" id="ndc" value="@Html.DisplayFor(model => model.Ndc)">
+        <input type="hidden" name="id" id="id" value="@Html.DisplayFor(tuple => tuple.Item1.Id))">
+        <input type="hidden" name="ndc" id="ndc" value="@Html.DisplayFor(tuple => tuple.Item1.Ndc))">
         Status:
         <p><span class="create_shortage_good_label"><input id="good" name="status" value="good" type="radio" onclick="javascript: statusCheck();" /> Good </span></p>
         <p><span class="create_shortage_warning_label"><input id="warning" name="status" value="warning" type="radio" onclick="javascript: statusCheck();" /> Warning </span></p>
@@ -39,18 +48,18 @@
     $("#expectedResolutionDate").datepicker({ minDate: 0, dateFormat: "m/d/yy" });
 
     // Pre populate form based on current information
-    $('#expectedResolutionDate').val('@Html.DisplayFor(model => model.ExpectedResolutionDate)')
-    $('#expectedResolutionDate').val($('#expectedResolutionDate').html('@Html.DisplayFor(model => model.ExpectedResolutionDate)').text().split(" ")[0]);
+    $('#expectedResolutionDate').val('@Html.DisplayFor(tuple => tuple.Item1.ExpectedResolutionDate)')
+    $('#expectedResolutionDate').val($('#expectedResolutionDate').html('@Html.DisplayFor(tuple => tuple.Item1.ExpectedResolutionDate)').text().split(" ")[0]);
 
-    $('#sevenDaySupply').html('@Html.DisplayFor(model => model.SevenDaySupply)').text()
-    $('#sevenDayUsage').html('@Html.DisplayFor(model => model.SevenDayUsage)').text();
-    $('#mitigationActions').html('@Html.DisplayFor(model => model.MitigationActions)').text();
-    $('#backorderInformation').html('@Html.DisplayFor(model => model.BackorderInformation)').text();
+    $('#sevenDaySupply').html('@Html.DisplayFor(tuple => tuple.Item1.SevenDaySupply)').text()
+    $('#sevenDayUsage').html('@Html.DisplayFor(tuple => tuple.Item1.SevenDayUsage)').text();
+    $('#mitigationActions').html('@Html.DisplayFor(tuple => tuple.Item1.MitigationActions)').text();
+    $('#backorderInformation').html('@Html.DisplayFor(tuple => tuple.Item1.BackorderInformation)').text();
 
-    $('#greyMarketVendor').html('@Html.DisplayFor(model => model.GreyMarketVendor)').text()
-    $('#greyMarketVendor').val($('#greyMarketVendor').html('@Html.DisplayFor(model => model.GreyMarketVendor)').text());
+    $('#greyMarketVendor').html('@Html.DisplayFor(tuple => tuple.Item1.GreyMarketVendor)').text()
+    $('#greyMarketVendor').val($('#greyMarketVendor').html('@Html.DisplayFor(tuple => tuple.Item1.GreyMarketVendor)').text());
 
-    var status = '@Html.DisplayFor(model => model.Status)';
+    var status = '@Html.DisplayFor(tuple => tuple.Item1.Status)';
     if (status == 'good')
     {
         $('#good').prop('checked', true);
@@ -73,7 +82,7 @@
             }
             $.post('/api/Shortage', submitData)
                 .success(function () {
-                    window.location.replace("/DrugEntriesList/Details/" + '@Html.DisplayFor(model => model.Ndc)');
+                    window.location.replace("/DrugEntriesList/Details/" + '@Html.DisplayFor(tuple => tuple.Item1.Ndc)');
                 });
             e.preventDefault();
         } else {

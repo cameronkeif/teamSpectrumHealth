@@ -72,7 +72,14 @@ namespace MedicationsShortagesDashboard.Controllers
             if (login == null)
             {
                 login = new Login();
-                login.Username = User.Identity.Name.Split('\\')[1];
+                if (User.Identity.Name.Split('\\').Length > 1)
+                {
+                    login.Username = User.Identity.Name.Split('\\')[1];
+                }
+                else
+                {
+                    login.Username = User.Identity.Name;
+                }
                 if (this.loginRepo.CheckWindowsLogin(login))
                 {
                     return Request.CreateResponse<Login>(System.Net.HttpStatusCode.Accepted, login);

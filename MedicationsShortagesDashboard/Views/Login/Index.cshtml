@@ -19,10 +19,10 @@
 @section scripts{
 <script type="text/javascript">
     function auth() {
-        $.post("api/loginapi",
+        $.post('@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "LoginAPI", })',
             $("#loginForm").serialize(),
             function (value) {
-                window.location.replace("/DrugEntriesList");
+                window.location.replace("/MedicationsShortagesDashboard/DrugEntriesList");
             },
             "json"
         ).fail(function () {

@@ -79,13 +79,13 @@
 
     // Show only the loading animation
     $("#loadingAnimation").show();
-
-    $.getJSON('/api/IgnoredPendingShortage/' + loggedInAs, function (ignoredPendingShortagesJsonPayload) {
+    
+    $.getJSON('@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "IgnoredPendingShortage", })' + '/' + loggedInAs, function (ignoredPendingShortagesJsonPayload) {
         $(ignoredPendingShortagesJsonPayload).each(function (i, item) {
             ignoredIDs.push(item.Id);
         });
 
-        $.getJSON('/api/PendingShortage', function (pendingShortagesJsonPayload) {
+        $.getJSON('@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "PendingShortage", })', function (pendingShortagesJsonPayload) {
             $(pendingShortagesJsonPayload).each(function (i, item) {
                 // Only process items which are not ignored.
                 if (ignoredIDs.indexOf(item.Id) == -1) {
@@ -208,7 +208,8 @@ $('#submit').click(function (e) {
     if (submitData.indexOf("&status=good") != -1) {
         submitData = submitData.split('&sevenDaySupply=')[0];
     }
-    $.post('/api/Shortage', submitData)
+
+    $.post('@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "Shortage", })', submitData)
         .success(function () {
             $('#create_shortage').find('form')[0].reset();
             $("#success_message").append("Shortage successfully created!");
@@ -217,7 +218,7 @@ $('#submit').click(function (e) {
 });
 
 function ignore(id, username, drugName) {
-    $.post('/api/IgnoredPendingShortage', "username=" + username + "&id=" + id + "&drugName=" + drugName)
+    $.post('@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "IgnoredPendingShortage", })', "username=" + username + "&id=" + id + "&drugName=" + drugName)
     .success(function() {
         $("#ps_" + id).hide();
     });

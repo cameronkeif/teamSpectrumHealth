@@ -205,21 +205,24 @@
     $(document).ready(function()
     {
         // Populates list of visits for logged in user
-        $.getJSON('/api/DrugVisit/' + loggedInAs, function (drugVisitJsonPayload) {
+        var url = '@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "DrugVisit", })';
+        $.getJSON(url + "/" + loggedInAs, function (drugVisitJsonPayload) {
             $(drugVisitJsonPayload).each(function (i, visit) {
                 lastVisits.push([visit.NDC, visit.Date]);
             });
         });
 
+        url = '@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "DrugEntry", })';
         // Populates list of last posts for each drug
-        $.getJSON('/api/DrugEntry', function (drugJsonPayload) {
+        $.getJSON(url, function (drugJsonPayload) {
             $(drugJsonPayload).each(function (i, item) {
                 if (item.LastPost != null) {
                     lastPosts.push([item.NDC, item.LastPost]);
                 }
             });
 
-            $.getJSON('/api/WatchListItem/' + loggedInAs, function (watchListJsonPayload) {
+            url = '@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "WatchListItem", })';
+            $.getJSON(url + '/' + loggedInAs, function (watchListJsonPayload) {
                 $(watchListJsonPayload).each(function (i, watchListItem) {
                     watchListNdcs.push(watchListItem.Ndc);
                 });
@@ -227,8 +230,9 @@
 
             var recentTemp = new Array();
 
+            url = '@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "DrugEntry", })';
             // Get all drugs
-            $.getJSON('/api/DrugEntry', function (drugJsonPayload) {
+            $.getJSON(url, function (drugJsonPayload) {
                 $(drugJsonPayload).each(function (i, item) {
 
                     recentTemp.push(item);
@@ -308,7 +312,7 @@
 
     function addToWatchList(username, ndc, currentStatus) {
         $.ajax({
-            url: '/api/WatchListItem/' + username + "/" + ndc,
+            url: '@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "WatchListItem", })' + '/' + username + "/" + ndc,
             type: 'POST',
             success: function () {
             }
@@ -319,7 +323,7 @@
 
     function removeFromWatchList(username, ndc, currentStatus) {
         $.ajax({
-            url: '/api/WatchListItem/' + username + "/" + ndc,
+            url: '@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "WatchListItem", })' + '/' + username + "/" + ndc,
             type: 'DELETE',
             success: function () {
             },

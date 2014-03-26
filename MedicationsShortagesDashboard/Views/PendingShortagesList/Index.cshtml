@@ -100,7 +100,7 @@
                 }
             });
 
-            $.getJSON('/api/DrugEntry', function (drugJsonPayload) {
+            $.getJSON('@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "DrugEntry", })', function (drugJsonPayload) {
                 $(drugJsonPayload).each(function (i, item) {
                     validNDCs.push(item.NDC);
                 });

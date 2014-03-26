@@ -45,13 +45,6 @@
             @Html.ValidationMessageFor(model => model.Generic)
         </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.CurrentStatus)
-        </div>
-        <p>@Html.RadioButton("Status", "good", false) Good </p>
-        <p>@Html.RadioButton("Status", "warning", false) Warning </p>
-        <p>@Html.RadioButton("Status", "severe", false) Severe </p>
-
         <p>
             <input type="submit" value="Add Drug" />
         </p>

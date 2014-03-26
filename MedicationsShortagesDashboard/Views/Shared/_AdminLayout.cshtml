@@ -91,16 +91,13 @@
     }
 
     var str = @Html.Raw(Json.Encode(ViewData["PageTitle"])) + '';
-    if (str == "Pending Shortages") {
+    if (str == "Manage Feeds") {
         $("#pendingShortagesMenu").addClass("selected");
     }
     else if (str == "Upload Formulary") {
         $("#uploadMenu").addClass("selected");
     }
-    else if (str == "All Shortages") {
-        $("#allShortagesMenu").addClass("selected");
-    }
-    else if (str == "Create Shortage") {
+    else if (str == "Create Drug") {
         $("#createMenu").addClass("selected");
     }
 

@@ -4,36 +4,63 @@
     ViewBag.Title = "Edit";
 }
 
-<body>
-@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "editShortage", @action = "/api/Shortage" }))
-{
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
-
-    <fieldset>
-        <legend>Shortage</legend>
-
-        @Html.HiddenFor(model => model.Id)
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Ndc)
+<div id="body">
+    <form id="create_shortage_form">
+        <p>NDC: <input id="ndc" type="text" name="ndc"></p>
+        Status:
+        <p><span class="create_shortage_good_label"><input id="good" name="status" value="good" type="radio" onclick="javascript: statusCheck();" /> Good </span></p>
+        <p><span class="create_shortage_warning_label"><input id="warning" name="status" value="warning" type="radio" onclick="javascript: statusCheck();" /> Warning </span></p>
+        <p><span class="create_shortage_severe_label"><input id="severe" name="status" type="radio" value="severe" onclick="javascript: statusCheck();" /> Severe </span></p>
+        <div id="additionalInfo">
+            <p>Seven day supply (250 character limit):</p>
+            <p><textarea class="createShortageTextArea" id="sevenDaySupply" name="sevenDaySupply" rows="5" cols="50" ></textarea></p>
+            <p>Seven day usage (250 character limit):</p>
+            <p><textarea class="createShortageTextArea" id="sevenDayUsage" name="sevenDayUsage" rows="5" cols="50" ></textarea></p>
+            <p>Migitation Actions (5000 character limit):</p>
+            <p><textarea class="createShortageTextArea" id="mitigationActions" name="mitigationActions" rows="5" cols="50" ></textarea></p>
+            <p>Backorder Information (5000 character limit):</p>
+            <p><textarea class="createShortageTextArea" id="backorderInformation" name="backorderInformation" rows="5" cols="50" ></textarea></p>
+            <p>Grey Market Vendor: <input id="greyMarketVendor" type="text" name="greyMarketVendor" /></p>
+            <p>Expected Resolution Date: <input id="expectedResolutionDate" type="text" name="expectedResolutionDate" /></p>
         </div>
-        <div class="editor-field">
-            @Html.TextBoxFor(model => model.Ndc, new {@readonly = "readonly",
-              @class = "TextBoxAsLabel", @style="background:#e9e9e9"})
-            @Html.ValidationMessageFor(model => model.Ndc)
-        </div>
+        <p><button class="submitButton" id="submit" type="button">Update Shortage</button></p>
+        <p><span class="create_shortage_good_label" id="success_message"></span></p>
+    </form>
+</div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Status)
-        </div>
-        <p>@Html.RadioButton("Status", "good", false) Good </p>
-        <p>@Html.RadioButton("Status", "warning", false) Warning </p>
-        <p>@Html.RadioButton("Status", "severe", false) Severe </p>
+@section scripts{
+<script type="text/javascript">
+    function statusCheck() {
+        if (document.getElementById('warning').checked || document.getElementById('severe').checked) {
+            document.getElementById('additionalInfo').style.display = 'block';
+        } else {
+            document.getElementById('additionalInfo').style.display = 'none';
+        }
+    }
 
-        <p>
-            <input type="submit" value="Save" />
-        </p>
-    </fieldset>
+    // Pre populate form based on current information
+    $('#expectedResolutionDate').val('@Html.DisplayFor(model => model.ExpectedResolutionDate)')
+    $('#expectedResolutionDate').val($('#expectedResolutionDate').html('@Html.DisplayFor(model => model.ExpectedResolutionDate)').text());
+
+    $('#sevenDaySupply').html('@Html.DisplayFor(model => model.SevenDaySupply)').text()
+    $('#sevenDayUsage').html('@Html.DisplayFor(model => model.SevenDayUsage)').text();
+    $('#mitigationActions').html('@Html.DisplayFor(model => model.MitigationActions)').text();
+    $('#backorderInformation').html('@Html.DisplayFor(model => model.BackorderInformation)').text();
+
+    $('#greyMarketVendor').html('@Html.DisplayFor(model => model.GreyMarketVendor)').text()
+    $('#greyMarketVendor').val($('#greyMarketVendor').html('@Html.DisplayFor(model => model.GreyMarketVendor)').text());
+
+    $('#submit').click(function (e) {
+        var submitData = $('#create_shortage_form').serialize();
+        if (submitData.indexOf("&status=good") != -1) {
+            submitData = submitData.split('&sevenDaySupply=')[0];
+        }
+        $.post('/api/Shortage', submitData)
+            .success(function () {
+                $('#create_shortage').find('form')[0].reset();
+                $("#success_message").append("Shortage successfully created!");
+            });
+        e.preventDefault();
+    });
+</script>
 }
-</body>

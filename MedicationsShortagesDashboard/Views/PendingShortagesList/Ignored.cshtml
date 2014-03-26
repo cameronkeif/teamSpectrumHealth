@@ -52,7 +52,7 @@
     $("#loadingAnimation").show();
     $("#ignored_pending_shortages_warning").hide()
 
-    $.getJSON('/api/IgnoredPendingShortage/' + loggedInAs, function (ignoredPendingShortagesJsonPayload) {
+    $.getJSON('@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "IgnoredPendingShortage", })' + '/' + loggedInAs, function (ignoredPendingShortagesJsonPayload) {
         $(ignoredPendingShortagesJsonPayload).each(function (i, item) {
             ignoredIDs.push(item.Id);
             $("#ignored_pending_shortages").append("<li id=ignored_ps_" + item.Id + "><a href='javascript:void(0)' onclick='unIgnore(\"" + loggedInAs + "\", \"" + item.Id + "\", \"" + item.DrugName+ "\")'>" +
@@ -72,7 +72,7 @@
         var r = confirm("Do you really want to remove " + drugName + " from your ignore list?");
         if (r == true) {
             $.ajax({
-                url: '/api/IgnoredPendingShortage/' + username + "/" + id,
+                url: '@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "IgnoredPendingShortage", })' + '/' + username + "/" + id,
                 type: 'DELETE',
                 success: function () {
                     $("#ignored_ps_" + id).hide();

@@ -36,7 +36,8 @@
     var shortageHistoryPlotData = Array();
     var loginType = '@Html.Encode(ViewData["Type"])'
 
-    $.getJSON('/api/Shortage/' + '@Model.Item1.NDC', function (shortagesJsonPayload) {
+    $.getJSON('@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "Shortage", })' + '/' + '@Model.Item1.NDC', function (shortagesJsonPayload) {
+
         $(shortagesJsonPayload).each(function (i, item) {
             $('#shortageHistory > ul').append('<li id=shortage_' + item.Id + '>' + item.Status + formatDateForOutput(item.DateTime) + '<span class="shortageLinks" >' +
                 '<a href="/ShortagesList/Details/' + item.Id + '">Details</a>' +
@@ -74,7 +75,7 @@
         var result = confirm("Do you really want to delete this shortage?");
         if (result == true) {
             $.ajax({
-                url: '/api/Shortage' + '/' + id,
+                url: '@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "Shortage", })' + '/' + id,
                 type: 'DELETE',
                 success: function () {
                     window.location.reload();
@@ -163,7 +164,7 @@
     // If they're logged in and have visited the page, compare the date in the DrugVisit entry
     // and compare that to the message dates, and if they're newer, set them to unread
     else {
-        $.getJSON("/api/DrugVisit", function (drugVisitsJsonPayload) {
+        $.getJSON('@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "DrugVisit", })', function (drugVisitsJsonPayload) {
             $(drugVisitsJsonPayload).each(function (i, item) {
                 // Page has been visited
                 if (item.NDC == '@Model.Item1.NDC' && item.Username == userLoggedIn) {
@@ -171,7 +172,7 @@
                 }
             });
         }).complete( function() {
-            $.getJSON("/api/Message/", function (messagesJsonPayload) {
+            $.getJSON('@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "Message", })', function (messagesJsonPayload) {
                 $(messagesJsonPayload).each(function (i, item) {
                     if (item.NDC == '@Model.Item1.NDC') {
                         var badge = "";
@@ -209,7 +210,7 @@
         if (userLoggedIn != "Guest") {
             var data = { "Username": userLoggedIn, "NDC": '@Model.Item1.NDC' };
             $.ajax({
-                url: '/api/DrugVisit/Post',
+                url: '@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "DrugVisit/Post", })',
                 type: 'POST',
                 contentType: 'application/json; charset=utf-8',
                 data: JSON.stringify(data),
@@ -231,12 +232,12 @@
     $('#submit').click(function (e) {
         var submitData = $('#postDiscussionForm').serialize();
         console.log(submitData);
-        $.post('/api/Message', submitData)
+        $.post('@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "Message", })', submitData)
         .success(function () {
             updateLastVisit();
         });
         $.ajax({
-            url: '/api/DrugEntryManual/UpdateDrugLastPostTime',
+            url: '@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "DrugEntryManual/UpdateDrugLastPostTime", })',
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify
         });

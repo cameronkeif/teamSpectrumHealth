@@ -5,7 +5,7 @@
 
 @model MedicationsShortagesDashboard.Models.DrugEntry
 <body>
-@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "createDrugEntry", @action = "/api/DrugEntryManual" }))
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "createDrugEntry", @action = "/MedicationsShortagesDashboard/api/DrugEntryManual" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)

@@ -1,0 +1,41 @@
+﻿@model MedicationsShortagesDashboard.Models.Shortage 
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="body">
+    NDC of affected drug: @Html.DisplayFor(model => model.Ndc)
+    <p>Date created: @Html.DisplayFor(model => model.DateTime)</p>
+    <p>Status: <span id="status"></span></p>
+    <div id="additionalInfo">
+        <p>Expected resolution date: @Html.DisplayFor(model => model.ExpectedResolutionDate)</p>
+        <p>Seven day supply: @Html.DisplayFor(model => model.SevenDaySupply)</p>
+        <p>Seven day usage: @Html.DisplayFor(model => model.SevenDayUsage)</p>
+        <p>Mitigation actions </p><p>@Html.DisplayFor(model => model.MitigationActions)</p>
+        <p>Backorder information </p><p>@Html.DisplayFor(model => model.BackorderInformation)</p>
+        <p>Grey market vendor: @Html.DisplayFor(model => model.GreyMarketVendor)</p>
+    </div>
+</div>
+
+@section scripts
+{
+<script type="text/javascript">
+    var status = '@Html.DisplayFor(model => model.Status)';
+    
+    if (status == 'good') {
+        $("#status").append('<span class="create_shortage_good_label"> Good </span>');
+    }
+
+    if (status == 'warning') {
+        $("#status").append('<span class="create_shortage_warning_label"> Warning </span>');
+        $("#additionalInfo").show()
+    }
+
+    if (status == 'severe') {
+        $("#status").append('<span class="create_shortage_severe_label"> Severe </span>');
+        $("#additionalInfo").show();
+    }
+</script>
+}

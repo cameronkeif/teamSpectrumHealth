@@ -79,6 +79,12 @@ namespace MedicationsShortagesDashboard.Controllers
             {
                 existingShortage.Ndc = shortage.Ndc;
                 existingShortage.Status = shortage.Status;
+                existingShortage.SevenDaySupply = shortage.SevenDaySupply;
+                existingShortage.SevenDayUsage = shortage.SevenDayUsage;
+                existingShortage.MitigationActions = shortage.MitigationActions;
+                existingShortage.GreyMarketVendor = shortage.GreyMarketVendor;
+                existingShortage.ExpectedResolutionDate = shortage.ExpectedResolutionDate;
+                existingShortage.BackorderInformation = shortage.BackorderInformation;
 
                 this.shortageRepository.UpdateShortage(existingShortage);
             }

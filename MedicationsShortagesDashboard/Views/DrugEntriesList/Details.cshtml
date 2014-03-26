@@ -21,6 +21,7 @@
         <li>Generic Name: @Html.DisplayFor(tuple => tuple.Item1.Generic)</li>
         <li>Current Status: @Html.DisplayFor(tuple => tuple.Item1.CurrentStatus)</li>
     </ul>
+    <p><button class="submitButton" id="submit" type="button">Create Shortage</button></p>
 </div>
 
 <div id="shortageHistoryChart">
@@ -33,10 +34,16 @@
 @section scripts{
 <script type="text/javascript">
     var shortageHistoryPlotData = Array();
+    var loginType = '@Html.Encode(ViewData["Type"])'
+
     $.getJSON('/api/Shortage/' + '@Model.Item1.NDC', function (shortagesJsonPayload) {
         $(shortagesJsonPayload).each(function (i, item) {
-            $('#shortageHistory > ul').append('<li id=shortage_' + item.Id + '>' + item.Status + formatDateForOutput(item.DateTime) + '<a href="/ShortagesList/Edit/' + item.Id + '">' +
-                'Edit </a> <a onclick="Delete(' + item.Id + ', ' + i + ')" href="#"> Delete </a></li></div></li>');
+            $('#shortageHistory > ul').append('<li id=shortage_' + item.Id + '>' + item.Status + formatDateForOutput(item.DateTime) + '<span class="shortageLinks" >' +
+                '<a href="/ShortagesList/Details/' + item.Id + '">Details</a>' +
+                '<span class="adminLinks">' +
+                '<a href="/ShortagesList/Edit/' + item.Id + '">Edit</a>' +
+                '<a onclick="Delete(' + item.Id + ', ' + i + ')" href="#">Delete</a></span></span>' +
+                '</li></div></li>');
 
             if (item.Status == "severe") {
                 shortageHistoryPlotData.push([item.DateTime.replace("T", " "), 0]);
@@ -48,6 +55,10 @@
                 shortageHistoryPlotData.push([item.DateTime.replace("T", " "), 2]);
             }
         });
+
+        if (loginType == "pharmadmin") {
+            $(".adminLinks").show();
+        }
 
         if ($(shortagesJsonPayload).length > 0) {
             $('#shortageHistory').prepend('<u>Shortage History</u>');
@@ -116,6 +127,10 @@
         dateObject = new Date(year, month, day, hours, minutes, seconds);
         return " at " + dateObject.toLocaleTimeString() + " on " + dateObject.toLocaleDateString();
     }
+
+    $('#submit').click(function (e) {
+        window.location.href = "/ShortagesList/Create/" + '@Html.DisplayFor(tuple => tuple.Item1.NDC)';
+    });
 </script>
 }
 

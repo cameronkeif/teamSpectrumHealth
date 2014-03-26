@@ -1,39 +1,60 @@
-﻿@model MedicationsShortagesDashboard.Models.Shortage 
+﻿@model MedicationsShortagesDashboard.Models.DrugEntry 
 
 @{
-    ViewBag.Title = "Create";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Title = "Edit";
 }
 
-<body>
-@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "createShortage", @action = "/api/Shortage" }))
-{
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
+<script src="http://code.jquery.com/jquery-migrate-1.2.1.js"></script>
+<script type="text/javascript" src="~/Scripts/jquery-ui-1.8.24.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 
-    <fieldset>
-        <legend>Shortage</legend>
-
-        @Html.HiddenFor(model => model.Id)
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Ndc)
+<div id="body">
+    <p>NDC: @Html.DisplayFor(model => model.NDC)</p>
+    <form id="create_shortage_form">
+        <input type="hidden" name="ndc" id="ndc" value="@Html.DisplayFor(model => model.NDC)">
+        Status:
+        <p><span class="create_shortage_good_label"><input id="good" name="status" value="good" type="radio" onclick="javascript: statusCheck();" /> Good </span></p>
+        <p><span class="create_shortage_warning_label"><input id="warning" name="status" value="warning" type="radio" onclick="javascript: statusCheck();" /> Warning </span></p>
+        <p><span class="create_shortage_severe_label"><input id="severe" name="status" type="radio" value="severe" onclick="javascript: statusCheck();" /> Severe </span></p>
+        <div id="additionalInfo">
+            <p>Seven day supply (250 character limit):</p>
+            <p><textarea class="createShortageTextArea" id="sevenDaySupply" name="sevenDaySupply" rows="5" cols="50" ></textarea></p>
+            <p>Seven day usage (250 character limit):</p>
+            <p><textarea class="createShortageTextArea" id="sevenDayUsage" name="sevenDayUsage" rows="5" cols="50" ></textarea></p>
+            <p>Migitation Actions (5000 character limit):</p>
+            <p><textarea class="createShortageTextArea" id="mitigationActions" name="mitigationActions" rows="5" cols="50" ></textarea></p>
+            <p>Backorder Information (5000 character limit):</p>
+            <p><textarea class="createShortageTextArea" id="backorderInformation" name="backorderInformation" rows="5" cols="50" ></textarea></p>
+            <p>Grey Market Vendor: <input id="greyMarketVendor" type="text" name="greyMarketVendor" /></p>
+            <p>Expected Resolution Date: <input id="expectedResolutionDate" type="text" name="expectedResolutionDate" /></p>
         </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Ndc)
-            @Html.ValidationMessageFor(model => model.Ndc)
-        </div>
+        <p><button class="submitButton" id="submit" type="button">Create Shortage</button></p>
+    </form>
+</div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Status)
-        </div>
-        <p>@Html.RadioButton("Status", "good", false) Good </p>
-        <p>@Html.RadioButton("Status", "warning", false) Warning </p>
-        <p>@Html.RadioButton("Status", "severe", false) Severe </p>
+@section scripts{
+<script type="text/javascript">
+    $("#expectedResolutionDate").datepicker();
 
-        <p>
-            <input type="submit" value="Save" />
-        </p>
-    </fieldset>
+    $('#submit').click(function (e) {
+        var submitData = $('#create_shortage_form').serialize();
+        console.log(submitData);
+        if (submitData.indexOf("&status=good") != -1) {
+            submitData = submitData.split('&sevenDaySupply=')[0];
+        }
+        $.post('/api/Shortage', submitData)
+            .success(function () {
+                window.location.href= "/DrugEntriesList/Details/" + '@Html.DisplayFor(model => model.NDC)';
+            });
+        e.preventDefault();
+    });
+
+    function statusCheck() {
+        if (document.getElementById('warning').checked || document.getElementById('severe').checked) {
+            document.getElementById('additionalInfo').style.display = 'block';
+        } else {
+            document.getElementById('additionalInfo').style.display = 'none';
+        }
+    }
+</script>
 }
-</body>

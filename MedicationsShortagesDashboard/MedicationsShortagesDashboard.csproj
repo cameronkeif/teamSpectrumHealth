@@ -358,6 +358,7 @@
     <Content Include="Views\Shared\_AdminLayout.cshtml" />
     <Content Include="Views\PendingShortagesList\Ignored.cshtml" />
     <Content Include="Views\Error\Index.cshtml" />
+    <Content Include="Views\ShortagesList\Details.cshtml" />
     <Content Include="Views\DrugEntriesList\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>

@@ -201,14 +201,15 @@ function checkBadge(ndc) {
                         match = true;
                         console.log("VISIT FOUND FOR " + ndc);
                         if (lastPosts[i][1] > lastVisits[j][1]) {
-                            returnedHTML = " - UNREAD";
+                            returnedHTML = '<img src="/Images/message_badge.png">';
+                            //<img src="~/Images/loading.gif">
                         }
                     }
                 }
             }
         }
         if (match == false && dateLastSeen != null) {
-            returnedHTML = " - UNREAD";
+            returnedHTML = '<img src="/Images/message_badge.png">';
         }
     }
     return returnedHTML;

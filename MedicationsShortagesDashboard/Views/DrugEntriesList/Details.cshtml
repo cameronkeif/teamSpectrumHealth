@@ -174,7 +174,7 @@
             $.getJSON('@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "Message", })', function (messagesJsonPayload) {
                 $(messagesJsonPayload).each(function (i, item) {
                     if (item.NDC == '@Model.Item1.NDC') {
-                        var badge = '<img style="padding-right:5px;" src="/MedicationsShortagesDashboard/Images/message_badge_large.png">';
+                        var badge = '';
                         // Check (if user logged in) if unread, update DrugVisit entry
                         if (userLoggedIn != "Guest") {
                             if (dateLastSeen != null) {

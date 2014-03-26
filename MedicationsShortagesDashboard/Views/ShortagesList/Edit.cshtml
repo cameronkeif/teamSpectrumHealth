@@ -83,7 +83,7 @@
             var url = '@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "Shortage/", })';
             $.post(url, submitData)
                 .success(function () {
-                    window.location.replace("/DrugEntriesList/Details/" + '@Html.DisplayFor(tuple => tuple.Item1.Ndc)');
+                    window.location.replace("/MedicationsShortagesDashboard/DrugEntriesList/Details/" + '@Html.DisplayFor(tuple => tuple.Item1.Ndc)');
                 });
             e.preventDefault();
         } else {

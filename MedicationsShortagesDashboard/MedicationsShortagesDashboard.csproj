@@ -290,6 +290,7 @@
     <None Include="Properties\PublishProfiles\MedicationsShortagesDashboard.pubxml" />
     <None Include="Scripts\jquery-2.1.0.intellisense.js" />
     <Content Include="Images\message_badge.png" />
+    <Content Include="Images\message_badge_large.png" />
     <Content Include="Images\not_favorite.png" />
     <Content Include="Images\close_dialog.png" />
     <Content Include="Images\remove.png" />
@@ -344,11 +345,9 @@
     <Content Include="Scripts\_references.js" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\PendingShortagesList\Index.cshtml" />
-    <Content Include="Views\ShortagesList\Index.cshtml" />
     <Content Include="Views\ShortagesList\Create.cshtml" />
     <Content Include="Views\ShortagesList\Edit.cshtml" />
     <Content Include="Views\Login\Index.cshtml" />

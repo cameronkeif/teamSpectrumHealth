@@ -42,8 +42,8 @@
 
     $.getJSON('@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "Shortage", })' + '/' + '@Model.Item1.NDC', function (shortagesJsonPayload) {
         $(shortagesJsonPayload).each(function (i, item) {
-            $('#shortageHistory > ul').append('<li id=shortage_' + item.Id + '>' + item.Status + formatDateForOutput(item.DateTime) + '<span class="shortageLinks" >' +
-                '<a href="/MedicationsShortagesDashboard/ShortagesList/Details/' + item.Id + '">Details</a>' +
+            $('#shortageHistory > ul').append('<li id=shortage_' + item.Id + '>' + item.Status + " at " + formatDateForOutput(item.DateTime) + '<span class="shortageLinks" >' +
+                '<a href="/ShortagesList/Details/' + item.Id + '">Details</a>' +
                 '<span class="adminLinks">' +
                 '<a href="/MedicationsShortagesDashboard/ShortagesList/Edit/' + item.Id + '">Edit</a>' +
                 '<a onclick="Delete(' + item.Id + ', ' + i + ')" href="#">Delete</a></span></span>' +
@@ -129,7 +129,7 @@
         minutes = dateTime.substr(14, 2);
         seconds = dateTime.substr(17, 2);
         dateObject = new Date(year, month, day, hours, minutes, seconds);
-        return " at " + dateObject.toLocaleTimeString() + " on " + dateObject.toLocaleDateString();
+        return dateObject.toLocaleTimeString() + " on " + dateObject.toLocaleDateString();
     }
 
     $('#submit_create_shortage').click(function (e) {
@@ -138,16 +138,12 @@
 </script>
 }
 
-<div class="expandMessagePost">
-    <input onclick="return changeMessagePostButtonText(this)" type="button" value="POST DISCUSSION" id="messageToggle" />
-</div>
-
-<div class="messagePosting" style="display:none">
+<div class="messagePosting">
     <form id="postDiscussionForm">
         <input type=hidden name="ndc" id="ndc" value='@Model.Item1.NDC' />
         <input type=hidden name="user" id="user" value='@Html.Encode(ViewData["Username"])' />
         <textarea class="messagePostingBox" id="text" name="text" rows="5" cols ="50"></textarea>
-        <button class="submitButton" id="submit" type="button">Post Discussion</button>
+        <div><button class="submitButton" id="submit" type="button">Post Discussion</button></div>
     </form>
 </div>
 
@@ -178,21 +174,21 @@
             $.getJSON('@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "Message", })', function (messagesJsonPayload) {
                 $(messagesJsonPayload).each(function (i, item) {
                     if (item.NDC == '@Model.Item1.NDC') {
-                        var badge = "";
+                        var badge = '<img style="padding-right:5px;" src="/Images/message_badge_large.png">';
                         // Check (if user logged in) if unread, update DrugVisit entry
                         if (userLoggedIn != "Guest") {
                             if (dateLastSeen != null) {
                                 if (item.Date > dateLastSeen) {
-                                    badge = "[UNREAD]";
+                                    badge = '<img style="padding-right:5px;" src="/Images/message_badge_large.png">';
                                 }
                             }
                             else {
-                                badge = "[UNREAD]";
+                                badge = '<img style="padding-right:5px;" src="/Images/message_badge_large.png">';
                             }
                         }
                         $("#messageListing > ul").append('<li><div class="messageEntry"><div class="messageTitle"> \
-                                                    ' + '<div class="messageInfo">' + item.User + formatDateForOutput(item.Date) + '</div>' + '\
-                                                    ' + '<div class="messageBadge">' + badge + '</div></div>' + ' \
+                                                    ' + '<div class="messageInfo">' + badge + item.User + '<span class="messageDate">' + formatDateForOutput(item.Date) + '</span></div>' + '\
+                                                    ' + '<div class="messageBadge">' + '</div></div>' + ' \
                                                     ' + '<div class="messageText">' + item.Text + '</div></div>' + ' \
                                                      </li>');
                     }
@@ -221,17 +217,6 @@
         }
     }
 
-    $('.expandMessagePost').click(function () {
-        $('.messagePosting').toggle();
-    });
-
-    function changeMessagePostButtonText(b) {
-        if (b.value == "POST DISCUSSION")
-            b.value = "HIDE POSTING";
-        else
-            b.value = "POST DISCUSSION";
-    }
-
     $('#submit').click(function (e) {
         var submitData = $('#postDiscussionForm').serialize();
         console.log(submitData);
@@ -242,9 +227,10 @@
                 url: '@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "DrugEntryManual/UpdateDrugLastPostTime", })',
                 contentType: 'application/json; charset=utf-8',
                 data: JSON.stringify
-            }).success(function() {
+            }).success(function () {
                 location.reload();
             });
         });
     });
+
 </script>

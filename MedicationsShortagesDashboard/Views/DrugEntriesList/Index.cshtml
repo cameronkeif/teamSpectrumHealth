@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Current Shortages";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -211,7 +211,6 @@
                 lastVisits.push([visit.NDC, visit.Date]);
             });
 
-
             url = '@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "DrugEntry", })';
             // Populates list of last posts for each drug
             $.getJSON(url, function (drugJsonPayload) {
@@ -220,13 +219,11 @@
                         lastPosts.push([item.NDC, item.LastPost]);
                     }
                 });
-
                 url = '@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "WatchListItem", })';
                 $.getJSON(url + '/' + loggedInAs, function (watchListJsonPayload) {
                     $(watchListJsonPayload).each(function (i, watchListItem) {
                         watchListNdcs.push(watchListItem.Ndc);
                     });
-
 
                     var recentTemp = new Array();
 
@@ -294,7 +291,7 @@
         return '<li id="' + ndc + '"> \
                    <ul class="shortageCard"> \
                        <li class="left"> \
-                           <span><a href=/MedicationsShortagesDashboard/DrugEntriesList/Details/' + ndc + ">" + brand + ' ' + dosage + checkBadge(ndc) + '</a></span> \
+                           <span><a href=/MedicationsShortagesDashboard/DrugEntriesList/Details/' + ndc + ">" + checkBadge(ndc)  + brand + ' ' + dosage + '</a></span> \
                        </li>' +
                            getNonWatchListShortageCardButtonHtml(ndc, currentStatus) +
                        '</ul> \
@@ -305,7 +302,7 @@
         return '<li id="' + ndc + '"> \
                 <ul class="shortageCard"> \
                     <li class="left"> \
-                        <span><a href=/MedicationsShortagesDashboard/DrugEntriesList/Details/' + ndc + ">" + brand + ' ' + dosage + checkBadge(ndc) + '</a></span> \
+                        <span><a href=/MedicationsShortagesDashboard/DrugEntriesList/Details/' + ndc + ">" + checkBadge(ndc) + brand + ' ' + dosage + '</a></span> \
                     </li>' +
                         getWatchListShortageCardButtonHtml(ndc, currentStatus) +
                     '</ul> \
@@ -544,36 +541,6 @@
         setupButtons();
     });
 
-            
-
-    function checkBadge(ndc) {
-        var returnedHTML = "";
-        var match = false;
-        var dateLastSeen = null;
-        if (loggedInAs != "Guest") {
-            // Find last date of drug visit
-            for (var i = 0; i < lastPosts.length; i++) {
-                if (lastPosts[i][0] == ndc) {
-                    dateLastSeen = lastPosts[i][1];
-                    console.log("FOUND FOR " + ndc);
-                    for (var j = 0; j < lastVisits.length; j++) {
-                        if (lastPosts[i][0] == lastVisits[j][0]) {
-                            match = true;
-                            console.log("VISIT FOUND FOR " + ndc);
-                            if (lastPosts[i][1] > lastVisits[j][1]) {
-                                returnedHTML = " - UNREAD";
-                            }
-                        }
-                    }
-                }
-            }
-            if (match == false && dateLastSeen != null) {
-                returnedHTML = " - UNREAD";
-            }
-        }
-        return returnedHTML;
-    }
-
     function checkBadge(ndc) {
         var returnedHTML = "";
         var match = false;
@@ -581,34 +548,13 @@
         var foundNdcUserVisitIndex = -1;
         var foundNdcInLastPostIndex = -1
 
-        if (userType == "pharmadmin") {
-            // Find last date of drug visit
-            /*for (var i = 0; i < lastPosts.length; i++) {
-                if (lastPosts[i][0] == ndc) {
-                    foundNdcInLastPost = true;
-                    foundNdcInLastPostIndex = i;
-    
-                    for (var j = 0; j < lastVisits.length; j++) {
-                        if (lastPosts[i][0] == lastVisits[j][0]) {
-                            match = true;
-                            console.log("VISIT FOUND FOR " + ndc);
-                            if (lastPosts[i][1] > lastVisits[j][1]) {
-                                returnedHTML = '<img src="/MedicationsShortagesDashboard/message_badge.png">';
-                            }
-                        }
-                    }
-                }
-            }*/
-
-           
+        if (userType == "pharmadmin") {         
             for (var i = 0; i < lastPosts.length; i++) {
                 if (lastPosts[i][0] == ndc) {
-                    //console.log(lastPosts[i][0])
                     foundNdcInLastPostIndex = i;
                     break;
                 }
             }
-            //console.log(ndc + " NOT FOUND");
 
             for (var i = 0; i < lastVisits.length; i++) {
                 if (lastVisits[i][0] == ndc) {
@@ -619,7 +565,7 @@
         
             if (foundNdcInLastPostIndex > -1) { 
                 if (foundNdcUserVisitIndex < 0 || lastPosts[foundNdcInLastPostIndex][1] > lastVisits[foundNdcUserVisitIndex][1]) {
-                    return '<img src="/MedicationsShortagesDashboard/Images/message_badge.png">';
+                    return '<img style="padding-right:5px;" src="/MedicationsShortagesDashboard/Images/message_badge.png">';
                 }
             
             }

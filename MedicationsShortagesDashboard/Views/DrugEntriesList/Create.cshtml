@@ -1,53 +1,55 @@
 ﻿@{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Create Drug";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-@model MedicationsShortagesDashboard.Models.DrugEntry
-<body>
-@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "createDrugEntry", @action = "/MedicationsShortagesDashboard/api/DrugEntryManual" }))
-{
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
+<div id="body">
+    <form id="create_drug_form">
+        <p><span class='formErrorNotification' id="ndcError">*</span>NDC: <input id="ndc" type="text" name="ndc" /></p>
+        <p><span class='formErrorNotification' id="dosageError">*</span>Dosage: <input id="dosage" type="text" name="dosage" /></p>
+        <p><span class='formErrorNotification' id="brandError">*</span>Brand Name: <input id="brand" type="text" name="brand" /></p>
+        <p><span class='formErrorNotification' id="genericError">*</span>Generic Name: <input id="generic" type="text" name="generic" /></p>
+        <p><button class="submitButton" id="submit" type="button">Create Drug</button></p>
+    </form>
+    <div id="invalidFormNotification" class="formErrorNotification">Please fill in all fields marked with *</div>
+</div>
 
-    <fieldset>
-        <legend>Add a new drug</legend>
+@section scripts{
+<script type="text/javascript">
+    $('#submit').click(function (e) {
+        $('#invalidFormNotification').hide();
+        if (validateForm()) {
+            var submitData = $('#create_drug_form').serialize();
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.NDC)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.NDC)
-            @Html.ValidationMessageFor(model => model.NDC)
-        </div>
+            var url = '@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "DrugEntryManual", })';
+            $.post(url, submitData)
+                .success(function () {
+                    window.location.href = "/DrugEntriesList/";
+                });
+            e.preventDefault();
+        } else {
+            $('#invalidFormNotification').show();
+        }
+    });
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Dosage)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Dosage)
-            @Html.ValidationMessageFor(model => model.Dosage)
-        </div>
+    // Determines if a string is empty or only contains whitespace
+    function isBlank(str) {
+        return (!str || /^\s*$/.test(str));
+    }
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Brand)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Brand)
-            @Html.ValidationMessageFor(model => model.Brand)
-        </div>
+    function validateForm() {
+        var validForm = true;
+        var selectors = ['ndc', 'dosage', 'brand', 'generic']
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Generic)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Generic)
-            @Html.ValidationMessageFor(model => model.Generic)
-        </div>
-
-        <p>
-            <input type="submit" value="Add Drug" />
-        </p>
-    </fieldset>
-}
-</body>
+        selectors.forEach(function (selector) {
+            if (isBlank($('#' + selector).val())) {
+                $('#' + selector + 'Error').show();
+                validForm = false;
+            } else {
+                $('#' + selector + 'Error').hide();
+            }
+        });
+        return validForm;
+    }
+</script>
+    }

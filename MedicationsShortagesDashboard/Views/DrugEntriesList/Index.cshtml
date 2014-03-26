@@ -318,16 +318,9 @@
             url: '/api/WatchListItem/' + username + "/" + ndc,
             type: 'POST',
             success: function () {
-                if ($("#" + ndc).length > 0) {
-                    $("#" + ndc).prependTo("#" + currentStatus + "WatchList");
-                    $("#" + ndc + " .right").replaceWith(getWatchListShortageCardButtonHtml(ndc, currentStatus));
-                }
-                if ($("#recentList #" + ndc).length > 0) {
-                    $("#recentList #" + ndc + " .right").replaceWith(getWatchListShortageCardButtonHtml(ndc, currentStatus));
-                }
+                watchListNdcs.push(ndc);
             }
         });
-        watchListNdcs.push(ndc);
         display();
     };
 
@@ -336,25 +329,19 @@
             url: '/api/WatchListItem/' + username + "/" + ndc,
             type: 'DELETE',
             success: function () {
-                if ($("#" + ndc).length > 0) {
-                    $("#" + ndc).prependTo("#" + currentStatus + "List");
-                    $("#" + ndc + " .right").replaceWith(getNonWatchListShortageCardButtonHtml(ndc, currentStatus));
+                var newWatchList = [];
+                for (var i in watchListNdcs) {
+                    var item = watchListNdcs[i];
+                    if (item != ndc) {
+                        newWatchList.push(item);
+                    }
                 }
-                if ($("#recentList #" + ndc).length > 0) {
-                    $("#recentList #" + ndc + " .right").replaceWith(getNonWatchListShortageCardButtonHtml(ndc, currentStatus));
-                }
+                watchListNdcs = [];
+                for (var i in newWatchList)
+                    watchListNdcs.push(newWatchList[i]);
             },
         });
 
-        var newWatchList = [];
-        for (var i in watchListNdcs) {
-            if (i.NDC != ndc) {
-                newWatchList.push(watchListNdcs[i]);
-            }
-        }
-        watchListNdcs = [];
-        for (var i in newWatchList)
-            watchListNdcs.push(newWatchList[i]);
 
         display();
     }

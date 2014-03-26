@@ -21,6 +21,7 @@
         <li>Generic Name: @Html.DisplayFor(tuple => tuple.Item1.Generic)</li>
         <li>Current Status: @Html.DisplayFor(tuple => tuple.Item1.CurrentStatus)</li>
     </ul>
+    <p><button class="submitButton" id="submit" type="button">Create Shortage</button></p>
 </div>
 
 <div id="shortageHistoryChart">
@@ -39,7 +40,8 @@
         $(shortagesJsonPayload).each(function (i, item) {
             $('#shortageHistory > ul').append('<li id=shortage_' + item.Id + '>' + item.Status + formatDateForOutput(item.DateTime) + '<span class="shortageLinks" >' +
                 '<a href="/ShortagesList/Details/' + item.Id + '">Details</a>' +
-                '<span class="adminLinks"><a href="/ShortagesList/Edit/' + item.Id + '">Edit</a>' +
+                '<span class="adminLinks">' +
+                '<a href="/ShortagesList/Edit/' + item.Id + '">Edit</a>' +
                 '<a onclick="Delete(' + item.Id + ', ' + i + ')" href="#">Delete</a></span></span>' +
                 '</li></div></li>');
 
@@ -125,6 +127,10 @@
         dateObject = new Date(year, month, day, hours, minutes, seconds);
         return " at " + dateObject.toLocaleTimeString() + " on " + dateObject.toLocaleDateString();
     }
+
+    $('#submit').click(function (e) {
+        window.location.href = "/ShortagesList/Create/" + '@Html.DisplayFor(tuple => tuple.Item1.NDC)';
+    });
 </script>
 }
 

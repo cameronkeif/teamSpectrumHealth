@@ -308,8 +308,13 @@ div.container
 /* Drug Detail View */
  #basicDrugInformation {
     text-align: center;
+    list-style: none;
+    padding: 0px;
 }
-
+    #basicDrugInformation > ul {
+        list-style: none;
+        padding: 0px;
+    }
 .shortageLinks a {
     padding-left: 5px;
     color: #0ca9fa;
@@ -317,10 +322,6 @@ div.container
 
 .adminLinks {
     display: none;
-}
-
-#basicDrugInformation > ul {
-    list-style-type: none;
 }
 
 #shortageHistory {

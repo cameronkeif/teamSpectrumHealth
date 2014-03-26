@@ -6,6 +6,7 @@
 
 namespace MedicationsShortagesDashboard.Controllers
 {
+    using System;
     using System.Web.Mvc;
     using MedicationsShortagesDashboard.Models;
     using MedicationsShortagesDashboard.Services;
@@ -35,16 +36,22 @@ namespace MedicationsShortagesDashboard.Controllers
         /// Get Create page
         /// </summary>
         /// <returns>Create page view</returns>
-        public ActionResult Create()
+        /// <param name="id">NDC of the drug we are creating a shortage for</param>
+        public ActionResult Create(string id = "")
         {
-            if (Authentication.Type != "pharmadmin")
+            DrugEntryRepository db = new DrugEntryRepository();
+
+            DrugEntry drug = db.GetDrug(id);
+
+            if (Authentication.Type != "pharmadmin" || drug == null)
             {
                 Response.Redirect("~/Error");
             }
+
             this.ViewData["Username"] = Authentication.Username;
             this.ViewData["Type"] = Authentication.Type;
             this.ViewData["PageTitle"] = "Create Shortage";
-            return this.View();
+            return this.View(drug);
         }
 
         /// <summary>

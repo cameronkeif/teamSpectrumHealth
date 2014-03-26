@@ -63,6 +63,12 @@
     // Number of items to show per page
     var itemsPerPage = 5;
 
+    // Store items that don't match the filter
+    var recentArchive = [];
+    var goodArchive = [];
+    var warningArchive = [];
+    var severeArchive = [];
+
     var recentIndex = 0;
     var goodIndex = 0;
     var warningIndex = 0;
@@ -105,17 +111,17 @@
             var shortage;
             if ($.inArray(item.NDC, watchListNdcs) != -1) {
                 shortage = getShortageItemHTMLWatchList(item.Brand, item.Dosage, item.NDC, item.CurrentStatus);
-                $(shortage).appendTo('#' + appendTarget + 'WatchList').addClass(appendTarget + "Item");
+                $(shortage).appendTo('#' + appendTarget + 'WatchList').addClass(appendTarget + "Item").addClass('shortageItem');
             }
             else {
                 shortage = getShortageItemHTML(item.Brand, item.Dosage, item.NDC, item.CurrentStatus);
-                $(shortage).appendTo('#' + appendTarget + 'List').addClass(appendTarget + "Item");
+                $(shortage).appendTo('#' + appendTarget + 'List').addClass(appendTarget + "Item").addClass('shortageItem');
             }
         }
     }
 
     function displayRecent() {
-        for (var i = recentIndex; i < recentItems.length && i < itemsPerPage + recentIndex; i++) {
+        for (var i = recentIndex; i < recentItems.length; i++) {
             var item = recentItems[i];
             var shortage;
 
@@ -127,33 +133,62 @@
             }
 
             if (item.CurrentStatus === "severe") {
-                $(shortage).appendTo('#recentList').addClass("severeItem");
+                $(shortage).appendTo('#recentList').addClass("severeItem").addClass('shortageItem');
             }
             else if (item.CurrentStatus === "warning") {
-                $(shortage).appendTo('#recentList').addClass("warningItem");
+                $(shortage).appendTo('#recentList').addClass("warningItem").addClass('shortageItem');
             }
             else {
-                $(shortage).appendTo('#recentList').addClass("goodItem");
+                $(shortage).appendTo('#recentList').addClass("goodItem").addClass('shortageItem');
             }
         }
     }
 
-    function sortByWatchList(a, b) {
-        if ($.inArray(a.NDC, watchListNdcs) != -1 && $.inArray(b.NDC, watchListNdcs) == -1)
+    function sortByBrandName(a, b) {
+        if (a.Brand < b.Brand)
             return -1;
-        else if ($.inArray(a.NDC, watchListNdcs) != -1 && $.inArray(b.NDC, watchListNdcs) != -1)
-            return -1;
-        else if ($.inArray(a.NDC, watchListNdcs) == -1 && $.inArray(b.NDC, watchListNdcs) == -1)
-            return -1;
-        return 1;
+        else if (a.Brand > b.Brand)
+            return 1;
+        return 0;
+    }
+
+    function sortArray(list) {
+
+        var index, watchList = [], notWatchList = [];
+
+        for (var x in list) {
+            var item = list[x];
+            if ($.inArray(item.NDC, watchListNdcs) != -1) {
+                watchList.push(item);
+            }
+            else {
+                notWatchList.push(item);
+            }
+        }
+
+        notWatchList.sort(sortByBrandName);
+        watchList.sort(sortByBrandName);
+
+        list = [];
+
+        for (var x in watchList) {
+            list.push(watchList[x]);
+        }
+        for (var x in notWatchList) {
+            list.push(notWatchList[x]);
+        }
+
+        return list;
     }
 
     function display() {
         $('.shortageList').empty();
 
-        goodItems.sort(sortByWatchList);
-        warningItems.sort(sortByWatchList);
-        severeItems.sort(sortByWatchList);
+        goodItems = sortArray(goodItems);
+        warningItems = sortArray(warningItems);
+        severeItems = sortArray(severeItems);
+
+        recentItems.sort(function (a, b) { if (a.LastUpdated < b.LastUpdated) return 1; return -1; });
 
         displayList(goodItems, 'good', goodIndex);
         displayList(warningItems, 'warning', warningIndex);
@@ -283,29 +318,137 @@
                 }
             },
         });
-        var index = watchListNdcs.indexOf(ndc);
-        if (index > -1) {
-            watchListNdcs.splice(index, 1);
+
+        var newWatchList = [];
+        for (var i in watchListNdcs) {
+            if (i.NDC != ndc) {
+                newWatchList.push(watchListNdcs[i]);
+            }
         }
+        watchListNdcs = [];
+        for (var i in newWatchList)
+            watchListNdcs.push(newWatchList[i]);
+
         display();
     }
 
-        // Filtering. Iterates over each of the 6 drug card containers (if you want to call them that?)
-        // hides all elements which don't match the searchbar text. Shows all that do.
-    $("#searchbar").keyup(function () {
-        var query = $("#searchbar").val();
-        var drugListSelectors = ["#recentList", "#severeWatchList", "#warningWatchList", "#goodWatchList", "#severeList", "#warningList", "#goodList"];
+    function mergeLists() {
+        for (var item in recentArchive)
+            recentItems.push(recentArchive[item]);
+        recentArchive = [];
+        for (var item in goodArchive)
+            goodItems.push(goodArchive[item]);
+        goodArchive = [];
+        for (var item in warningArchive)
+            warningItems.push(warningArchive[item]);
+        warningArchive = [];
+        for (var item in severeArchive)
+            severeItems.push(severeArchive[item]);
+        severeArchive = [];
+    }
 
-        $(drugListSelectors).each( function(index, value) {
-            $(value + " > li").each(function () {
-                if ($(this).text().search(query) > -1) {
-                    $(this).show();
-                }
-                else {
-                    $(this).hide();
-                }
-            });
-        });
+    function archiveItems(ndcs) {
+        // Good
+        var newGood = [];
+        for (var i = 0; i < goodItems.length; i++) {
+            var x = goodItems[i];
+            if (ndcs.indexOf(x.NDC) != -1) {
+                goodArchive.push(x);
+            }
+            else {
+                newGood.push(x);
+            }
+        }
+        goodItems = [];
+        for (var item in newGood) {
+            goodItems.push(newGood[item]);
+        }
+
+        // Warning
+        var newWarning = [];
+        for (var i = 0; i < warningItems.length; i++) {
+            var x = warningItems[i];
+            if (ndcs.indexOf(x.NDC) != -1) {
+                warningArchive.push(x);
+            }
+            else {
+                newWarning.push(x);
+            }
+        }
+        warningItems = [];
+        for (var item in newWarning) {
+            warningItems.push(newWarning[item]);
+        }
+
+
+        // Severe
+        var newSevere = [];
+        for (var i = 0; i < severeItems.length; i++) {
+            var x = severeItems[i];
+            if (ndcs.indexOf(x.NDC) != -1) {
+                severeArchive.push(x);
+            }
+            else {
+                newSevere.push(x);
+            }
+        }
+        severeItems = [];
+        for (var item in newSevere) {
+            severeItems.push(newSevere[item]);
+        }
+
+        // Recent
+        var newRecent = [];
+        for (var i = 0; i < recentItems.length; i++) {
+            var x = recentItems[i];
+            if (ndcs.indexOf(x.NDC) != -1) {
+                recentArchive.push(x);
+            }
+            else {
+                newRecent.push(x);
+            }
+        }
+        recentItems = [];
+        for (var item in newRecent) {
+            recentItems.push(newRecent[item]);
+        }
+    }
+
+    // Filtering. Iterates over each of the 6 drug card containers (if you want to call them that?)
+    // hides all elements which don't match the searchbar text. Shows all that do.
+    $("#searchbar").keyup(function () {
+        mergeLists();
+        var query = $("#searchbar").val().toLowerCase();
+
+        var removeNdcs = [];
+
+        for (var i in recentItems) {
+            var item = recentItems[i];
+            if ((item.Brand.toLowerCase().indexOf(query) == -1 && item.Dosage.toLowerCase().indexOf(query) == -1)) {
+                removeNdcs.push(item.NDC);
+            }
+        }
+        for (var i in goodItems) {
+            var item = goodItems[i];
+            if ((item.Brand.toLowerCase().indexOf(query) == -1 && item.Dosage.toLowerCase().indexOf(query) == -1)) {
+                removeNdcs.push(item.NDC);
+            }
+        }
+        for (var i in warningItems) {
+            var item = warningItems[i];
+            if ((item.Brand.toLowerCase().indexOf(query) == -1 && item.Dosage.toLowerCase().indexOf(query) == -1)) {
+                removeNdcs.push(item.NDC);
+            }
+        }
+        for (var i in severeItems) {
+            var item = severeItems[i];
+            if ((item.Brand.toLowerCase().indexOf(query) == -1 && item.Dosage.toLowerCase().indexOf(query) == -1)) {
+                removeNdcs.push(item.NDC);
+            }
+        }
+
+        archiveItems(removeNdcs);
+        display();
     });
 
     $("#recentFirst, #goodFirst, #warningFirst, #severeFirst").click(function () {

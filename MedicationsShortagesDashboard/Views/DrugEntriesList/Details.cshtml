@@ -43,9 +43,9 @@
     $.getJSON('@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "Shortage", })' + '/' + '@Model.Item1.NDC', function (shortagesJsonPayload) {
         $(shortagesJsonPayload).each(function (i, item) {
             $('#shortageHistory > ul').append('<li id=shortage_' + item.Id + '>' + item.Status + formatDateForOutput(item.DateTime) + '<span class="shortageLinks" >' +
-                '<a href="/ShortagesList/Details/' + item.Id + '">Details</a>' +
+                '<a href="/MedicationsShortagesDashboard/ShortagesList/Details/' + item.Id + '">Details</a>' +
                 '<span class="adminLinks">' +
-                '<a href="/ShortagesList/Edit/' + item.Id + '">Edit</a>' +
+                '<a href="/MedicationsShortagesDashboard/ShortagesList/Edit/' + item.Id + '">Edit</a>' +
                 '<a onclick="Delete(' + item.Id + ', ' + i + ')" href="#">Delete</a></span></span>' +
                 '</li></div></li>');
 
@@ -238,11 +238,13 @@
         $.post('@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "Message", })', submitData)
         .success(function () {
             updateLastVisit();
-        });
-        $.ajax({
-            url: '@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "DrugEntryManual/UpdateDrugLastPostTime", })',
-            contentType: 'application/json; charset=utf-8',
-            data: JSON.stringify
+            $.ajax({
+                url: '@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "DrugEntryManual/UpdateDrugLastPostTime", })',
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify
+            }).success(function() {
+                location.reload();
+            });
         });
     });
 </script>

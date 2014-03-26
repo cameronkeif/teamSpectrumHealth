@@ -72,7 +72,7 @@
         if (submitData.indexOf("&status=good") != -1) {
             submitData = submitData.split('&sevenDaySupply=')[0];
         }
-        var url = '@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "Shortages", })';
+        var url = '@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "Shortage/", })';
         $.post(url, submitData)
             .success(function () {
                 '@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "DrugEntriesList", })';

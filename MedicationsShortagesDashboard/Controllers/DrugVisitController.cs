@@ -59,9 +59,9 @@ namespace MedicationsShortagesDashboard.Controllers
         /// <summary>
         /// HTTP Get
         /// </summary>
-        /// <param name="id">Unique ID of a specific drug visit</param>
+        /// <param name="id">Username</param>
         /// <returns>Drug Visit with matching ID, if any</returns>
-        public DrugVisit Get(int id)
+        public DrugVisit [] Get(string id)
         {
             return this.drugVisitRepository.GetDrugVisit(id);
         }

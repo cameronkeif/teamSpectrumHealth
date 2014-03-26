@@ -41,6 +41,7 @@
 <script type="text/javascript">
 $('#listContainer').hide();
 var loggedInAs = '@Html.Encode(ViewData["Username"])';
+    var userType = '@Html.Encode(ViewData["Type"])'
 var lastVisits = new Array();
 var lastPosts = new Array();
 $(function()
@@ -49,20 +50,18 @@ $(function()
     var watchListNdcs = Array();
 
     // Populates list of visits for logged in user
-    if (loggedInAs != "Guest") {
-        $.getJSON('/api/DrugVisit', function (drugVisitJsonPayload) {
-            $(drugVisitJsonPayload).each(function (i, visit) {
-                if (visit.Username == loggedInAs) {
-                    lastVisits.push([visit.NDC, visit.Date]);
-                }
-            });
+    $.getJSON('/api/DrugVisit/' + loggedInAs, function (drugVisitJsonPayload) {
+        $(drugVisitJsonPayload).each(function (i, visit) {
+            lastVisits.push([visit.NDC, visit.Date]);
         });
-    }
+    });
 
     // Populates list of last posts for each drug
     $.getJSON('/api/DrugEntry', function (drugJsonPayload) {
         $(drugJsonPayload).each(function (i, item) {
-            lastPosts.push([item.NDC, item.LastPost]);
+            if (item.LastPost != null) {
+                lastPosts.push([item.NDC, item.LastPost]);
+            }
         });
 
         $.getJSON('/api/WatchListItem/' + loggedInAs, function (watchListJsonPayload) {
@@ -189,29 +188,55 @@ function getShortageItemHTMLWatchList(brand, dosage, ndc, currentStatus) {
 function checkBadge(ndc) {
     var returnedHTML = "";
     var match = false;
-    var dateLastSeen = null;
-    if (loggedInAs != "Guest") {
+
+    var foundNdcUserVisitIndex = -1;
+    var foundNdcInLastPostIndex = -1
+
+    if (userType == "pharmadmin") {
         // Find last date of drug visit
-        for (var i = 0; i < lastPosts.length; i++) {
+        /*for (var i = 0; i < lastPosts.length; i++) {
             if (lastPosts[i][0] == ndc) {
-                dateLastSeen = lastPosts[i][1];
-                console.log("FOUND FOR " + ndc);
+                foundNdcInLastPost = true;
+                foundNdcInLastPostIndex = i;
+
                 for (var j = 0; j < lastVisits.length; j++) {
                     if (lastPosts[i][0] == lastVisits[j][0]) {
                         match = true;
                         console.log("VISIT FOUND FOR " + ndc);
                         if (lastPosts[i][1] > lastVisits[j][1]) {
                             returnedHTML = '<img src="/Images/message_badge.png">';
-                            //<img src="~/Images/loading.gif">
                         }
                     }
                 }
             }
+        }*/
+
+           
+            for (var i = 0; i < lastPosts.length; i++) {
+                if (lastPosts[i][0] == ndc) {
+                    //console.log(lastPosts[i][0])
+                    foundNdcInLastPostIndex = i;
+                    break;
+                }
+            }
+            //console.log(ndc + " NOT FOUND");
+
+            for (var i = 0; i < lastVisits.length; i++) {
+                if (lastVisits[i][0] == ndc) {
+                    foundNdcUserVisitIndex = i;
+                    break;
+                }
+            }
+        
+            if (foundNdcInLastPostIndex > -1) { 
+                if (foundNdcUserVisitIndex < 0 || lastPosts[foundNdcInLastPostIndex][1] > lastVisits[foundNdcUserVisitIndex][1]) {
+                        return '<img src="/Images/message_badge.png">';
+                }
+            
+            }
+            
         }
-        if (match == false && dateLastSeen != null) {
-            returnedHTML = '<img src="/Images/message_badge.png">';
-        }
-    }
+    
     return returnedHTML;
 }
 

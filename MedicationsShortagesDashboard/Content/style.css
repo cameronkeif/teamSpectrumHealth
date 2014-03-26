@@ -391,7 +391,12 @@ div.container
         #messageListing > ul > li > .messageEntry > .messageTitle {
             width: 100%;
             display: inline-block;
-            background-color: #6BA390;
+            background: -webkit-linear-gradient(#303844, #262c36); /* For Safari */
+            background: -o-linear-gradient(#303844, #262c36); /* For Opera 11.1 to 12.0 */
+            background: -moz-linear-gradient(#303844, #262c36); /* For Firefox 3.6 to 15 */
+            background: linear-gradient(#4D545C, #303338); /* Standard syntax */
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4D545C', endColorstr='#303338',GradientType=0 ); /* IE6-9 */
+            color: #FFFFFF;
             padding: 5px 10px;
             border-top: 1px solid black;
             border-left: 1px solid black;
@@ -403,7 +408,7 @@ div.container
         }
     
             #messageListing > ul > li > .messageEntry > .messageTitle > .messageInfo {
-                float: left;
+                width:100%;
             }
         
             #messageListing > ul > li > .messageEntry > .messageTitle > .messageBadge {
@@ -413,7 +418,6 @@ div.container
         #messageListing > ul > li > .messageEntry > .messageText {
             width: 100%;
             display: inline-block;
-            background-color: #548CC9;
             padding: 5px 10px;
             border-bottom: 1px solid black;
             border-left: 1px solid black;
@@ -422,6 +426,13 @@ div.container
             border-bottom-left-radius: 5px;
             margin-bottom: 5px;
         }
+.messageDate {
+    float: right;
+}
+
+#postDiscussionForm {
+    padding-top: 20px;
+}
 
 /* jqplot stuff (for graphing) */
 .jqplot-point-label

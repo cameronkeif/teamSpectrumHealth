@@ -290,6 +290,7 @@
     <None Include="Properties\PublishProfiles\MedicationsShortagesDashboard.pubxml" />
     <None Include="Scripts\jquery-2.1.0.intellisense.js" />
     <Content Include="Images\message_badge.png" />
+    <Content Include="Images\message_badge_large.png" />
     <Content Include="Images\not_favorite.png" />
     <Content Include="Images\close_dialog.png" />
     <Content Include="Images\remove.png" />

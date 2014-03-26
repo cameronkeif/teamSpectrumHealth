@@ -21,7 +21,7 @@
         <li>Generic Name: @Html.DisplayFor(tuple => tuple.Item1.Generic)</li>
         <li>Current Status: @Html.DisplayFor(tuple => tuple.Item1.CurrentStatus)</li>
     </ul>
-    <p><button class="submitButton" id="submit" type="button">Create Shortage</button></p>
+    <div id="submitButtonContainer"><button class="submitButton" id="submit_create_shortage" type="button">Create Shortage</button></div>
 </div>
 
 <div id="shortageHistoryChart">
@@ -35,6 +35,10 @@
 <script type="text/javascript">
     var shortageHistoryPlotData = Array();
     var loginType = '@Html.Encode(ViewData["Type"])'
+
+    if (loginType == "pharmadmin") {
+        $("#submitButtonContainer").show();
+    }
 
     $.getJSON('/api/Shortage/' + '@Model.Item1.NDC', function (shortagesJsonPayload) {
         $(shortagesJsonPayload).each(function (i, item) {
@@ -128,7 +132,7 @@
         return " at " + dateObject.toLocaleTimeString() + " on " + dateObject.toLocaleDateString();
     }
 
-    $('#submit').click(function (e) {
+    $('#submit_create_shortage').click(function (e) {
         window.location.href = "/ShortagesList/Create/" + '@Html.DisplayFor(tuple => tuple.Item1.NDC)';
     });
 </script>

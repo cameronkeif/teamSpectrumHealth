@@ -21,7 +21,7 @@
         <li>Generic Name: @Html.DisplayFor(tuple => tuple.Item1.Generic)</li>
         <li>Current Status: @Html.DisplayFor(tuple => tuple.Item1.CurrentStatus)</li>
     </ul>
-    <p><button class="submitButton" id="submit" type="button">Create Shortage</button></p>
+    <div id="submitButtonContainer"><button class="submitButton" id="submit_create_shortage" type="button">Create Shortage</button></div>
 </div>
 
 <div id="shortageHistoryChart">
@@ -36,8 +36,11 @@
     var shortageHistoryPlotData = Array();
     var loginType = '@Html.Encode(ViewData["Type"])'
 
-    $.getJSON('@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "Shortage", })' + '/' + '@Model.Item1.NDC', function (shortagesJsonPayload) {
+    if (loginType == "pharmadmin") {
+        $("#submitButtonContainer").show();
+    }
 
+    $.getJSON('@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "Shortage", })' + '/' + '@Model.Item1.NDC', function (shortagesJsonPayload) {
         $(shortagesJsonPayload).each(function (i, item) {
             $('#shortageHistory > ul').append('<li id=shortage_' + item.Id + '>' + item.Status + formatDateForOutput(item.DateTime) + '<span class="shortageLinks" >' +
                 '<a href="/ShortagesList/Details/' + item.Id + '">Details</a>' +
@@ -129,7 +132,7 @@
         return " at " + dateObject.toLocaleTimeString() + " on " + dateObject.toLocaleDateString();
     }
 
-    $('#submit').click(function (e) {
+    $('#submit_create_shortage').click(function (e) {
         window.location.href = "/ShortagesList/Create/" + '@Html.DisplayFor(tuple => tuple.Item1.NDC)';
     });
 </script>

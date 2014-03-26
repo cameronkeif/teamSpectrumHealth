@@ -4,9 +4,15 @@
     ViewBag.Title = "Edit";
 }
 
+<script src="http://code.jquery.com/jquery-migrate-1.2.1.js"></script>
+<script type="text/javascript" src="~/Scripts/jquery-ui-1.8.24.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+
 <div id="body">
+    <p>NDC: @Html.DisplayFor(model => model.Ndc)</p>
     <form id="create_shortage_form">
-        <p>NDC: <input id="ndc" type="text" name="ndc"></p>
+        <input type="hidden" name="id" id="id" value="@Html.DisplayFor(model => model.Id)">
+        <input type="hidden" name="ndc" id="ndc" value="@Html.DisplayFor(model => model.Ndc)">
         Status:
         <p><span class="create_shortage_good_label"><input id="good" name="status" value="good" type="radio" onclick="javascript: statusCheck();" /> Good </span></p>
         <p><span class="create_shortage_warning_label"><input id="warning" name="status" value="warning" type="radio" onclick="javascript: statusCheck();" /> Warning </span></p>
@@ -30,15 +36,12 @@
 
 @section scripts{
 <script type="text/javascript">
-    function statusCheck() {
-        if (document.getElementById('warning').checked || document.getElementById('severe').checked) {
-            document.getElementById('additionalInfo').style.display = 'block';
-        } else {
-            document.getElementById('additionalInfo').style.display = 'none';
-        }
-    }
+    $("#expectedResolutionDate").datepicker();
 
     // Pre populate form based on current information
+    $('#expectedResolutionDate').val('@Html.DisplayFor(model => model.ExpectedResolutionDate)')
+    $('#expectedResolutionDate').val($('#expectedResolutionDate').html('@Html.DisplayFor(model => model.ExpectedResolutionDate)').text());
+
     $('#expectedResolutionDate').val('@Html.DisplayFor(model => model.ExpectedResolutionDate)')
     $('#expectedResolutionDate').val($('#expectedResolutionDate').html('@Html.DisplayFor(model => model.ExpectedResolutionDate)').text());
 
@@ -50,17 +53,39 @@
     $('#greyMarketVendor').html('@Html.DisplayFor(model => model.GreyMarketVendor)').text()
     $('#greyMarketVendor').val($('#greyMarketVendor').html('@Html.DisplayFor(model => model.GreyMarketVendor)').text());
 
+    var status = '@Html.DisplayFor(model => model.Status)';
+    if (status == 'good')
+    {
+        $('#good').prop('checked', true);
+    }
+    if (status == 'warning') {
+        $('#warning').prop('checked', true);
+        $('#additionalInfo').show()
+    }
+    if (status == 'severe') {
+        $('#severe').prop('checked', true);
+        $('#additionalInfo').show()
+    }
+
     $('#submit').click(function (e) {
         var submitData = $('#create_shortage_form').serialize();
+        console.log(submitData);
         if (submitData.indexOf("&status=good") != -1) {
             submitData = submitData.split('&sevenDaySupply=')[0];
         }
         $.post('/api/Shortage', submitData)
             .success(function () {
-                $('#create_shortage').find('form')[0].reset();
-                $("#success_message").append("Shortage successfully created!");
+                window.location.replace("/DrugEntriesList/Details/" + '@Html.DisplayFor(model => model.Ndc)');
             });
         e.preventDefault();
     });
+
+    function statusCheck() {
+        if (document.getElementById('warning').checked || document.getElementById('severe').checked) {
+            document.getElementById('additionalInfo').style.display = 'block';
+        } else {
+            document.getElementById('additionalInfo').style.display = 'none';
+        }
+    }
 </script>
 }

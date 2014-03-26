@@ -209,53 +209,53 @@
             $(drugVisitJsonPayload).each(function (i, visit) {
                 lastVisits.push([visit.NDC, visit.Date]);
             });
-        });
 
-        // Populates list of last posts for each drug
-        $.getJSON('/api/DrugEntry', function (drugJsonPayload) {
-            $(drugJsonPayload).each(function (i, item) {
-                if (item.LastPost != null) {
-                    lastPosts.push([item.NDC, item.LastPost]);
-                }
-            });
-
-            $.getJSON('/api/WatchListItem/' + loggedInAs, function (watchListJsonPayload) {
-                $(watchListJsonPayload).each(function (i, watchListItem) {
-                    watchListNdcs.push(watchListItem.Ndc);
-                });
-            }); 
-
-            var recentTemp = new Array();
-
-            // Get all drugs
+            // Populates list of last posts for each drug
             $.getJSON('/api/DrugEntry', function (drugJsonPayload) {
                 $(drugJsonPayload).each(function (i, item) {
-
-                    recentTemp.push(item);
-
-                    if (item.CurrentStatus === "severe") {
-                        severeItems.push(item);
+                    if (item.LastPost != null) {
+                        lastPosts.push([item.NDC, item.LastPost]);
                     }
-                    else if (item.CurrentStatus === "warning") {
-                        warningItems.push(item);
-                    }
-                    else {
-                        goodItems.push(item);
-                    }
-
                 });
 
-                recentTemp.sort(function (a, b) { if (a.LastUpdated < b.LastUpdated) return 1; return -1; });
+                $.getJSON('/api/WatchListItem/' + loggedInAs, function (watchListJsonPayload) {
+                    $(watchListJsonPayload).each(function (i, watchListItem) {
+                        watchListNdcs.push(watchListItem.Ndc);
+                    });
 
-                for (var i = 0; i < recentTemp.length && i < numRecentItems; i++) {
-                    recentItems.push(recentTemp[i]);
-                }
+                    var recentTemp = new Array();
 
-                display();
+                    // Get all drugs
+                    $.getJSON('/api/DrugEntry', function (drugJsonPayload) {
+                        $(drugJsonPayload).each(function (i, item) {
 
-                // Page has loaded. Stop the loading animation
-                $('#loadingAnimation').hide();
-                $('#listContainer').show();
+                            recentTemp.push(item);
+
+                            if (item.CurrentStatus === "severe") {
+                                severeItems.push(item);
+                            }
+                            else if (item.CurrentStatus === "warning") {
+                                warningItems.push(item);
+                            }
+                            else {
+                                goodItems.push(item);
+                            }
+
+                        });
+
+                        recentTemp.sort(function (a, b) { if (a.LastUpdated < b.LastUpdated) return 1; return -1; });
+
+                        for (var i = 0; i < recentTemp.length && i < numRecentItems; i++) {
+                            recentItems.push(recentTemp[i]);
+                        }
+
+                        display();
+
+                        // Page has loaded. Stop the loading animation
+                        $('#loadingAnimation').hide();
+                        $('#listContainer').show();
+                    });
+                });
             });
         });
     });

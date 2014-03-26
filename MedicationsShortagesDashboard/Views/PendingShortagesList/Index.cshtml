@@ -18,7 +18,7 @@
         </span>
     </div>
     <div id="loadingAnimation">
-        <img src="~/Images/loading.gif">
+        <img src="~/MedicationsShortagesDashboard/Images/loading.gif">
     </div>
     <div id="pending_shortages_container">
         <ul id="pending_shortages"></ul>
@@ -94,7 +94,7 @@
                     $('#pending_shortages').append("<li id='ps_" + item.Id + "' class=pending_shortage><span class=pending_shortage_title onClick='showPreview(\"" + sourceUrl + '", "' + item.Id + '", "' + item.DrugName + "\")'>" + item.DrugName +
                         "<span class=pending_shortage_expand_icon id=expand_" + item.Id + ">+</span></span><br><span class='preview' id=" + item.Id + "></span></li>");
 
-                    $('#' + item.Id).prepend('<div id="loadingAnimation"><img src="/Images/loading.gif" height="40" width="40"></div>');
+                    $('#' + item.Id).prepend('<div id="loadingAnimation"><img src="/MedicationsShortagesDashboard/Images/loading.gif" height="40" width="40"></div>');
                     $("#" + item.Id).hide();
                 }
             });

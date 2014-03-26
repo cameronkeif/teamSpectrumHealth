@@ -641,7 +641,7 @@ div.container
 }
 
 .ui-icon-closethick {
-    background-image: url(/Images/close_dialog.png) !important;
+    background-image: url(/MedicationsShortagesDashboard/Images/close_dialog.png) !important;
     background-position: center !important;
     margin: 0 !important;
 }

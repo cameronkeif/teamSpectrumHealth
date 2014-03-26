@@ -14,7 +14,7 @@
         </span>
     </div>
     <div id="loadingAnimation">
-        <img src="~/Images/loading.gif">
+        <img src="~/MedicationsShMedicationsShortagesDashboard/Images/loading.gif">
     </div>
     <div id="ignored_pending_shortages_container">
         <div id="no_ignored_pending_shortages_message">You have not ignored any notifications.</div>
@@ -29,6 +29,7 @@
     
     // IE8 does not support Array.indexOf, so define it if it doesn't exist.
     if (!Array.prototype.indexOf) {
+        MedicationsSh
         Array.prototype.indexOf = function (elt /*, from*/) {
             var len = this.length >>> 0;
 
@@ -56,7 +57,7 @@
         $(ignoredPendingShortagesJsonPayload).each(function (i, item) {
             ignoredIDs.push(item.Id);
             $("#ignored_pending_shortages").append("<li id=ignored_ps_" + item.Id + "><a href='javascript:void(0)' onclick='unIgnore(\"" + loggedInAs + "\", \"" + item.Id + "\", \"" + item.DrugName+ "\")'>" +
-                "<img src='/Images/remove.png' /> </a>" +
+                "<img src='/MedicationsShMedicationsShortagesDashboard/Images/remove.png' /> </a>" +
                 "<span class='ignored_pending_shortage'>" + item.DrugName + "</span></li>");
         });
 

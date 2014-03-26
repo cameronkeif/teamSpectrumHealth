@@ -5,7 +5,7 @@
 
 <div id="body">
     <div id="loadingAnimation">
-        <img src="~/Images/loading.gif">
+        <img src="~/MedicationsShortagesDashboard/Images/loading.gif">
     </div>
     <div id="listContainer" >
         <div id="severeContainer" class="container">
@@ -591,7 +591,7 @@
                             match = true;
                             console.log("VISIT FOUND FOR " + ndc);
                             if (lastPosts[i][1] > lastVisits[j][1]) {
-                                returnedHTML = '<img src="/Images/message_badge.png">';
+                                returnedHTML = '<img src="/MedicationsShortagesDashboard/message_badge.png">';
                             }
                         }
                     }
@@ -617,7 +617,7 @@
         
             if (foundNdcInLastPostIndex > -1) { 
                 if (foundNdcUserVisitIndex < 0 || lastPosts[foundNdcInLastPostIndex][1] > lastVisits[foundNdcUserVisitIndex][1]) {
-                    return '<img src="/Images/message_badge.png">';
+                    return '<img src="/MedicationsShortagesDashboard/Images/message_badge.png">';
                 }
             
             }

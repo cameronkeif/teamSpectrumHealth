@@ -46,8 +46,7 @@
         var url = '@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "Shortage", })';
         $.post(url, submitData)
             .success(function () {
-                var url = '@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "DrugEntriesList", })';
-                window.location.href= url + "/Details/" + '@Html.DisplayFor(model => model.NDC)';
+                window.location.href = "/MedicationsShortagesDashboard/DrugEntriesList/Details/" + '@Html.DisplayFor(model => model.NDC)';
             });
         e.preventDefault();
     });

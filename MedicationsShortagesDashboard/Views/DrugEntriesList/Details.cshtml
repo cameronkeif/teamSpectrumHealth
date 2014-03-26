@@ -235,14 +235,17 @@
     $('#submit').click(function (e) {
         var submitData = $('#postDiscussionForm').serialize();
         console.log(submitData);
-        $.post('/api/Message', submitData)
+        $.post('@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "Message", })', submitData)
         .success(function () {
             updateLastVisit();
-        });
-        $.ajax({
-            url: '/api/DrugEntryManual/UpdateDrugLastPostTime',
-            contentType: 'application/json; charset=utf-8',
-            data: JSON.stringify
+            $.ajax({
+                url: '@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "DrugEntryManual/UpdateDrugLastPostTime", })',
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify
+            }).success(function () {
+                location.reload();
+            });
         });
     });
+
 </script>

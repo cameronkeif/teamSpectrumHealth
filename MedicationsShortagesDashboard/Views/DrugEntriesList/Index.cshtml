@@ -68,6 +68,12 @@
     var warningIndex = 0;
     var severeIndex = 0;
 
+    // Store items that don't match the filter
+    var recentArchive = [];
+    var goodArchive = [];
+    var warningArchive = [];
+    var severeArchive = [];
+
     var recentItems = [];
     var goodItems = [];
     var warningItems = [];
@@ -105,11 +111,11 @@
             var shortage;
             if ($.inArray(item.NDC, watchListNdcs) != -1) {
                 shortage = getShortageItemHTMLWatchList(item.Brand, item.Dosage, item.NDC, item.CurrentStatus);
-                $(shortage).appendTo('#' + appendTarget + 'WatchList').addClass(appendTarget + "Item");
+                $(shortage).appendTo('#' + appendTarget + 'WatchList').addClass(appendTarget + "Item").addClass('shortageItem');
             }
             else {
                 shortage = getShortageItemHTML(item.Brand, item.Dosage, item.NDC, item.CurrentStatus);
-                $(shortage).appendTo('#' + appendTarget + 'List').addClass(appendTarget + "Item");
+                $(shortage).appendTo('#' + appendTarget + 'List').addClass(appendTarget + "Item").addClass('shortageItem');
             }
         }
     }
@@ -127,13 +133,13 @@
             }
 
             if (item.CurrentStatus === "severe") {
-                $(shortage).appendTo('#recentList').addClass("severeItem");
+                $(shortage).appendTo('#recentList').addClass("severeItem").addClass('shortageItem');
             }
             else if (item.CurrentStatus === "warning") {
-                $(shortage).appendTo('#recentList').addClass("warningItem");
+                $(shortage).appendTo('#recentList').addClass("warningItem").addClass('shortageItem');
             }
             else {
-                $(shortage).appendTo('#recentList').addClass("goodItem");
+                $(shortage).appendTo('#recentList').addClass("goodItem").addClass('shortageItem');
             }
         }
     }
@@ -141,10 +147,15 @@
     function sortByWatchList(a, b) {
         if ($.inArray(a.NDC, watchListNdcs) != -1 && $.inArray(b.NDC, watchListNdcs) == -1)
             return -1;
-        else if ($.inArray(a.NDC, watchListNdcs) != -1 && $.inArray(b.NDC, watchListNdcs) != -1)
+        else if ($.inArray(a.NDC, watchListNdcs) != -1 && $.inArray(b.NDC, watchListNdcs) != -1) {
+            if (a.Brand < b.Brand)
+                return -1;
+            return 1;
+        }
+        else if (a.Brand < b.Brand)
             return -1;
-        else if ($.inArray(a.NDC, watchListNdcs) == -1 && $.inArray(b.NDC, watchListNdcs) == -1)
-            return -1;
+        else if (a.Brand == b.Brand)
+            return 0;
         return 1;
     }
 
@@ -154,6 +165,7 @@
         goodItems.sort(sortByWatchList);
         warningItems.sort(sortByWatchList);
         severeItems.sort(sortByWatchList);
+        recentItems.sort(function (a, b) { if (a.LastUpdated < b.LastUpdated) return 1; return -1; });
 
         displayList(goodItems, 'good', goodIndex);
         displayList(warningItems, 'warning', warningIndex);
@@ -290,22 +302,64 @@
         display();
     }
 
-        // Filtering. Iterates over each of the 6 drug card containers (if you want to call them that?)
-        // hides all elements which don't match the searchbar text. Shows all that do.
+    function mergeLists() {
+        for (var item in recentArchive)
+            recentItems.push(recentArchive[item]);
+        recentArchive = [];
+        for (var item in goodArchive)
+            goodItems.push(goodArchive[item]);
+        goodArchive = [];
+        for (var item in warningArchive)
+            warningItems.push(warningArchive[item]);
+        warningArchive = [];
+        for (var item in severeArchive)
+            severeItems.push(severeArchive[item]);
+        severeArchive = [];
+    }
+
+    function archiveList(ndc, list, archive) {
+        for (var i = 0; i < list.length;) {
+            var x = list[i];
+            if (x.NDC == ndc) {
+                archive.push(x);
+                var index = list.indexOf(x);
+                if (index > -1) {
+                    list.splice(index, 1);
+                }
+            }
+            else {
+                i++;
+            }
+        }
+    }
+
+    function archiveItems(ndc) {
+        archiveList(ndc, recentItems, recentArchive);
+        archiveList(ndc, goodItems, goodArchive);
+        archiveList(ndc, warningItems, warningArchive);
+        archiveList(ndc, severeItems, severeArchive);
+    }
+
+    // Filtering. Iterates over each of the 6 drug card containers (if you want to call them that?)
+    // hides all elements which don't match the searchbar text. Shows all that do.
     $("#searchbar").keyup(function () {
+        mergeLists();
         var query = $("#searchbar").val();
         var drugListSelectors = ["#recentList", "#severeWatchList", "#warningWatchList", "#goodWatchList", "#severeList", "#warningList", "#goodList"];
 
         $(drugListSelectors).each( function(index, value) {
             $(value + " > li").each(function () {
+                var ndc = $(this).closest('.shortageItem').attr('id');
                 if ($(this).text().search(query) > -1) {
                     $(this).show();
                 }
                 else {
+                    archiveItems(ndc);
                     $(this).hide();
                 }
             });
         });
+        display();
     });
 
     $("#recentFirst, #goodFirst, #warningFirst, #severeFirst").click(function () {

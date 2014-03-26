@@ -104,13 +104,29 @@ namespace MedicationsShortagesDashboard.Controllers
                     newMessage.User = message.User;
 
                     this.messageRepository.AddMessage(newMessage);
+                    UpdateDrugLastPostTime(message.NDC);
                 }
             }
         }
 
+        /// <summary>
+        /// Gets message info (for debug)
+        /// </summary>
+        /// <param name="NDC">national drug code</param>
+        /// <param name="Text">text contained in message<param>
         public void GetMessageInfo(string NDC, string Text)
         {
             System.Diagnostics.Debug.WriteLine(NDC + " - " + Text);
+        }
+
+        /// <summary>
+        /// Updates a drug's last updated time to now
+        /// </summary>
+        /// <param name="ndc">National drug code</param>
+        public void UpdateDrugLastPostTime(string ndc)
+        {
+            System.Diagnostics.Debug.WriteLine("UPDATING LAST POST");
+            this.drugEntryRepository.UpdateDrugLastPostTime(ndc);
         }
     }
 }

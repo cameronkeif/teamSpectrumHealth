@@ -139,21 +139,12 @@
 </div>
 
 <div class="messagePosting" style="display:none">
-    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "createMessage", @action = "/api/Message" }))
-    {
-        @Html.AntiForgeryToken()
-        @Html.ValidationSummary(true)
-
-        @Html.Hidden("NDC", @Model.Item1.NDC)
-        @Html.Hidden("User", @ViewData["Username"])
-
-        <div class="editor-field">
-            @Html.TextArea("Text", @Model.Item2.Text)
-            @Html.ValidationMessageFor(tuple => tuple.Item2.Text)<br />
-        </div>
-        
-        <input type="submit" value="Post Discussion" />
-    }
+    <form id="postDiscussionForm">
+        <input type=hidden name="ndc" id="ndc" value='@Model.Item1.NDC' />
+        <input type=hidden name="user" id="user" value='@Html.Encode(ViewData["Username"])' />
+        <textarea class="messagePostingBox" id="text" name="text" rows="5" cols ="50"></textarea>
+        <button class="submitButton" id="submit" type="button">Post Discussion</button>
+    </form>
 </div>
 
 <div id="messageListing">
@@ -211,15 +202,19 @@
         });
     }
 
+    updateLastVisit();
+
     // Update Drug Visit entry
-    if (userLoggedIn != "Guest") {
-        var data = { "Username": userLoggedIn, "NDC": '@Model.Item1.NDC' };
-        $.ajax({
-            url: '/api/DrugVisit/Post',
-            type: 'POST',
-            contentType: 'application/json; charset=utf-8',
-            data: JSON.stringify(data),
-        });
+    function updateLastVisit() {
+        if (userLoggedIn != "Guest") {
+            var data = { "Username": userLoggedIn, "NDC": '@Model.Item1.NDC' };
+            $.ajax({
+                url: '/api/DrugVisit/Post',
+                type: 'POST',
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify(data),
+            });
+        }
     }
 
     $('.expandMessagePost').click(function () {
@@ -232,4 +227,18 @@
         else
             b.value = "POST DISCUSSION";
     }
+
+    $('#submit').click(function (e) {
+        var submitData = $('#postDiscussionForm').serialize();
+        console.log(submitData);
+        $.post('/api/Message', submitData)
+        .success(function () {
+            updateLastVisit();
+        });
+        $.ajax({
+            url: '/api/DrugEntryManual/UpdateDrugLastPostTime',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify
+        });
+    });
 </script>

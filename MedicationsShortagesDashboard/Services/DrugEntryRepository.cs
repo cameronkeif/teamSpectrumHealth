@@ -116,5 +116,22 @@ namespace MedicationsShortagesDashboard.Services
                 this.db.SaveChanges();
             }
         }
+
+        /// <summary>
+        /// Updates a drug's last post time to now
+        /// </summary>
+        /// <param name="ndc">National drug code</param>
+        public void UpdateDrugLastPostTime(string ndc)
+        {
+            DrugEntry d = this.db.DrugEntries.Find(ndc);
+            System.Diagnostics.Debug.WriteLine("Date of NDC to be modified");
+            if (d != null)
+            {
+                d.LastPost = DateTime.Now;
+                this.db.Entry(d).State = EntityState.Modified;
+                this.db.SaveChanges();
+                System.Diagnostics.Debug.WriteLine("Date of NDC " + ndc + " modified!");
+            }
+        }
     }
 }

@@ -50,6 +50,11 @@ namespace MedicationsShortagesDashboard.Models
         private DateTime lastUpdated;
 
         /// <summary>
+        /// Last date message was posted to drug detail view
+        ///  </summary>
+        private DateTime? lastPost;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="DrugEntry"/> class
         /// </summary>
         public DrugEntry()
@@ -60,6 +65,7 @@ namespace MedicationsShortagesDashboard.Models
             this.generic = string.Empty;
             this.currentStatus = "good"; // By default, a drug has no shortages associated with it, and thus is considered 'good'
             this.lastUpdated = DateTime.Today;
+            this.lastPost = null;
         }
 
         /// <summary>
@@ -71,7 +77,7 @@ namespace MedicationsShortagesDashboard.Models
         /// <param name="generic">Generic name</param>
         /// <param name="currentStatus">Current Status of the drug</param>
         /// <param name="lastUpdated">The most recent time in which the drug was updated</param>
-        public DrugEntry(string ndc, string dosage, string brand, string generic, string currentStatus, DateTime lastUpdated)
+        public DrugEntry(string ndc, string dosage, string brand, string generic, string currentStatus, DateTime lastUpdated, DateTime lastPost)
         {
             this.ndc = ndc;
             this.dosage = dosage;
@@ -79,6 +85,7 @@ namespace MedicationsShortagesDashboard.Models
             this.generic = generic;
             this.currentStatus = currentStatus;
             this.lastUpdated = lastUpdated;
+            this.lastPost = lastPost;
         }
 
         /// <summary>
@@ -181,6 +188,23 @@ namespace MedicationsShortagesDashboard.Models
             set
             {
                 this.lastUpdated = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets last post
+        /// </summary>
+        [Column("LAST_POST")]
+        public DateTime? LastPost
+        {
+            get
+            {
+                return this.lastPost;
+            }
+
+            set
+            {
+                this.lastPost = value;
             }
         }
 

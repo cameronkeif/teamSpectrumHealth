@@ -41,15 +41,35 @@
 <script type="text/javascript">
 $('#listContainer').hide();
 var loggedInAs = '@Html.Encode(ViewData["Username"])';
+var lastVisits = new Array();
+var lastPosts = new Array();
 $(function()
 {
-    $.getJSON('/api/WatchListItem/' + loggedInAs, function (watchListJsonPayload) {
-        var watchListNdcs = Array();
-        $(watchListJsonPayload).each(function(i, watchListItem) {
-            watchListNdcs.push(watchListItem.Ndc);
+    var recent = new Array();
+    var watchListNdcs = Array();
+
+    // Populates list of visits for logged in user
+    if (loggedInAs != "Guest") {
+        $.getJSON('/api/DrugVisit', function (drugVisitJsonPayload) {
+            $(drugVisitJsonPayload).each(function (i, visit) {
+                if (visit.Username == loggedInAs) {
+                    lastVisits.push([visit.NDC, visit.Date]);
+                }
+            });
+        });
+    }
+
+    // Populates list of last posts for each drug
+    $.getJSON('/api/DrugEntry', function (drugJsonPayload) {
+        $(drugJsonPayload).each(function (i, item) {
+            lastPosts.push([item.NDC, item.LastPost]);
         });
 
-        var recent = new Array();
+        $.getJSON('/api/WatchListItem/' + loggedInAs, function (watchListJsonPayload) {
+            $(watchListJsonPayload).each(function (i, watchListItem) {
+                watchListNdcs.push(watchListItem.Ndc);
+            });
+        });    
 
         // Get all drugs
         $.getJSON('/api/DrugEntry', function (drugJsonPayload) {
@@ -148,7 +168,7 @@ function getShortageItemHTML(brand, dosage, ndc, currentStatus) {
     return '<li id="' + ndc + '"> \
                    <ul class="shortageCard"> \
                        <li class="left"> \
-                           <span><a href=/DrugEntriesList/Details/' + ndc + ">" + brand + ' ' + dosage + '</a></span> \
+                           <span><a href=/DrugEntriesList/Details/' + ndc + ">" + brand + ' ' + dosage + checkBadge(ndc) + '</a></span> \
                        </li>' +
                        getNonWatchListShortageCardButtonHtml(ndc, currentStatus) +
                    '</ul> \
@@ -159,12 +179,40 @@ function getShortageItemHTMLWatchList(brand, dosage, ndc, currentStatus) {
     return '<li id="' + ndc + '"> \
                 <ul class="shortageCard"> \
                     <li class="left"> \
-                        <span><a href=/DrugEntriesList/Details/' + ndc + ">" + brand + ' ' + dosage + '</a></span> \
+                        <span><a href=/DrugEntriesList/Details/' + ndc + ">" + brand + ' ' + dosage + checkBadge(ndc) + '</a></span> \
                     </li>' +
                     getWatchListShortageCardButtonHtml(ndc, currentStatus) +
                 '</ul> \
             </li>';
 };
+
+function checkBadge(ndc) {
+    var returnedHTML = "";
+    var match = false;
+    var dateLastSeen = null;
+    if (loggedInAs != "Guest") {
+        // Find last date of drug visit
+        for (var i = 0; i < lastPosts.length; i++) {
+            if (lastPosts[i][0] == ndc) {
+                dateLastSeen = lastPosts[i][1];
+                console.log("FOUND FOR " + ndc);
+                for (var j = 0; j < lastVisits.length; j++) {
+                    if (lastPosts[i][0] == lastVisits[j][0]) {
+                        match = true;
+                        console.log("VISIT FOUND FOR " + ndc);
+                        if (lastPosts[i][1] > lastVisits[j][1]) {
+                            returnedHTML = " - UNREAD";
+                        }
+                    }
+                }
+            }
+        }
+        if (match == false && dateLastSeen != null) {
+            returnedHTML = " - UNREAD";
+        }
+    }
+    return returnedHTML;
+}
 
 function addToWatchList(username, ndc, currentStatus) {
     $.ajax({

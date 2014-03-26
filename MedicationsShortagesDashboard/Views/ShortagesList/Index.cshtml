@@ -32,7 +32,8 @@
 <script type="text/javascript">
 $(function()
 {
-        $.getJSON('/api/Shortage', function(shortagesJsonPayload)
+    '@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "Shortage", })';
+        $.getJSON(url, function(shortagesJsonPayload)
         {
             $(shortagesJsonPayload).each(function(i, item)
             {

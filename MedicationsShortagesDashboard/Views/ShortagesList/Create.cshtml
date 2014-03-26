@@ -42,9 +42,12 @@
         if (submitData.indexOf("&status=good") != -1) {
             submitData = submitData.split('&sevenDaySupply=')[0];
         }
-        $.post('/api/Shortage', submitData)
+
+        var url = '@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "Shortage", })';
+        $.post(url, submitData)
             .success(function () {
-                window.location.href= "/DrugEntriesList/Details/" + '@Html.DisplayFor(model => model.NDC)';
+                var url = '@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "DrugEntriesList", })';
+                window.location.href= url + "/Details/" + '@Html.DisplayFor(model => model.NDC)';
             });
         e.preventDefault();
     });

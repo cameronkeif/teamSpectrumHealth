@@ -11,10 +11,13 @@
     @model Tuple<DrugEntry, Message>
 }
 
-<div id="secondaryTitle">
+<div id="loadingAnimation">
+        <img src="~/Images/loading.gif">
+</div>
+<div id="secondaryTitle" style="display: none">
     @Html.DisplayFor(tuple => tuple.Item1.Brand)
 </div>
-<div id="basicDrugInformation">
+<div id="basicDrugInformation" style="display: none">
     <ul>
         <li>Dosage: @Html.DisplayFor(tuple => tuple.Item1.Dosage)</li>
         <li>NDC: @Html.DisplayFor(tuple => tuple.Item1.NDC)</li>
@@ -31,14 +34,25 @@
 <div id="shortageHistory">
     <ul></ul>
 </div>
+
+
+<div class="messagePosting" style="display: none">
+    <form id="postDiscussionForm">
+        <input type=hidden name="ndc" id="ndc" value='@Model.Item1.NDC' />
+        <input type=hidden name="user" id="user" value='@Html.Encode(ViewData["Username"])' />
+        <textarea class="messagePostingBox" id="text" name="text" rows="5" cols ="50"></textarea>
+        <div><button class="submitButton" id="submit" type="button">Post Discussion</button></div>
+    </form>
+</div>
+
+<div id="messageListing">
+    <ul></ul>
+</div>
+
 @section scripts{
 <script type="text/javascript">
     var shortageHistoryPlotData = Array();
     var loginType = '@Html.Encode(ViewData["Type"])'
-
-    if (loginType == "pharmadmin") {
-        $("#submitButtonContainer").show();
-    }
 
     $.getJSON('/api/Shortage/' + '@Model.Item1.NDC', function (shortagesJsonPayload) {
         $(shortagesJsonPayload).each(function (i, item) {
@@ -60,17 +74,24 @@
             }
         });
 
-        if (loginType == "pharmadmin") {
-            $(".adminLinks").show();
-        }
-
-        if ($(shortagesJsonPayload).length > 0) {
+        if (shortageHistoryPlotData.length > 0) {
             $('#shortageHistory').prepend('<u>Shortage History</u>');
             shortageHistoryPlotData.reverse(); // Need to reverse, since entries are in desc. order.
             plotShortageHistory();
         }
         else {
+            console.log("else");
             $('#shortageHistory').prepend('No shortages have been reported for this medication.');
+        }
+
+        $("#loadingAnimation").hide();
+        $("#secondaryTitle").show();
+        $("#basicDrugInformation").show();
+        
+
+        if (loginType == "pharmadmin") {
+            $(".adminLinks").show();
+            $("#submitButtonContainer").show();
         }
     });
 
@@ -135,23 +156,7 @@
     $('#submit_create_shortage').click(function (e) {
         window.location.href = "/ShortagesList/Create/" + '@Html.DisplayFor(tuple => tuple.Item1.NDC)';
     });
-</script>
-}
 
-<div class="messagePosting">
-    <form id="postDiscussionForm">
-        <input type=hidden name="ndc" id="ndc" value='@Model.Item1.NDC' />
-        <input type=hidden name="user" id="user" value='@Html.Encode(ViewData["Username"])' />
-        <textarea class="messagePostingBox" id="text" name="text" rows="5" cols ="50"></textarea>
-        <div><button class="submitButton" id="submit" type="button">Post Discussion</button></div>
-    </form>
-</div>
-
-<div id="messageListing">
-    <ul></ul>
-</div>
-
-<script type="text/javascript">
     // If user isn't logged in, hide submission/ignore drug visits
     // Otherwise, continue to else statement and figure out drug visit stuff
     var userLoggedIn = @Html.Raw(Json.Encode(ViewData["Username"])) + '';
@@ -170,35 +175,39 @@
                     dateLastSeen = item.Date;
                 }
             });
-        }).complete( function() {
-            $.getJSON("/api/Message/", function (messagesJsonPayload) {
-                $(messagesJsonPayload).each(function (i, item) {
-                    if (item.NDC == '@Model.Item1.NDC') {
-                        var badge = '';
-                        // Check (if user logged in) if unread, update DrugVisit entry
-                        if (userLoggedIn != "Guest") {
-                            if (dateLastSeen != null) {
-                                if (item.Date > dateLastSeen) {
+        }).complete(function () {
+            if (loginType == "pharmadmin" || loginType == "pharm") {
+
+                $.getJSON("/api/Message/", function (messagesJsonPayload) {
+                    $(messagesJsonPayload).each(function (i, item) {
+                        if (item.NDC == '@Model.Item1.NDC') {
+                            var badge = '';
+                            // Check (if user logged in) if unread, update DrugVisit entry
+                            if (loginType == "pharmadmin") {
+                                if (dateLastSeen != null) {
+                                    if (item.Date > dateLastSeen) {
+                                        badge = '<img style="padding-right:5px;" src="/Images/message_badge_large.png">';
+                                    }
+                                }
+                                else {
                                     badge = '<img style="padding-right:5px;" src="/Images/message_badge_large.png">';
                                 }
                             }
-                            else {
-                                badge = '<img style="padding-right:5px;" src="/Images/message_badge_large.png">';
-                            }
+                            $("#messageListing > ul").append('<li><div class="messageEntry"><div class="messageTitle"> \
+                                                        ' + '<div class="messageInfo">' + badge + item.User + '<span class="messageDate">' + formatDateForOutput(item.Date) + '</span></div>' + '\
+                                                        ' + '<div class="messageBadge">' + '</div></div>' + ' \
+                                                        ' + '<div class="messageText">' + item.Text + '</div></div>' + ' \
+                                                         </li>');
                         }
-                        $("#messageListing > ul").append('<li><div class="messageEntry"><div class="messageTitle"> \
-                                                    ' + '<div class="messageInfo">' + badge + item.User + '<span class="messageDate">' + formatDateForOutput(item.Date) + '</span></div>' + '\
-                                                    ' + '<div class="messageBadge">' + '</div></div>' + ' \
-                                                    ' + '<div class="messageText">' + item.Text + '</div></div>' + ' \
-                                                     </li>');
                     }
-                }
-                );
+                    );
 
-                if ($(messagesJsonPayload).length <= 0) {
-                    $("#messageListing").prepend("No discussion has been posted for this shortage.");
-                }
-            });
+                    if ($(messagesJsonPayload).length <= 0) {
+                        $("#messageListing").prepend("No discussion has been posted for this shortage.");
+                    }
+                    $(".messagePosting").show();
+                });
+            }
         });
     }
 
@@ -234,3 +243,4 @@
     });
 
 </script>
+    }

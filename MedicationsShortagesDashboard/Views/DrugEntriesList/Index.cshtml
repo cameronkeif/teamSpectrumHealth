@@ -148,7 +148,7 @@ function getShortageItemHTML(brand, dosage, ndc, currentStatus) {
     return '<li id="' + ndc + '"> \
                    <ul class="shortageCard"> \
                        <li class="left"> \
-                           <span><a href=/DrugEntriesList/Details/' + ndc + ">" + brand + ' ' + dosage + '</a></span> \
+                           <span><a href=/DrugEntriesList/Details/' + ndc + ">" + brand + ' ' + dosage + checkBadge(ndc) + '</a></span> \
                        </li>' +
                        getNonWatchListShortageCardButtonHtml(ndc, currentStatus) +
                    '</ul> \
@@ -159,12 +159,42 @@ function getShortageItemHTMLWatchList(brand, dosage, ndc, currentStatus) {
     return '<li id="' + ndc + '"> \
                 <ul class="shortageCard"> \
                     <li class="left"> \
-                        <span><a href=/DrugEntriesList/Details/' + ndc + ">" + brand + ' ' + dosage + '</a></span> \
+                        <span><a href=/DrugEntriesList/Details/' + ndc + ">" + brand + ' ' + dosage + checkBadge(ndc) + '</a></span> \
                     </li>' +
                     getWatchListShortageCardButtonHtml(ndc, currentStatus) +
                 '</ul> \
             </li>';
 };
+// loggedInAs
+function checkBadge(ndc) {
+    var returnedHTML = "";
+    if (loggedInAs != "Guest") {
+        // Find last date of drug visit
+        var dateLastSeen = null;
+        $.getJSON("/api/DrugVisit", function (drugVisitsJsonPayload) {
+            $(drugVisitsJsonPayload).each(function (i, item) {
+                // Page has been visited
+                if (item.NDC == ndc && item.Username == loggedInAs) {
+                    dateLastSeen = item.Date;
+                    console.log("Date found for " + ndc);
+                    //return false;
+                }
+            });
+        }).success(
+            $.getJSON("/api/Message/", function (messagesJsonPayload) {
+                $(messagesJsonPayload).each(function (i, item) {
+                    if (item.NDC == ndc && (item.Date > dateLastSeen || dateLastSeen == null)) {
+                        returnedHTML = " - UNREAD";
+                        console.log("Message found for " + ndc);
+                        //return false;
+                    }
+                });
+            }).success(
+                console.log("Returned badge: " + returnedHTML)
+            )
+        );
+    }
+}
 
 function addToWatchList(username, ndc, currentStatus) {
     $.ajax({

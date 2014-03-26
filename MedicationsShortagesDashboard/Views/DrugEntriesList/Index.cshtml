@@ -210,56 +210,58 @@
             $(drugVisitJsonPayload).each(function (i, visit) {
                 lastVisits.push([visit.NDC, visit.Date]);
             });
-        });
 
-        url = '@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "DrugEntry", })';
-        // Populates list of last posts for each drug
-        $.getJSON(url, function (drugJsonPayload) {
-            $(drugJsonPayload).each(function (i, item) {
-                if (item.LastPost != null) {
-                    lastPosts.push([item.NDC, item.LastPost]);
-                }
-            });
-
-            url = '@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "WatchListItem", })';
-            $.getJSON(url + '/' + loggedInAs, function (watchListJsonPayload) {
-                $(watchListJsonPayload).each(function (i, watchListItem) {
-                    watchListNdcs.push(watchListItem.Ndc);
-                });
-            }); 
-
-            var recentTemp = new Array();
 
             url = '@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "DrugEntry", })';
-            // Get all drugs
+            // Populates list of last posts for each drug
             $.getJSON(url, function (drugJsonPayload) {
                 $(drugJsonPayload).each(function (i, item) {
-
-                    recentTemp.push(item);
-
-                    if (item.CurrentStatus === "severe") {
-                        severeItems.push(item);
+                    if (item.LastPost != null) {
+                        lastPosts.push([item.NDC, item.LastPost]);
                     }
-                    else if (item.CurrentStatus === "warning") {
-                        warningItems.push(item);
-                    }
-                    else {
-                        goodItems.push(item);
-                    }
-
                 });
 
-                recentTemp.sort(function (a, b) { if (a.LastUpdated < b.LastUpdated) return 1; return -1; });
+                url = '@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "WatchListItem", })';
+                $.getJSON(url + '/' + loggedInAs, function (watchListJsonPayload) {
+                    $(watchListJsonPayload).each(function (i, watchListItem) {
+                        watchListNdcs.push(watchListItem.Ndc);
+                    });
 
-                for (var i = 0; i < recentTemp.length && i < numRecentItems; i++) {
-                    recentItems.push(recentTemp[i]);
-                }
 
-                display();
+                    var recentTemp = new Array();
 
-                // Page has loaded. Stop the loading animation
-                $('#loadingAnimation').hide();
-                $('#listContainer').show();
+                    url = '@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "DrugEntry", })';
+                    // Get all drugs
+                    $.getJSON(url, function (drugJsonPayload) {
+                        $(drugJsonPayload).each(function (i, item) {
+
+                            recentTemp.push(item);
+
+                            if (item.CurrentStatus === "severe") {
+                                severeItems.push(item);
+                            }
+                            else if (item.CurrentStatus === "warning") {
+                                warningItems.push(item);
+                            }
+                            else {
+                                goodItems.push(item);
+                            }
+
+                        });
+
+                        recentTemp.sort(function (a, b) { if (a.LastUpdated < b.LastUpdated) return 1; return -1; });
+
+                        for (var i = 0; i < recentTemp.length && i < numRecentItems; i++) {
+                            recentItems.push(recentTemp[i]);
+                        }
+
+                        display();
+
+                        // Page has loaded. Stop the loading animation
+                        $('#loadingAnimation').hide();
+                        $('#listContainer').show();
+                    });
+                });
             });
         });
     });

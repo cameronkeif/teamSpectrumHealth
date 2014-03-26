@@ -20,8 +20,8 @@
         </ul>
     </div>
     <form id="create_shortage_form">
-        <input type="hidden" name="id" id="id" value="@Html.DisplayFor(tuple => tuple.Item1.Id))">
-        <input type="hidden" name="ndc" id="ndc" value="@Html.DisplayFor(tuple => tuple.Item1.Ndc))">
+        <input type="hidden" name="id" id="id" value="@Html.DisplayFor(tuple => tuple.Item1.Id)">
+        <input type="hidden" name="ndc" id="ndc" value="@Html.DisplayFor(tuple => tuple.Item1.Ndc)">
         Status:
         <p><span class="create_shortage_good_label"><input id="good" name="status" value="good" type="radio" onclick="javascript: statusCheck();" /> Good </span></p>
         <p><span class="create_shortage_warning_label"><input id="warning" name="status" value="warning" type="radio" onclick="javascript: statusCheck();" /> Warning </span></p>

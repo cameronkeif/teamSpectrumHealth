@@ -318,9 +318,9 @@
             url: '/api/WatchListItem/' + username + "/" + ndc,
             type: 'POST',
             success: function () {
-                watchListNdcs.push(ndc);
             }
         });
+        watchListNdcs.push(ndc);
         display();
     };
 
@@ -329,19 +329,19 @@
             url: '/api/WatchListItem/' + username + "/" + ndc,
             type: 'DELETE',
             success: function () {
-                var newWatchList = [];
-                for (var i in watchListNdcs) {
-                    var item = watchListNdcs[i];
-                    if (item != ndc) {
-                        newWatchList.push(item);
-                    }
-                }
-                watchListNdcs = [];
-                for (var i in newWatchList)
-                    watchListNdcs.push(newWatchList[i]);
             },
         });
 
+        var newWatchList = [];
+        for (var i in watchListNdcs) {
+            var item = watchListNdcs[i];
+            if (item != ndc) {
+                newWatchList.push(item);
+            }
+        }
+        watchListNdcs = [];
+        for (var i in newWatchList)
+            watchListNdcs.push(newWatchList[i]);
 
         display();
     }

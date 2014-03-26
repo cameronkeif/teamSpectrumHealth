@@ -10,6 +10,7 @@ namespace MedicationsShortagesDashboard.Services
     using System.Data;
     using System.Linq;
     using MedicationsShortagesDashboard.Models;
+    using System;
 
     public class DrugVisitRepository
     {
@@ -54,11 +55,18 @@ namespace MedicationsShortagesDashboard.Services
         /// <summary>
         /// Gets the drug visit from the database with matching ID
         /// </summary>
-        /// <param name="id">The ID of the drug visit we're looking for.</param>
+        /// <param name="id">The Username</param>
         /// <returns>The drug visit which has id as it's ID.</returns>
-        public DrugVisit GetDrugVisit(int id)
+        public DrugVisit [] GetDrugVisit(string id)
         {
-            return this.db.DrugVisits.Find(id);
+            try
+            {
+                return this.db.DrugVisits.Where(visit => visit.Username == id).ToArray();
+            }
+            catch (InvalidOperationException)
+            {
+                return null;
+            }
         }
 
         /// <summary>

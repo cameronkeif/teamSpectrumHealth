@@ -38,9 +38,27 @@ namespace MedicationsShortagesDashboard.Controllers
             {
                 Response.Redirect("~/Error");
             }
+
             this.ViewData["Username"] = Authentication.Username;
             this.ViewData["Type"] = Authentication.Type;
             this.ViewData["PageTitle"] = "Upload Formulary";
+            return this.View();
+        }
+
+        /// <summary>
+        /// Get Create page
+        /// </summary>
+        /// <returns>Upload page view</returns>
+        public ActionResult Create()
+        {
+            if (Authentication.Type != "pharmadmin")
+            {
+                Response.Redirect("~/Error");
+            }
+
+            this.ViewData["Username"] = Authentication.Username;
+            this.ViewData["Type"] = Authentication.Type;
+            this.ViewData["PageTitle"] = "Create Drug";
             return this.View();
         }
 

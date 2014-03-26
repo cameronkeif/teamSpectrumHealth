@@ -14,6 +14,11 @@
             </ul>
             <ul id="severeList" class="shortageList">
             </ul>
+            <a id="severeFirst" href='#' class="pagingButton"><<</a>
+            <a id="severePrevious" href='#' class="pagingButton"><</a>
+            <span id="severePageNumber" class="pageNumber">1</span>
+            <a id="severeNext" href='#' class="pagingButton">></a>
+            <a id="severeLast" href='#' class="pagingButton">>></a>
         </div>
         <div id="warningContainer" class="container">
             <span class="secondaryTitle">Warning</span>
@@ -21,6 +26,11 @@
             </ul>
             <ul id="warningList" class="shortageList">
             </ul>
+            <a id="warningFirst" href='#' class="pagingButton"><<</a>
+            <a id="warningPrevious" href='#' class="pagingButton"><</a>
+            <span id="warningPageNumber" class="pageNumber">1</span>
+            <a id="warningNext" href='#' class="pagingButton">></a>
+            <a id="warningLast" href='#' class="pagingButton">>></a>
         </div>
         <div id="goodContainer" class="container">
             <span class="secondaryTitle">Good</span>
@@ -28,6 +38,11 @@
             </ul>
             <ul id="goodList" class="shortageList">
             </ul>
+            <a id="goodFirst" href='#' class="pagingButton"><<</a>
+            <a id="goodPrevious" href='#' class="pagingButton"><</a>
+            <span id="goodPageNumber" class="pageNumber">1</span>
+            <a id="goodNext" href='#' class="pagingButton">></a>
+            <a id="goodLast" href='#' class="pagingButton">>></a>
         </div>
         <div id="recentContainer" class="container">
             <span class="secondaryTitle">Recent</span>
@@ -39,230 +54,573 @@
 
 @section scripts{
 <script type="text/javascript">
-$('#listContainer').hide();
-var loggedInAs = '@Html.Encode(ViewData["Username"])';
-var lastVisits = new Array();
-var lastPosts = new Array();
-$(function()
-{
+    $('#listContainer').hide();
+    var loggedInAs = '@Html.Encode(ViewData["Username"])';
+    var lastVisits = new Array();
+    var lastPosts = new Array();
+    var userType = '@Html.Encode(ViewData["Type"])'
     var recent = new Array();
     var watchListNdcs = Array();
 
-    // Populates list of visits for logged in user
-    if (loggedInAs != "Guest") {
-        $.getJSON('/api/DrugVisit', function (drugVisitJsonPayload) {
-            $(drugVisitJsonPayload).each(function (i, visit) {
-                if (visit.Username == loggedInAs) {
-                    lastVisits.push([visit.NDC, visit.Date]);
-                }
-            });
-        });
+    // Number of items to show in the recent column
+    var numRecentItems = 10;
+    // Number of items to show per page
+    var itemsPerPage = 5;
+
+    // Store items that don't match the filter
+    var recentArchive = [];
+    var goodArchive = [];
+    var warningArchive = [];
+    var severeArchive = [];
+
+    var recentIndex = 0;
+    var goodIndex = 0;
+    var warningIndex = 0;
+    var severeIndex = 0;
+
+    var recentItems = [];
+    var goodItems = [];
+    var warningItems = [];
+    var severeItems = [];
+    var watchListNdcs = [];
+
+    function setupButton(name, list, index) {
+        if (index == 0) {
+            $("#" + name + "First").addClass('disabled');
+            $("#" + name + "Previous").addClass('disabled');
+        }
+        else {
+            $("#" + name + "First").removeClass('disabled');
+            $("#" + name + "Previous").removeClass('disabled');
+        }
+        if (index == itemsPerPage * Math.ceil(list.length / itemsPerPage) - itemsPerPage) {
+            $("#" + name + "Last").addClass('disabled');
+            $("#" + name + "Next").addClass('disabled');
+        }
+        else {
+            $("#" + name + "Last").removeClass('disabled');
+            $("#" + name + "Next").removeClass('disabled');
+        }
     }
 
-    // Populates list of last posts for each drug
-    $.getJSON('/api/DrugEntry', function (drugJsonPayload) {
-        $(drugJsonPayload).each(function (i, item) {
-            lastPosts.push([item.NDC, item.LastPost]);
-        });
+    function setupButtons() {
+        setupButton('good', goodItems, goodIndex);
+        setupButton('severe', severeItems, severeIndex);
+        setupButton('warning', warningItems, warningIndex);
+    }
 
-        $.getJSON('/api/WatchListItem/' + loggedInAs, function (watchListJsonPayload) {
-            $(watchListJsonPayload).each(function (i, watchListItem) {
-                watchListNdcs.push(watchListItem.Ndc);
-            });
-        });    
+    function displayList(list, appendTarget, startingIndex) {
+        for (var i = startingIndex; i < list.length && i < itemsPerPage + startingIndex; i++) {
+            var item = list[i];
+            var shortage;
+            if ($.inArray(item.NDC, watchListNdcs) != -1) {
+                shortage = getShortageItemHTMLWatchList(item.Brand, item.Dosage, item.NDC, item.CurrentStatus);
+                $(shortage).appendTo('#' + appendTarget + 'WatchList').addClass(appendTarget + "Item").addClass('shortageItem');
+            }
+            else {
+                shortage = getShortageItemHTML(item.Brand, item.Dosage, item.NDC, item.CurrentStatus);
+                $(shortage).appendTo('#' + appendTarget + 'List').addClass(appendTarget + "Item").addClass('shortageItem');
+            }
+        }
+    }
 
-        // Get all drugs
-        $.getJSON('/api/DrugEntry', function (drugJsonPayload) {
-            $(drugJsonPayload).each(function (i, item) {
+    function displayRecent() {
+        for (var i = recentIndex; i < recentItems.length; i++) {
+            var item = recentItems[i];
+            var shortage;
 
-                recent.push(item);
-
-                // This drug is in the user's watch list
-                if ($.inArray(item.NDC, watchListNdcs) != -1) {
-                    shortage = getShortageItemHTMLWatchList(item.Brand, item.Dosage, item.NDC, item.CurrentStatus);
-
-                    if (item.CurrentStatus === "severe") {
-                        $(shortage).appendTo('#severeWatchList').addClass("severeItem");
-                    }
-                    else if (item.CurrentStatus === "warning") {
-                        $(shortage).appendTo('#warningWatchList').addClass("warningItem");
-                    }
-                    else {
-                        $(shortage).appendTo('#goodWatchList').addClass("goodItem");
-                    }
-                }
-                else {
-                    shortage = getShortageItemHTML(item.Brand, item.Dosage, item.NDC, item.CurrentStatus);
-
-                    if (item.CurrentStatus === "severe") {
-                        $(shortage).appendTo('#severeList').addClass("severeItem");
-                    }
-                    else if (item.CurrentStatus === "warning") {
-                        $(shortage).appendTo('#warningList').addClass("warningItem");
-                    }
-                    else {
-                        $(shortage).appendTo('#goodList').addClass("goodItem");
-                    }
-                }
-            });
-
-
-
-            recent.sort(function (a, b) { if (a.LastUpdated < b.LastUpdated) return 1; return -1; });
-
-            for (var i = 0; i < recent.length && i < 10; i++) {
-                var item = recent[i];
-                var shortage;
-
-                if ($.inArray(item.NDC, watchListNdcs) != -1) {
-                    shortage = getShortageItemHTMLWatchList(item.Brand, item.Dosage, item.NDC, item.CurrentStatus);
-                }
-                else {
-                    shortage = getShortageItemHTML(item.Brand, item.Dosage, item.NDC, item.CurrentStatus);
-                }
-
-                if (item.CurrentStatus === "severe") {
-                    $(shortage).appendTo('#recentList').addClass("severeItem");
-                }
-                else if (item.CurrentStatus === "warning") {
-                    $(shortage).appendTo('#recentList').addClass("warningItem");
-                }
-                else {
-                    $(shortage).appendTo('#recentList').addClass("goodItem");
-                }
+            if ($.inArray(item.NDC, watchListNdcs) != -1) {
+                shortage = getShortageItemHTMLWatchList(item.Brand, item.Dosage, item.NDC, item.CurrentStatus);
+            }
+            else {
+                shortage = getShortageItemHTML(item.Brand, item.Dosage, item.NDC, item.CurrentStatus);
             }
 
-            // Page has loaded. Stop the loading animation
-            $('#loadingAnimation').hide();
-            $('#listContainer').show();
+            if (item.CurrentStatus === "severe") {
+                $(shortage).appendTo('#recentList').addClass("severeItem").addClass('shortageItem');
+            }
+            else if (item.CurrentStatus === "warning") {
+                $(shortage).appendTo('#recentList').addClass("warningItem").addClass('shortageItem');
+            }
+            else {
+                $(shortage).appendTo('#recentList').addClass("goodItem").addClass('shortageItem');
+            }
+        }
+    }
+
+    function sortByBrandName(a, b) {
+        if (a.Brand < b.Brand)
+            return -1;
+        else if (a.Brand > b.Brand)
+            return 1;
+        return 0;
+    }
+
+    function sortArray(list) {
+
+        var index, watchList = [], notWatchList = [];
+
+        for (var x in list) {
+            var item = list[x];
+            if ($.inArray(item.NDC, watchListNdcs) != -1) {
+                watchList.push(item);
+            }
+            else {
+                notWatchList.push(item);
+            }
+        }
+
+        notWatchList.sort(sortByBrandName);
+        watchList.sort(sortByBrandName);
+
+        list = [];
+
+        for (var x in watchList) {
+            list.push(watchList[x]);
+        }
+        for (var x in notWatchList) {
+            list.push(notWatchList[x]);
+        }
+
+        return list;
+    }
+
+    function display() {
+        $('.shortageList').empty();
+
+        goodItems = sortArray(goodItems);
+        warningItems = sortArray(warningItems);
+        severeItems = sortArray(severeItems);
+
+        recentItems.sort(function (a, b) { if (a.LastUpdated < b.LastUpdated) return 1; return -1; });
+
+        displayList(goodItems, 'good', goodIndex);
+        displayList(warningItems, 'warning', warningIndex);
+        displayList(severeItems, 'severe', severeIndex);
+
+        displayRecent();
+        setupButtons();
+    }
+
+    $(document).ready(function()
+    {
+        // Populates list of visits for logged in user
+        $.getJSON('/api/DrugVisit/' + loggedInAs, function (drugVisitJsonPayload) {
+            $(drugVisitJsonPayload).each(function (i, visit) {
+                lastVisits.push([visit.NDC, visit.Date]);
+            });
         });
 
+        // Populates list of last posts for each drug
+        $.getJSON('/api/DrugEntry', function (drugJsonPayload) {
+            $(drugJsonPayload).each(function (i, item) {
+                if (item.LastPost != null) {
+                    lastPosts.push([item.NDC, item.LastPost]);
+                }
+            });
+
+            $.getJSON('/api/WatchListItem/' + loggedInAs, function (watchListJsonPayload) {
+                $(watchListJsonPayload).each(function (i, watchListItem) {
+                    watchListNdcs.push(watchListItem.Ndc);
+                });
+            }); 
+
+            var recentTemp = new Array();
+
+            // Get all drugs
+            $.getJSON('/api/DrugEntry', function (drugJsonPayload) {
+                $(drugJsonPayload).each(function (i, item) {
+
+                    recentTemp.push(item);
+
+                    if (item.CurrentStatus === "severe") {
+                        severeItems.push(item);
+                    }
+                    else if (item.CurrentStatus === "warning") {
+                        warningItems.push(item);
+                    }
+                    else {
+                        goodItems.push(item);
+                    }
+
+                });
+
+                recentTemp.sort(function (a, b) { if (a.LastUpdated < b.LastUpdated) return 1; return -1; });
+
+                for (var i = 0; i < recentTemp.length && i < numRecentItems; i++) {
+                    recentItems.push(recentTemp[i]);
+                }
+
+                display();
+
+                // Page has loaded. Stop the loading animation
+                $('#loadingAnimation').hide();
+                $('#listContainer').show();
+            });
+        });
     });
-});
 
-function getNonWatchListShortageCardButtonHtml(ndc, currentStatus) {
-    if (loggedInAs == "Guest") {
-        return '';
+    function getNonWatchListShortageCardButtonHtml(ndc, currentStatus) {
+        if (loggedInAs == "Guest") {
+            return '';
+        }
+
+        return '<li class="right"> \
+                    <a href="#" onClick="addToWatchList(' + '\'' + loggedInAs + '\',\'' + ndc + '\', \'' + currentStatus + '\')"> \
+                        <img src="/images/not_favorite.png"> \
+                    </a> \
+               </li>';
     }
 
-    return '<li class="right"> \
-                <a href="#" onClick="addToWatchList(' + '\'' + loggedInAs + '\',\'' + ndc + '\', \'' + currentStatus + '\')"> \
-                    <img src="/images/not_favorite.png"> \
-                </a> \
-           </li>';
-}
+    function getWatchListShortageCardButtonHtml(ndc, currentStatus) {
+        if (loggedInAs == "Guest") {
+            return '';
+        }
 
-function getWatchListShortageCardButtonHtml(ndc, currentStatus) {
-    if (loggedInAs == "Guest") {
-        return '';
+        return '<li class="right"> \
+                    <a href="#" onClick="removeFromWatchList(' + '\'' + loggedInAs + '\',\'' + ndc + '\', \'' + currentStatus + '\')"> \
+                        <img src="/images/favorite.png"> \
+                    </a> \
+                </li>';
     }
 
-    return '<li class="right"> \
-                <a href="#" onClick="removeFromWatchList(' + '\'' + loggedInAs + '\',\'' + ndc + '\', \'' + currentStatus + '\')"> \
-                    <img src="/images/favorite.png"> \
-                </a> \
-            </li>';
-}
-
-function getShortageItemHTML(brand, dosage, ndc, currentStatus) {
-    return '<li id="' + ndc + '"> \
+    function getShortageItemHTML(brand, dosage, ndc, currentStatus) {
+        return '<li id="' + ndc + '"> \
                    <ul class="shortageCard"> \
                        <li class="left"> \
                            <span><a href=/DrugEntriesList/Details/' + ndc + ">" + brand + ' ' + dosage + checkBadge(ndc) + '</a></span> \
                        </li>' +
-                       getNonWatchListShortageCardButtonHtml(ndc, currentStatus) +
-                   '</ul> \
+                           getNonWatchListShortageCardButtonHtml(ndc, currentStatus) +
+                       '</ul> \
                 </li>';
-};
+    };
 
-function getShortageItemHTMLWatchList(brand, dosage, ndc, currentStatus) {
-    return '<li id="' + ndc + '"> \
+    function getShortageItemHTMLWatchList(brand, dosage, ndc, currentStatus) {
+        return '<li id="' + ndc + '"> \
                 <ul class="shortageCard"> \
                     <li class="left"> \
                         <span><a href=/DrugEntriesList/Details/' + ndc + ">" + brand + ' ' + dosage + checkBadge(ndc) + '</a></span> \
                     </li>' +
-                    getWatchListShortageCardButtonHtml(ndc, currentStatus) +
-                '</ul> \
+                        getWatchListShortageCardButtonHtml(ndc, currentStatus) +
+                    '</ul> \
             </li>';
-};
+    };
 
-function checkBadge(ndc) {
-    var returnedHTML = "";
-    var match = false;
-    var dateLastSeen = null;
-    if (loggedInAs != "Guest") {
-        // Find last date of drug visit
-        for (var i = 0; i < lastPosts.length; i++) {
-            if (lastPosts[i][0] == ndc) {
-                dateLastSeen = lastPosts[i][1];
-                console.log("FOUND FOR " + ndc);
-                for (var j = 0; j < lastVisits.length; j++) {
-                    if (lastPosts[i][0] == lastVisits[j][0]) {
-                        match = true;
-                        console.log("VISIT FOUND FOR " + ndc);
-                        if (lastPosts[i][1] > lastVisits[j][1]) {
-                            returnedHTML = " - UNREAD";
+    function addToWatchList(username, ndc, currentStatus) {
+        $.ajax({
+            url: '/api/WatchListItem/' + username + "/" + ndc,
+            type: 'POST',
+            success: function () {
+            }
+        });
+        watchListNdcs.push(ndc);
+        display();
+    };
+
+    function removeFromWatchList(username, ndc, currentStatus) {
+        $.ajax({
+            url: '/api/WatchListItem/' + username + "/" + ndc,
+            type: 'DELETE',
+            success: function () {
+            },
+        });
+
+        var newWatchList = [];
+        for (var i in watchListNdcs) {
+            var item = watchListNdcs[i];
+            if (item != ndc) {
+                newWatchList.push(item);
+            }
+        }
+        watchListNdcs = [];
+        for (var i in newWatchList)
+            watchListNdcs.push(newWatchList[i]);
+
+        display();
+    }
+
+    function mergeLists() {
+        for (var item in recentArchive)
+            recentItems.push(recentArchive[item]);
+        recentArchive = [];
+        for (var item in goodArchive)
+            goodItems.push(goodArchive[item]);
+        goodArchive = [];
+        for (var item in warningArchive)
+            warningItems.push(warningArchive[item]);
+        warningArchive = [];
+        for (var item in severeArchive)
+            severeItems.push(severeArchive[item]);
+        severeArchive = [];
+    }
+
+    function archiveItems(ndcs) {
+        // Good
+        var newGood = [];
+        for (var i = 0; i < goodItems.length; i++) {
+            var x = goodItems[i];
+            if (ndcs.indexOf(x.NDC) != -1) {
+                goodArchive.push(x);
+            }
+            else {
+                newGood.push(x);
+            }
+        }
+        goodItems = [];
+        for (var item in newGood) {
+            goodItems.push(newGood[item]);
+        }
+
+        // Warning
+        var newWarning = [];
+        for (var i = 0; i < warningItems.length; i++) {
+            var x = warningItems[i];
+            if (ndcs.indexOf(x.NDC) != -1) {
+                warningArchive.push(x);
+            }
+            else {
+                newWarning.push(x);
+            }
+
+        }
+        warningItems = [];
+        for (var item in newWarning) {
+            warningItems.push(newWarning[item]);
+        }
+
+        // Severe
+        var newSevere = [];
+        for (var i = 0; i < severeItems.length; i++) {
+            var x = severeItems[i];
+            if (ndcs.indexOf(x.NDC) != -1) {
+                severeArchive.push(x);
+            }
+            else {
+                newSevere.push(x);
+            }
+        }
+        severeItems = [];
+        for (var item in newSevere) {
+            severeItems.push(newSevere[item]);
+        }
+
+        // Recent
+        var newRecent = [];
+        for (var i = 0; i < recentItems.length; i++) {
+            var x = recentItems[i];
+            if (ndcs.indexOf(x.NDC) != -1) {
+                recentArchive.push(x);
+            }
+            else {
+                newRecent.push(x);
+            }
+        }
+        recentItems = [];
+        for (var item in newRecent) {
+            recentItems.push(newRecent[item]);
+        }
+    }
+
+    // Filtering. Iterates over each of the 6 drug card containers (if you want to call them that?)
+    // hides all elements which don't match the searchbar text. Shows all that do.
+    $("#searchbar").keyup(function () {
+        mergeLists();
+        var query = $("#searchbar").val().toLowerCase();
+
+        var removeNdcs = [];
+
+        for (var i in recentItems) {
+            var item = recentItems[i];
+            if ((item.Brand.toLowerCase().indexOf(query) == -1 && item.Dosage.toLowerCase().indexOf(query) == -1)) {
+                removeNdcs.push(item.NDC);
+            }
+        }
+        for (var i in goodItems) {
+            var item = goodItems[i];
+            if ((item.Brand.toLowerCase().indexOf(query) == -1 && item.Dosage.toLowerCase().indexOf(query) == -1)) {
+                removeNdcs.push(item.NDC);
+            }
+        }
+        for (var i in warningItems) {
+            var item = warningItems[i];
+            if ((item.Brand.toLowerCase().indexOf(query) == -1 && item.Dosage.toLowerCase().indexOf(query) == -1)) {
+                removeNdcs.push(item.NDC);
+            }
+        }
+        for (var i in severeItems) {
+            var item = severeItems[i];
+            if ((item.Brand.toLowerCase().indexOf(query) == -1 && item.Dosage.toLowerCase().indexOf(query) == -1)) {
+                removeNdcs.push(item.NDC);
+            }
+        }
+
+        archiveItems(removeNdcs);
+        display();
+    });
+
+    $("#goodFirst, #warningFirst, #severeFirst").click(function () {
+        var id = $(this).attr('id');
+        var index = id.indexOf("First");
+        var listType = id.substr(0, index); // Good, warning, severe, or recent
+        if (listType == "good") {
+            goodIndex = 0;
+            $("#goodPageNumber").text(1);
+        }
+        else if (listType == "severe") {
+            severeIndex = 0;
+            $("#severePageNumber").text(1);
+        }
+        else if (listType == "warning") {
+            warningIndex = 0;
+            $("#warningPageNumber").text(1);
+        }
+        display();
+        setupButtons();
+    });
+
+    $("#goodPrevious, #warningPrevious, #severePrevious").click(function () {
+        var id = $(this).attr('id');
+        var index = id.indexOf('Previous');
+        var listType = id.substr(0, index); // Good, warning, severe, or recent
+        if (listType == "good") {
+            goodIndex -= itemsPerPage;
+            $("#goodPageNumber").text(goodIndex / itemsPerPage + 1);
+        }
+        else if (listType == "severe") {
+            severeIndex -= itemsPerPage;
+            $("#severePageNumber").text(severeIndex / itemsPerPage + 1);
+        }
+        else if (listType == "warning") {
+            warningIndex -= itemsPerPage;
+            $("#warningPageNumber").text(warningIndex / itemsPerPage + 1);
+        }
+        display();
+        setupButtons();
+    });
+
+    $("#goodNext, #warningNext, #severeNext").click(function () {
+        var id = $(this).attr('id');
+        var index = id.indexOf('Next');
+        var listType = id.substr(0, index); // Good, warning, severe, or recent
+        if (listType == "good") {
+            goodIndex += itemsPerPage;
+            $("#goodPageNumber").text(goodIndex / itemsPerPage + 1);
+        }
+        else if (listType == "severe") {
+            severeIndex += itemsPerPage;
+            $("#severePageNumber").text(severeIndex / itemsPerPage + 1);
+        }
+        else if (listType == "warning") {
+            warningIndex += itemsPerPage;
+            $("#warningPageNumber").text(warningIndex / itemsPerPage + 1);
+        }
+        display();
+        setupButtons();
+    });
+
+    $("#goodLast, #warningLast, #severeLast").click(function () {
+        var id = $(this).attr('id');
+        var index = id.indexOf('Last');
+        var listType = id.substr(0, index); // Good, warning, severe, or recent
+        if (listType == "good") {
+            goodIndex = itemsPerPage * Math.ceil(goodItems.length / itemsPerPage) - itemsPerPage;
+            $("#goodPageNumber").text(goodIndex / itemsPerPage + 1);
+        }
+        else if (listType == "severe") {
+            severeIndex = itemsPerPage * Math.ceil(severeItems.length / itemsPerPage) - itemsPerPage;
+            $("#severePageNumber").text(severeIndex / itemsPerPage + 1);
+        }
+        else if (listType == "warning") {
+            warningIndex = itemsPerPage * Math.ceil(warningItems.length / itemsPerPage) - itemsPerPage;
+            $("#warningPageNumber").text(warningIndex / itemsPerPage + 1);
+        }
+        display();
+        setupButtons();
+    });
+
+            
+
+    function checkBadge(ndc) {
+        var returnedHTML = "";
+        var match = false;
+        var dateLastSeen = null;
+        if (loggedInAs != "Guest") {
+            // Find last date of drug visit
+            for (var i = 0; i < lastPosts.length; i++) {
+                if (lastPosts[i][0] == ndc) {
+                    dateLastSeen = lastPosts[i][1];
+                    console.log("FOUND FOR " + ndc);
+                    for (var j = 0; j < lastVisits.length; j++) {
+                        if (lastPosts[i][0] == lastVisits[j][0]) {
+                            match = true;
+                            console.log("VISIT FOUND FOR " + ndc);
+                            if (lastPosts[i][1] > lastVisits[j][1]) {
+                                returnedHTML = " - UNREAD";
+                            }
                         }
                     }
                 }
             }
+            if (match == false && dateLastSeen != null) {
+                returnedHTML = " - UNREAD";
+            }
         }
-        if (match == false && dateLastSeen != null) {
-            returnedHTML = " - UNREAD";
-        }
+        return returnedHTML;
     }
-    return returnedHTML;
-}
 
-function addToWatchList(username, ndc, currentStatus) {
-    $.ajax({
-        url: '/api/WatchListItem/' + username + "/" + ndc,
-        type: 'POST',
-        success: function () {
-            if ($("#" + ndc).length > 0) {
-                $("#" + ndc).prependTo("#" + currentStatus + "WatchList");
-                $("#" + ndc + " .right").replaceWith(getWatchListShortageCardButtonHtml(ndc, currentStatus));
+    function checkBadge(ndc) {
+        var returnedHTML = "";
+        var match = false;
+
+        var foundNdcUserVisitIndex = -1;
+        var foundNdcInLastPostIndex = -1
+
+        if (userType == "pharmadmin") {
+            // Find last date of drug visit
+            /*for (var i = 0; i < lastPosts.length; i++) {
+                if (lastPosts[i][0] == ndc) {
+                    foundNdcInLastPost = true;
+                    foundNdcInLastPostIndex = i;
+    
+                    for (var j = 0; j < lastVisits.length; j++) {
+                        if (lastPosts[i][0] == lastVisits[j][0]) {
+                            match = true;
+                            console.log("VISIT FOUND FOR " + ndc);
+                            if (lastPosts[i][1] > lastVisits[j][1]) {
+                                returnedHTML = '<img src="/Images/message_badge.png">';
+                            }
+                        }
+                    }
+                }
+            }*/
+
+           
+            for (var i = 0; i < lastPosts.length; i++) {
+                if (lastPosts[i][0] == ndc) {
+                    //console.log(lastPosts[i][0])
+                    foundNdcInLastPostIndex = i;
+                    break;
+                }
             }
-            if ($("#recentList #" + ndc).length > 0) {
-                $("#recentList #" + ndc + " .right").replaceWith(getWatchListShortageCardButtonHtml(ndc, currentStatus));
+            //console.log(ndc + " NOT FOUND");
+
+            for (var i = 0; i < lastVisits.length; i++) {
+                if (lastVisits[i][0] == ndc) {
+                    foundNdcUserVisitIndex = i;
+                    break;
+                }
             }
+        
+            if (foundNdcInLastPostIndex > -1) { 
+                if (foundNdcUserVisitIndex < 0 || lastPosts[foundNdcInLastPostIndex][1] > lastVisits[foundNdcUserVisitIndex][1]) {
+                    return '<img src="/Images/message_badge.png">';
+                }
+            
+            }
+            
         }
-    });
-};
-
-function removeFromWatchList(username, ndc, currentStatus) {
-    $.ajax({
-        url: '/api/WatchListItem/' + username + "/" + ndc,
-        type: 'DELETE',
-        success: function () {
-            if ($("#" + ndc).length > 0) {
-                $("#" + ndc).prependTo("#" + currentStatus + "List");
-                $("#" + ndc + " .right").replaceWith(getNonWatchListShortageCardButtonHtml(ndc, currentStatus));
-            }
-            if ($("#recentList #" + ndc).length > 0) {
-                $("#recentList #" + ndc + " .right").replaceWith(getNonWatchListShortageCardButtonHtml(ndc, currentStatus));
-            }
-        },
-    });
-}
-
-    // Filtering. Iterates over each of the 6 drug card containers (if you want to call them that?)
-    // hides all elements which don't match the searchbar text. Shows all that do.
-$("#searchbar").keyup(function () {
-    var query = $("#searchbar").val();
-    var drugListSelectors = ["#recentList", "#severeWatchList", "#warningWatchList", "#goodWatchList", "#severeList", "#warningList", "#goodList"];
-
-    $(drugListSelectors).each( function(index, value) {
-        $(value + " > li").each(function () {
-            if ($(this).text().search(query) > -1) {
-                $(this).show();
-            }
-            else {
-                $(this).hide();
-            }
-        });
-    });
-});
-
+    
+        return returnedHTML;
+    }
 </script>
 }

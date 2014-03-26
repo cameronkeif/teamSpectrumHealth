@@ -27,7 +27,7 @@ namespace MedicationsShortagesDashboard.Controllers
             }
             this.ViewData["Username"] = Authentication.Username;
             this.ViewData["Type"] = Authentication.Type;
-            this.ViewData["PageTitle"] = "Pending Shortages";
+            this.ViewData["PageTitle"] = "Manage Feeds";
             return this.View();
         }
 

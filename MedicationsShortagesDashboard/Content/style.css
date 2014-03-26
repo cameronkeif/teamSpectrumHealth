@@ -298,6 +298,35 @@ div.container
     width:95%;
 }
 
+.pagingButton {
+    color:#005BA5;
+    padding-left:4px;
+    padding-right:4px;
+    text-decoration:none;
+}
+
+.pagingButton:hover {
+    text-decoration:none; 
+    font-weight:bold;
+}
+
+.pagingButton:active {
+    text-decoration:none; 
+    font-weight:bold;
+}
+
+.pagingButton.disabled {
+    color:#cccccc;
+    font-weight:normal;
+    pointer-events: none;
+    cursor: default;
+}
+
+.pageNumber {
+    padding-left:4px;
+    padding-right:4px;
+}
+
 #loadingAnimation img {
     display: block;
     margin-left: auto;

@@ -29,6 +29,10 @@
     margin-bottom: 20px;
 }
 
+#submitButtonContainer {
+    display: none;
+}
+
 .pageTitle
 {
     font-family:Arial;

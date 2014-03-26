@@ -23,39 +23,40 @@
     <div id="pending_shortages_container">
         <ul id="pending_shortages"></ul>
     </div>
-
     <div id="create_shortage" title="Create Shortage">
         <form id="create_shortage_form">
-            <p>NDC: <input id="ndc" type="text" name="ndc"></p>
-            Status:
-            <p><span class="create_shortage_good_label"><input id="good" name="status" value="good" type="radio" onclick="javascript:statusCheck();" /> Good </span></p>
+            <p><span class='formErrorNotification' id="ndcError">*</span>NDC: <input id="ndc" type="text" name="ndc" /> <span class='formErrorNotification' id="ndcNotFoundError">NDC not found.</span></p>
+            <span class='formErrorNotification' id="statusError">*</span>Status:
+            <p><span class="create_shortage_good_label"><input id="good" name="status" value="good" type="radio" onclick="javascript: statusCheck();" /> Good </span></p>
             <p><span class="create_shortage_warning_label"><input id="warning" name="status" value="warning" type="radio" onclick="javascript: statusCheck();" /> Warning </span></p>
             <p><span class="create_shortage_severe_label"><input id="severe" name="status" type="radio" value="severe" onclick="javascript: statusCheck();" /> Severe </span></p>
             <div id="additionalInfo">
-                <p>Seven day supply (250 character limit):</p>
+                <p><span class='formErrorNotification' id="sevenDaySupplyError">*</span>Seven day supply (250 character limit):</p>
                 <p><textarea class="createShortageTextArea" id="sevenDaySupply" name="sevenDaySupply" rows="5" cols="50" ></textarea></p>
-                <p>Seven day usage (250 character limit):</p>
+                <p><span class='formErrorNotification' id="sevenDayUsageError">*</span>Seven day usage (250 character limit):</p>
                 <p><textarea class="createShortageTextArea" id="sevenDayUsage" name="sevenDayUsage" rows="5" cols="50" ></textarea></p>
-                <p>Migitation Actions (5000 character limit):</p>
+                <p><span class='formErrorNotification' id="mitigationActionsError">*</span>Migitation Actions (5000 character limit):</p>
                 <p><textarea class="createShortageTextArea" id="mitigationActions" name="mitigationActions" rows="5" cols="50" ></textarea></p>
-                <p>Backorder Information (5000 character limit):</p>
+                <p><span class='formErrorNotification' id="backorderInformationError">*</span>Backorder Information (5000 character limit):</p>
                 <p><textarea class="createShortageTextArea" id="backorderInformation" name="backorderInformation" rows="5" cols="50" ></textarea></p>
-                <p>Grey Market Vendor: <input id="greyMarketVendor" type="text" name="greyMarketVendor" /></p>
-                <p>Expected Resolution Date: <input id="expectedResolutionDate" type="text" name="expectedResolutionDate" /></p>
+                <p><span class='formErrorNotification' id="greyMarketVendorError">*</span>Grey Market Vendor: <input id="greyMarketVendor" type="text" name="greyMarketVendor" /></p>
+                <p><span class='formErrorNotification' id="expectedResolutionDateError">*</span>Expected Resolution Date: <input readonly="readonly" id="expectedResolutionDate" type="text" name="expectedResolutionDate" /></p>
             </div>
             <p><button id="submit" type="button">Create Shortage</button></p>
-            <p><span class="create_shortage_good_label" id="success_message"></span></p>
         </form>
+        <div id="submitSuccessNotification" class="formSuccessNotification">Shortage successfully created.</div>
+        <div id="invalidFormNotification" class="formErrorNotification">Please fill in all fields marked with *</div>
     </div>
 </div>
 
 @section scripts{
 <script type="text/javascript">
-    $("#expectedResolutionDate").datepicker();
+    $("#expectedResolutionDate").datepicker({ minDate: 0, dateFormat: "m/d/yy" });
     var alreadyParsedDrugIds = new Array();
     var ignoredIDs = new Array();
+    var validNDCs = new Array();
     var loggedInAs = '@Html.Encode(ViewData["Username"])';
-
+    
     // IE8 does not support Array.indexOf, so define it if it doesn't exist.
     if (!Array.prototype.indexOf) {
         Array.prototype.indexOf = function (elt /*, from*/) {
@@ -99,8 +100,14 @@
                 }
             });
 
-            $("#loadingAnimation").hide();
-            $('#pending_shortages_container').show();
+            $.getJSON('/api/DrugEntry', function (drugJsonPayload) {
+                $(drugJsonPayload).each(function (i, item) {
+                    validNDCs.push(item.NDC);
+                });
+
+                $("#loadingAnimation").hide();
+                $('#pending_shortages_container').show();
+            });
         });
     });
 
@@ -204,16 +211,21 @@ function showCreateShortage(NDCs) {
 }
 
 $('#submit').click(function (e) {
-    var submitData = $('#create_shortage_form').serialize();
-    if (submitData.indexOf("&status=good") != -1) {
-        submitData = submitData.split('&sevenDaySupply=')[0];
+    $('#invalidFormNotification').hide();
+    if (validateForm()) {
+        var submitData = $('#create_shortage_form').serialize();
+        if (submitData.indexOf("&status=good") != -1) {
+            submitData = submitData.split('&sevenDaySupply=')[0];
+        }
+        $.post('/api/Shortage', submitData)
+            .success(function () {
+                $('#create_shortage').find('form')[0].reset();
+                $("#submitSuccessNotification").show()
+            });
+        e.preventDefault();
+    } else {
+        $('#invalidFormNotification').show();
     }
-    $.post('/api/Shortage', submitData)
-        .success(function () {
-            $('#create_shortage').find('form')[0].reset();
-            $("#success_message").append("Shortage successfully created!");
-        });
-    e.preventDefault();
 });
 
 function ignore(id, username, drugName) {
@@ -223,6 +235,54 @@ function ignore(id, username, drugName) {
     });
 
     return false;
+}
+
+// Determines if a string is empty or only contains whitespace
+function isBlank(str) {
+    return (!str || /^\s*$/.test(str));
+}
+
+function validateForm() {
+    var validForm = true;
+    $('#ndcError').hide(); // Hide this one right away since we're checking two slightly different conditions
+
+    if (isBlank($('#ndc').val())) {
+        // User did not enter an NDC
+        $('#ndcError').show();
+        $("#ndcNotFoundError").hide();
+        validForm = false;
+    }
+    else if (validNDCs.indexOf($('#ndc').val().trim()) == -1) {
+        console.log('her');
+        // NDC was not found in the database
+        $('#ndcError').show();
+        $("#ndcNotFoundError").show();
+        validForm = false;
+    }
+
+    // Ensure user selected a status
+    if (!document.getElementById('good').checked && !document.getElementById('warning').checked && !document.getElementById('severe').checked) {
+        $('#statusError').show()
+        validForm = false;
+    } else {
+        $('#statusError').hide()
+    }
+
+    // If the user selected warning or severe, make sure they filled in all that information
+    if (!document.getElementById('good').checked) {
+        var selectors = ['sevenDaySupply', 'sevenDayUsage', 'mitigationActions', 'backorderInformation', 'greyMarketVendor', 'expectedResolutionDate']
+
+        selectors.forEach(function (selector) {
+            if (isBlank($('#' + selector).val())) {
+                $('#' + selector + 'Error').show();
+                validForm = false;
+            } else {
+                $('#' + selector + 'Error').hide();
+            }
+        });
+    }
+
+    return validForm;
 }
 </script>
 }

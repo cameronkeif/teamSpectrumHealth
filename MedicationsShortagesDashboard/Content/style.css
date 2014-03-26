@@ -634,6 +634,16 @@ div.container
     color: #8DB987;
 }
 
+.formErrorNotification {
+    color: #FF334A;
+    display: none;
+}
+
+.formSuccessNotification {
+    color: #8DB987;
+    display: none;
+}
+
 .ui-dialog > .ui-widget-header {
     color:white;
     background: -webkit-linear-gradient(#303844, #262c36); /* For Safari */

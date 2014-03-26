@@ -51,7 +51,7 @@ namespace MedicationsShortagesDashboard.Models
 
         /// <summary>
         /// Last date message was posted to drug detail view
-        ///  </summary>
+        /// </summary>
         private DateTime? lastPost;
 
         /// <summary>
@@ -77,6 +77,7 @@ namespace MedicationsShortagesDashboard.Models
         /// <param name="generic">Generic name</param>
         /// <param name="currentStatus">Current Status of the drug</param>
         /// <param name="lastUpdated">The most recent time in which the drug was updated</param>
+        /// <param name="lastPost">The most recent time in which a message was posted</param>
         public DrugEntry(string ndc, string dosage, string brand, string generic, string currentStatus, DateTime lastUpdated, DateTime lastPost)
         {
             this.ndc = ndc;

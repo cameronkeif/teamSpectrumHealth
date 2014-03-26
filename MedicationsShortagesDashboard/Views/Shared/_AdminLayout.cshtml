@@ -61,16 +61,13 @@
 
     <ul id="adminMenu">
         <li>
-            <a href="~/PendingShortagesList" id="pendingShortagesMenu" class="secondaryTitle">Pending Shortages</a>
+            <a href="~/PendingShortagesList" id="pendingShortagesMenu" class="secondaryTitle">Manage Feeds</a>
         </li>
-        <li class="left">
-            <a href="~/DrugEntriesList/Upload" id="uploadMenu" class="secondaryTitle">Upload CSV</a>
+        <li>
+            <a href="~/DrugEntriesList/Upload" id="uploadMenu" class="secondaryTitle">Upload Formulary</a>
         </li>
-        <li class="left">
-            <a href="~/ShortagesList" id="allShortagesMenu" class="secondaryTitle">All Shortages</a>
-        </li>
-        <li class="left">
-            <a href="~/ShortagesList/Create" id="createMenu" class="secondaryTitle">Create Shortage</a>
+        <li>
+            <a href="~/DrugEntriesList/Create" id="createMenu" class="secondaryTitle">Create Drug</a>
         </li>
     </ul>
     <br />
@@ -94,16 +91,13 @@
     }
 
     var str = @Html.Raw(Json.Encode(ViewData["PageTitle"])) + '';
-    if (str == "Pending Shortages") {
+    if (str == "Manage Feeds") {
         $("#pendingShortagesMenu").addClass("selected");
     }
     else if (str == "Upload Formulary") {
         $("#uploadMenu").addClass("selected");
     }
-    else if (str == "All Shortages") {
-        $("#allShortagesMenu").addClass("selected");
-    }
-    else if (str == "Create Shortage") {
+    else if (str == "Create Drug") {
         $("#createMenu").addClass("selected");
     }
 

@@ -24,6 +24,7 @@ namespace MedicationsShortagesDashboard.Controllers
         /// <returns>The page as a view</returns>
         public ActionResult Index()
         {
+            Authentication.CurrentSession = HttpContext.Session;
             if (Authentication.Authenticated)
             {
                 Response.Redirect("~/Error");

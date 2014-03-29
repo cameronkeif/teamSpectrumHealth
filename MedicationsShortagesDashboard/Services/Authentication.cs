@@ -8,13 +8,16 @@ namespace MedicationsShortagesDashboard.Services
 {
     using System.Web;
     using System.Web.Caching;
+    using System.Web.Providers.Entities;
+    using System.Web.SessionState;
+
 
     /// <summary>
     /// Class for storing static user information
     /// </summary>
     public class Authentication
     {
-
+        public static HttpSessionStateBase CurrentSession { get; set; }
         /// <summary>
         /// Gets or sets a value indicating whether a user is authenticated
         /// </summary>
@@ -22,8 +25,8 @@ namespace MedicationsShortagesDashboard.Services
         {
             get
             {
-                object auth = HttpContext.Current.Cache["Authenticated"];
-                if (auth != null && (bool)auth != false) 
+                object auth = CurrentSession["Authenticated"];
+                if (auth != null && (bool)auth != false)
                 {
                     return true;
                 }

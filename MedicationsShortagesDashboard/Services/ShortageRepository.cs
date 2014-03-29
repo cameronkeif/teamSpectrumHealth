@@ -140,9 +140,9 @@ namespace MedicationsShortagesDashboard.Services
         /// </summary>
         /// <param name="id">shortage id</param>
         /// <param name="filename">name of the memo in the Memos/ directory</param>
-        public void attachMemoToShortage(int id, string filename)
+        public void AttachMemoToShortage(int id, string filename)
         {
-            Shortage existingShortage = GetShortage(id);
+            Shortage existingShortage = this.GetShortage(id);
             if (existingShortage != null)
             {
                 existingShortage.Memo = filename;

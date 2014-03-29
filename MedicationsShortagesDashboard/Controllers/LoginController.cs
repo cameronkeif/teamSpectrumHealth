@@ -28,6 +28,7 @@ namespace MedicationsShortagesDashboard.Controllers
             {
                 Response.Redirect("~/Error");
             }
+
             this.ViewData["Username"] = Authentication.Username;
             this.ViewData["Type"] = Authentication.Type;
             this.ViewData["PageTitle"] = "Login";

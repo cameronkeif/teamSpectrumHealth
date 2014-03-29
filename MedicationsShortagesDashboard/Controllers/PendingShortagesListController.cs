@@ -25,6 +25,7 @@ namespace MedicationsShortagesDashboard.Controllers
             {
                 Response.Redirect("~/Error");
             }
+
             this.ViewData["Username"] = Authentication.Username;
             this.ViewData["Type"] = Authentication.Type;
             this.ViewData["PageTitle"] = "Manage Feeds";
@@ -41,6 +42,7 @@ namespace MedicationsShortagesDashboard.Controllers
             {
                 Response.Redirect("~");
             }
+
             this.ViewData["Username"] = Authentication.Username;
             this.ViewData["Type"] = Authentication.Type;
             this.ViewData["PageTitle"] = "Ignored Pending Shortages";

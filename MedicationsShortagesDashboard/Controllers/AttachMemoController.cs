@@ -63,7 +63,7 @@ namespace MedicationsShortagesDashboard.Controllers
 
                     // Rename to an easily accessible filename
                     File.Move(currentPath, desiredPath);
-                    this.shortageRepository.attachMemoToShortage(id, "memo_" + id + extension);
+                    this.shortageRepository.AttachMemoToShortage(id, "memo_" + id + extension);
                 }
 
                 return Request.CreateResponse(HttpStatusCode.OK);

@@ -246,7 +246,7 @@ namespace MedicationsShortagesDashboard.Models
         /// Gets or sets memo
         /// </summary>
         [Column("MEMO")]
-        public String Memo
+        public string Memo
         {
             get
             {

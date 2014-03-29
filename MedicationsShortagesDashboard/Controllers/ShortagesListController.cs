@@ -26,6 +26,7 @@ namespace MedicationsShortagesDashboard.Controllers
             {
                 Response.Redirect("~/Error");
             }
+
             this.ViewData["Username"] = Authentication.Username;
             this.ViewData["Type"] = Authentication.Type;
             this.ViewData["PageTitle"] = "All Shortages";
@@ -61,7 +62,6 @@ namespace MedicationsShortagesDashboard.Controllers
         /// <returns>Edit page view</returns>
         public ActionResult Edit(int id = 0)
         {
-
             if (Authentication.Type != "pharmadmin")
             {
                 Response.Redirect("~/Error");

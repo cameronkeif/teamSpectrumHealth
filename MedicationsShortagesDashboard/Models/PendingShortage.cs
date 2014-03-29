@@ -36,7 +36,7 @@ namespace MedicationsShortagesDashboard.Models
         /// class.
         /// </summary>
         /// <param name="name">Name of the drug</param>
-        /// <param name="source">Source URL of the drug</param>
+        /// <param name="id">Source id of the drug</param>
         public PendingShortage(string name, int id)
         {
             this.drugName = name;

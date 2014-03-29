@@ -11,6 +11,9 @@ namespace MedicationsShortagesDashboard.Services
     using System.Linq;
     using MedicationsShortagesDashboard.Models;
 
+    /// <summary>
+    /// Performs database interaction with MESSAGE table
+    /// </summary>
     public class MessageRepository
     {
         /// <summary>

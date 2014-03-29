@@ -18,6 +18,9 @@ namespace MedicationsShortagesDashboard.Models
         /// </summary>
         private DbSet<DrugVisit> drugVisits;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DrugVisitDBContext"/> class
+        /// </summary>
         public DrugVisitDBContext()
         {
             Database.SetInitializer<Models.DrugVisitDBContext>(null);

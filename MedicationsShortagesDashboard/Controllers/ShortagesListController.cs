@@ -22,7 +22,6 @@ namespace MedicationsShortagesDashboard.Controllers
         /// <returns>Index page view</returns>
         public ActionResult Index()
         {
-            Authentication.CurrentSession = HttpContext.Session;
             if (Authentication.Type != "pharmadmin")
             {
                 Response.Redirect("~/Error");
@@ -45,7 +44,6 @@ namespace MedicationsShortagesDashboard.Controllers
 
             DrugEntry drug = db.GetDrug(id);
 
-            Authentication.CurrentSession = HttpContext.Session;
             if (Authentication.Type != "pharmadmin" || drug == null)
             {
                 Response.Redirect("~/Error");
@@ -64,7 +62,6 @@ namespace MedicationsShortagesDashboard.Controllers
         /// <returns>Edit page view</returns>
         public ActionResult Edit(int id = 0)
         {
-            Authentication.CurrentSession = HttpContext.Session;
             if (Authentication.Type != "pharmadmin")
             {
                 Response.Redirect("~/Error");
@@ -102,7 +99,6 @@ namespace MedicationsShortagesDashboard.Controllers
         /// <returns>Edit page view</returns>
         public ActionResult Details(int id = 0)
         {
-            Authentication.CurrentSession = HttpContext.Session;
             ShortageRepository db = new ShortageRepository();
 
             Shortage shortage = db.GetShortage(id);

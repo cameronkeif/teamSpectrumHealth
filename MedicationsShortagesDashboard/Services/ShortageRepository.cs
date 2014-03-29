@@ -134,5 +134,22 @@ namespace MedicationsShortagesDashboard.Services
             this.shortageDB.Entry(shortage).State = EntityState.Modified;
             this.shortageDB.SaveChanges();
         }
+
+        /// <summary>
+        /// Updates the entry in the SHORTAGE table with a memo filename
+        /// </summary>
+        /// <param name="id">shortage id</param>
+        /// <param name="filename">name of the memo in the Memos/ directory</param>
+        public void AttachMemoToShortage(int id, string filename)
+        {
+            Shortage existingShortage = this.GetShortage(id);
+            if (existingShortage != null)
+            {
+                existingShortage.Memo = filename;
+
+                this.shortageDB.Entry(existingShortage).State = EntityState.Modified;
+                this.shortageDB.SaveChanges();
+            }
+        }
     } 
 }

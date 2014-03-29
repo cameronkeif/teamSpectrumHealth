@@ -11,6 +11,9 @@ namespace MedicationsShortagesDashboard.Controllers
     using MedicationsShortagesDashboard.Models;
     using MedicationsShortagesDashboard.Services;
 
+    /// <summary>
+    /// API Controller for Messages
+    /// </summary>
     public class MessageController : ApiController
     {
         /// <summary>
@@ -69,7 +72,7 @@ namespace MedicationsShortagesDashboard.Controllers
         /// <summary>
         /// HTTP Post
         /// </summary>
-        /// <param name="drugEntry">Message created from HTML form
+        /// <param name="message">Message created from HTML form
         /// to add to the database</param>
         public void Post([FromBody] Message message)
         {
@@ -79,8 +82,6 @@ namespace MedicationsShortagesDashboard.Controllers
             {
                 throw new System.Exception("Message exists in table MESSAGE with same ID");
             }
-            // Manually check if necessary foreign keys exist in DB
-            // DRUGS.NDC, USER.USERNAME
             else
             {
                 if (this.drugEntryRepository.GetDrug(message.NDC) == null)
@@ -104,7 +105,7 @@ namespace MedicationsShortagesDashboard.Controllers
                     newMessage.User = message.User;
 
                     this.messageRepository.AddMessage(newMessage);
-                    UpdateDrugLastPostTime(message.NDC);
+                    this.UpdateDrugLastPostTime(message.NDC);
                 }
             }
         }
@@ -112,11 +113,11 @@ namespace MedicationsShortagesDashboard.Controllers
         /// <summary>
         /// Gets message info (for debug)
         /// </summary>
-        /// <param name="NDC">national drug code</param>
-        /// <param name="Text">text contained in message<param>
-        public void GetMessageInfo(string NDC, string Text)
+        /// <param name="ndc">national drug code</param>
+        /// <param name="text">text contained in message</param>
+        public void GetMessageInfo(string ndc, string text)
         {
-            System.Diagnostics.Debug.WriteLine(NDC + " - " + Text);
+            System.Diagnostics.Debug.WriteLine(ndc + " - " + text);
         }
 
         /// <summary>

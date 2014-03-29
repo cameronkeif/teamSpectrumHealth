@@ -22,6 +22,7 @@ namespace MedicationsShortagesDashboard.Controllers
         /// <returns>Index page view</returns>
         public ActionResult Index()
         {
+            Authentication.CurrentSession = HttpContext.Session;
             this.ViewData["Username"] = Authentication.Username;
             this.ViewData["Type"] = Authentication.Type;
             this.ViewData["PageTitle"] = "Current Shortages";
@@ -34,6 +35,7 @@ namespace MedicationsShortagesDashboard.Controllers
         /// <returns>Upload page view</returns>
         public ActionResult Upload()
         {
+            Authentication.CurrentSession = HttpContext.Session;
             if (Authentication.Type != "pharmadmin")
             {
                 Response.Redirect("~/Error");
@@ -51,6 +53,7 @@ namespace MedicationsShortagesDashboard.Controllers
         /// <returns>Upload page view</returns>
         public ActionResult Create()
         {
+            Authentication.CurrentSession = HttpContext.Session;
             if (Authentication.Type != "pharmadmin")
             {
                 Response.Redirect("~/Error");
@@ -80,6 +83,7 @@ namespace MedicationsShortagesDashboard.Controllers
 
             var tuple = new Tuple<DrugEntry, Message>(drug, message);
 
+            Authentication.CurrentSession = HttpContext.Session;
             this.ViewData["Username"] = Authentication.Username;
             this.ViewData["Type"] = Authentication.Type;
             this.ViewData["PageTitle"] = "Medication Details";

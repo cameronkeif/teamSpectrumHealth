@@ -63,7 +63,7 @@ namespace MedicationsShortagesDashboard.Services
         /// Removes an ignored pending shortage from the Database
         /// </summary>
         /// <param name="username">The user</param>
-        /// <param name="sourceUrl">The source URL of the pending shortage to be ignored</param>
+        /// <param name="id">The source id of the pending shortage to be ignored</param>
         public void RemoveIgnoredPendingShortage(string username, int id)
         {
             try

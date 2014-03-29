@@ -11,6 +11,9 @@ namespace MedicationsShortagesDashboard.Controllers
     using MedicationsShortagesDashboard.Models;
     using MedicationsShortagesDashboard.Services;
 
+    /// <summary>
+    /// API Controller for DrugVisit
+    /// </summary>
     public class DrugVisitController : ApiController
     {
         /// <summary>
@@ -41,7 +44,7 @@ namespace MedicationsShortagesDashboard.Controllers
         /// <summary>
         /// Initializes a new instance of the <see cref="DrugVisitController"/> class
         /// </summary>
-        /// <param name="messageRepository">The database interaction layer</param>
+        /// <param name="drugVisitRepository">The database interaction layer</param>
         public DrugVisitController(DrugVisitRepository drugVisitRepository)
         {
             this.drugVisitRepository = drugVisitRepository;
@@ -59,9 +62,9 @@ namespace MedicationsShortagesDashboard.Controllers
         /// <summary>
         /// HTTP Get
         /// </summary>
-        /// <param name="id">Username</param>
+        /// <param name="id">Username of the user</param>
         /// <returns>Drug Visit with matching ID, if any</returns>
-        public DrugVisit [] Get(string id)
+        public DrugVisit[] Get(string id)
         {
             return this.drugVisitRepository.GetDrugVisit(id);
         }
@@ -69,7 +72,7 @@ namespace MedicationsShortagesDashboard.Controllers
         /// <summary>
         /// HTTP Post
         /// </summary>
-        /// <param name="drugEntry">Drug Entry created from HTML form
+        /// <param name="drugVisit">Drug Visit created from HTML form
         /// to add to the database</param>
         public void Post([FromBody] DrugVisit drugVisit)
         {

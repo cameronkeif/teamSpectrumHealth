@@ -18,6 +18,9 @@ namespace MedicationsShortagesDashboard.Models
         /// </summary>
         private DbSet<Message> messages;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MessageDBContext"/> class
+        /// </summary>
         public MessageDBContext()
         {
             Database.SetInitializer<Models.MessageDBContext>(null);

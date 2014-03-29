@@ -22,7 +22,7 @@ namespace MedicationsShortagesDashboard.Controllers
         private DrugEntryRepository drugEntryRepository;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DrugEntryController"/> class
+        /// Initializes a new instance of the <see cref="DrugEntryManualController"/> class
         /// </summary>
         public DrugEntryManualController()
         {
@@ -30,7 +30,7 @@ namespace MedicationsShortagesDashboard.Controllers
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DrugEntryController"/> class
+        /// Initializes a new instance of the <see cref="DrugEntryManualController"/> class
         /// </summary>
         /// <param name="drugEntryRepository">The database interaction layer</param>
         public DrugEntryManualController(DrugEntryRepository drugEntryRepository)

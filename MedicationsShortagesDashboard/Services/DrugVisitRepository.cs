@@ -6,12 +6,15 @@
 
 namespace MedicationsShortagesDashboard.Services
 {
+    using System;
     using System.Collections.Generic;
     using System.Data;
     using System.Linq;
     using MedicationsShortagesDashboard.Models;
-    using System;
 
+    /// <summary>
+    /// Performs database interaction with DRUG_VISIT table
+    /// </summary>
     public class DrugVisitRepository
     {
         /// <summary>
@@ -57,7 +60,7 @@ namespace MedicationsShortagesDashboard.Services
         /// </summary>
         /// <param name="id">The Username</param>
         /// <returns>The drug visit which has id as it's ID.</returns>
-        public DrugVisit [] GetDrugVisit(string id)
+        public DrugVisit[] GetDrugVisit(string id)
         {
             try
             {
@@ -72,7 +75,7 @@ namespace MedicationsShortagesDashboard.Services
         /// <summary>
         /// Add a message to the database
         /// </summary>
-        /// <param name="message">The message to add to the database.</param>
+        /// <param name="drugVisit">The drug visit to add to the database.</param>
         public void AddDrugVisit(DrugVisit drugVisit)
         {
             this.db.DrugVisits.Add(drugVisit);

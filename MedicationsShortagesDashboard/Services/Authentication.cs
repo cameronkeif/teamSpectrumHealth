@@ -6,26 +6,18 @@
 
 namespace MedicationsShortagesDashboard.Services
 {
+    using System.Web;
+    using System.Web.Caching;
+    using System.Web.Providers.Entities;
+    using System.Web.SessionState;
+
+
     /// <summary>
     /// Class for storing static user information
     /// </summary>
     public class Authentication
     {
-        /// <summary>
-        /// Indicates whether or not a user is authenticated
-        /// </summary>
-        private static bool authenticated = false;
-
-        /// <summary>
-        /// If authenticated, gives the user type
-        /// </summary>
-        private static string type = string.Empty;
-
-        /// <summary>
-        /// Gives the authenticated user's username
-        /// </summary>
-        private static string username = "Guest";
-
+        public static HttpSessionStateBase CurrentSession { get; set; }
         /// <summary>
         /// Gets or sets a value indicating whether a user is authenticated
         /// </summary>
@@ -33,12 +25,18 @@ namespace MedicationsShortagesDashboard.Services
         {
             get
             {
-                return authenticated;
+                object auth = CurrentSession["Authenticated"];
+                if (auth != null && (bool)auth != false)
+                {
+                    return true;
+                }
+
+                return false;
             }
 
             set
             {
-                authenticated = value;
+                HttpContext.Current.Cache["Authenticated"] = value;
             }
         }
 
@@ -49,12 +47,16 @@ namespace MedicationsShortagesDashboard.Services
         {
             get
             {
-                return type;
+                if (HttpContext.Current.Cache["Type"] != null)
+                {
+                    return (string)HttpContext.Current.Cache["Type"];
+                }
+                return string.Empty;
             }
 
             set
             {
-                type = value;
+                HttpContext.Current.Cache["Type"] = value;
             }
         }
 
@@ -65,12 +67,16 @@ namespace MedicationsShortagesDashboard.Services
         {
             get
             {
-                return username;
+                if (HttpContext.Current.Cache["Username"] != null)
+                {
+                    return (string)HttpContext.Current.Cache["Username"];
+                }
+                return "Guest";
             }
 
             set
             {
-                username = value;
+                HttpContext.Current.Cache["Username"] = value;
             }
         }
 
@@ -79,9 +85,9 @@ namespace MedicationsShortagesDashboard.Services
         /// </summary>
         public static void Reset()
         {
-            Authentication.authenticated = false;
-            Authentication.username = "Guest";
-            Authentication.type = string.Empty;
+            Authentication.Authenticated = false;
+            Authentication.Username = "Guest";
+            Authentication.Type = string.Empty;
         }
     }
 }

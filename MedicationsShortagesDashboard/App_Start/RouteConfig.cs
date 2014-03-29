@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using MedicationsShortagesDashboard.Services;
 
 namespace MedicationsShortagesDashboard
 {
@@ -15,7 +16,7 @@ namespace MedicationsShortagesDashboard
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-
+            Authentication.Reset();
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",

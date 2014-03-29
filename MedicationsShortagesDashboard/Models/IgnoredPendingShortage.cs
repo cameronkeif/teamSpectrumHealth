@@ -35,7 +35,7 @@ namespace MedicationsShortagesDashboard.Models
         /// Initializes a new instance of the <see cref="IgnoredPendingShortage"/> class.
         /// </summary>
         /// <param name="username">The user's username</param>
-        /// <param name="sourceUrl">The source URL</param>
+        /// <param name="id">The source id</param>
         /// <param name="drugName">The drug name</param>
         public IgnoredPendingShortage(string username, int id, string drugName)
         {

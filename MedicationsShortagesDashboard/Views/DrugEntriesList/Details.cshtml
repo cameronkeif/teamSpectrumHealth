@@ -2,6 +2,9 @@
 <script type="text/javascript" src="~/Scripts/jqPlot/jquery.min.js"></script>
 <script type="text/javascript" src="~/Scripts/jqPlot/jquery.jqplot.min.js"></script>
 <script type="text/javascript" src="~/Scripts/jqPlot/plugins/jqplot.dateAxisRenderer.js"></script>
+<script src="http://code.jquery.com/jquery-migrate-1.2.1.js"></script>
+<script type="text/javascript" src="~/Scripts/jquery-ui-1.8.24.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 <link rel="stylesheet" type="text/css" href="~/Scripts/jqPlot/css/jquery.jqplot.css" />
 
 @using MedicationsShortagesDashboard.Models;
@@ -11,42 +14,50 @@
     @model Tuple<DrugEntry, Message>
 }
 
-<div id="loadingAnimation">
-        <img src="~/Images/loading.gif">
-</div>
-<div id="secondaryTitle" style="display: none">
-    @Html.DisplayFor(tuple => tuple.Item1.Brand)
-</div>
-<div id="basicDrugInformation" style="display: none">
-    <ul>
-        <li>Dosage: @Html.DisplayFor(tuple => tuple.Item1.Dosage)</li>
-        <li>NDC: @Html.DisplayFor(tuple => tuple.Item1.NDC)</li>
-        <li>Generic Name: @Html.DisplayFor(tuple => tuple.Item1.Generic)</li>
-        <li>Current Status: @Html.DisplayFor(tuple => tuple.Item1.CurrentStatus)</li>
-    </ul>
-    <div id="submitButtonContainer"><button class="submitButton" id="submit_create_shortage" type="button">Create Shortage</button></div>
-</div>
+<div id="body">
+    <div id="attach_memo" title="Attach Memo" >
+        <form id="attach_memo_form" method="post" action="~/api/AttachMemo/1" enctype="multipart/form-data">
+            <input type="file" name = "memo" id="memo" />
+            <p><input type="submit" value="Submit" /></p>
+        </form>
+    </div>
+    <div id="loadingAnimation">
+            <img src="~/Images/loading.gif">
+    </div>
+    <div id="secondaryTitle" style="display: none">
+        @Html.DisplayFor(tuple => tuple.Item1.Brand)
+    </div>
+    <div id="basicDrugInformation" style="display: none">
+        <ul>
+            <li>Dosage: @Html.DisplayFor(tuple => tuple.Item1.Dosage)</li>
+            <li>NDC: @Html.DisplayFor(tuple => tuple.Item1.NDC)</li>
+            <li>Generic Name: @Html.DisplayFor(tuple => tuple.Item1.Generic)</li>
+            <li>Current Status: @Html.DisplayFor(tuple => tuple.Item1.CurrentStatus)</li>
+        </ul>
+        <div id="submitButtonContainer"><button class="submitButton" id="submit_create_shortage" type="button">Create Shortage</button></div>
+    </div>
 
-<div id="shortageHistoryChart">
-</div>
+    <div id="shortageHistoryChart">
+    </div>
 
 
-<div id="shortageHistory">
-    <ul></ul>
-</div>
+    <div id="shortageHistory">
+        <ul></ul>
+    </div>
 
 
-<div class="messagePosting" style="display: none">
-    <form id="postDiscussionForm">
-        <input type=hidden name="ndc" id="ndc" value='@Model.Item1.NDC' />
-        <input type=hidden name="user" id="user" value='@Html.Encode(ViewData["Username"])' />
-        <textarea class="messagePostingBox" id="text" name="text" rows="5" cols ="50"></textarea>
-        <div><button class="submitButton" id="submit" type="button">Post Discussion</button></div>
-    </form>
-</div>
+    <div class="messagePosting" style="display: none">
+        <form id="postDiscussionForm">
+            <input type=hidden name="ndc" id="ndc" value='@Model.Item1.NDC' />
+            <input type=hidden name="user" id="user" value='@Html.Encode(ViewData["Username"])' />
+            <textarea class="messagePostingBox" id="text" name="text" rows="5" cols ="50"></textarea>
+            <div><button class="submitButton" id="submit" type="button">Post Discussion</button></div>
+        </form>
+    </div>
 
-<div id="messageListing">
-    <ul></ul>
+    <div id="messageListing">
+        <ul></ul>
+    </div>
 </div>
 
 @section scripts{
@@ -58,14 +69,25 @@
         $("#submitButtonContainer").show();
     }
 
-    $.getJSON('@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "Shortage", })' + '/' + '@Model.Item1.NDC', function (shortagesJsonPayload) {
+    $('#attach_memo_submit').click(function (e) {
+        e.preventDefault();
+    });
+
+    $.getJSON('/api/Shortage/' + '@Model.Item1.NDC', function (shortagesJsonPayload) {
         $(shortagesJsonPayload).each(function (i, item) {
-            $('#shortageHistory > ul').append('<li id=shortage_' + item.Id + '>' + item.Status + " at " + formatDateForOutput(item.DateTime) + '<span class="shortageLinks" >' +
-                '<a href="/MedicationsShortagesDashboard/ShortagesList/Details/' + item.Id + '">Details</a>' +
+            var memo_link = ''
+            if (item.Memo) {
+                memo_link = '<a href="/Memos/' + item.Memo + '">' + 
+                    '<img src="/images/memo.png" hspace="5">' +
+                    '</a>';
+            }
+            $('#shortageHistory > ul').append('<li id=shortage_' + item.Id + '>' + memo_link + item.Status + " at " + formatDateForOutput(item.DateTime) + '<span class="shortageLinks" >' +
+                '<a href="/ShortagesList/Details/' + item.Id + '">Details</a>' + 
                 '<span class="adminLinks">' +
-                '<a href="/MedicationsShortagesDashboard/ShortagesList/Edit/' + item.Id + '">Edit</a>' +
-                '<a onclick="Delete(' + item.Id + ', ' + i + ')" href="#">Delete</a></span></span>' +
-                '</li></div></li>');
+                '<a href="/ShortagesList/Edit/' + item.Id + '">Edit</a>' +
+                '<a onclick="Delete(' + item.Id + ', ' + i + ')" href="#">Delete</a>' + 
+                '<a onclick="Upload(' + item.Id + ' )" href="javascript:void(0);">Upload</a></span>' +
+                '</span></li></div></li>');
 
             if (item.Status == "severe") {
                 shortageHistoryPlotData.push([item.DateTime.replace("T", " "), 0]);
@@ -91,7 +113,6 @@
         $("#loadingAnimation").hide();
         $("#secondaryTitle").show();
         $("#basicDrugInformation").show();
-        
 
         if (loginType == "pharmadmin") {
             $(".adminLinks").show();
@@ -110,6 +131,16 @@
                 },
             });
         } 
+    }
+
+    function Upload(id) {
+        // Dynamically change the form submit action to include the shortage ID. That way the file can be linked to the ID in the database.
+        $('#attach_memo').empty()
+        $("#attach_memo").append('<form id="attach_memo_form" method="post" action="/api/AttachMemo/' + id +'" enctype="multipart/form-data">' + 
+            '<input type="file" name = "memo" id="memo" />' + 
+            '<p><input type="submit" value="Submit" /></p>'+
+        '</form>');
+        $("#attach_memo").dialog({ width: 550 }).css("maxHeight", 600);;
     }
 
     // Plots the shortage history chart

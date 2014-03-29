@@ -168,6 +168,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\AttachMemoController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\DrugEntriesListController.cs" />
     <Compile Include="Controllers\DrugEntryController.cs" />
@@ -289,6 +290,7 @@
     <Content Include="Images\logo.png" />
     <None Include="Properties\PublishProfiles\MedicationsShortagesDashboard.pubxml" />
     <None Include="Scripts\jquery-2.1.0.intellisense.js" />
+    <Content Include="Images\memo.png" />
     <Content Include="Images\message_badge.png" />
     <Content Include="Images\message_badge_large.png" />
     <Content Include="Images\not_favorite.png" />
@@ -362,6 +364,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Memos\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

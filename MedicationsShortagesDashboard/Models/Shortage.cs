@@ -67,6 +67,11 @@ namespace MedicationsShortagesDashboard.Models
         private string backorderInformation;
 
         /// <summary>
+        /// Memo filename
+        /// </summary>
+        private string memo;
+
+        /// <summary>
         /// Gets or sets id
         /// </summary>
         [Key]
@@ -234,6 +239,23 @@ namespace MedicationsShortagesDashboard.Models
             set
             {
                 this.expectedResolutionDate = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets memo
+        /// </summary>
+        [Column("MEMO")]
+        public String Memo
+        {
+            get
+            {
+                return this.memo;
+            }
+
+            set
+            {
+                this.memo = value;
             }
         }
     }

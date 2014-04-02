@@ -6,6 +6,7 @@
 
 namespace MedicationsShortagesDashboard.Controllers
 {
+    using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Net;
     using System.Net.Http;
@@ -64,19 +65,15 @@ namespace MedicationsShortagesDashboard.Controllers
 
                 foreach (MultipartFileData file in provider.FileData)
                 {
-                    System.Diagnostics.Debug.WriteLine(file.Headers.ContentDisposition.FileName);
-                    System.Diagnostics.Debug.WriteLine("Server file path: " + file.LocalFileName);
-
-                    DrugEntry[] drugs;
+                    List<DrugEntry> drugs;
                     CSVParser parser = new CSVParser();
                     drugs = parser.ParseCSV(file.LocalFileName);
+
+                    System.Diagnostics.Debug.WriteLine("DRUGS LENGTH: " + drugs.Count);
 
                     foreach (DrugEntry d in drugs)
                     {
                         System.Diagnostics.Debug.WriteLine("DRUG FROM FILE: " + d.NDC);
-                        
-                        // A drug imported from the csv file would not have this field populated.
-                        d.CurrentStatus = "good";
 
                         DrugEntry existingDrug = this.drugEntryRepository.GetDrug(d.NDC);
                         if (existingDrug != null)
@@ -84,6 +81,7 @@ namespace MedicationsShortagesDashboard.Controllers
                             existingDrug.Dosage = d.Dosage;
                             existingDrug.Brand = d.Brand;
                             existingDrug.Generic = d.Generic;
+                            existingDrug.Description = d.Description;
 
                             this.drugEntryRepository.UpdateDrug(existingDrug);
                         }

@@ -114,11 +114,11 @@
             var item = list[i];
             var shortage;
             if ($.inArray(item.NDC, watchListNdcs) != -1) {
-                shortage = getShortageItemHTMLWatchList(item.Brand, item.Dosage, item.NDC, item.CurrentStatus);
+                shortage = getShortageItemHTMLWatchList(item.Brand, item.Generic, item.Dosage, item.NDC, item.CurrentStatus);
                 $(shortage).appendTo('#' + appendTarget + 'WatchList').addClass(appendTarget + "Item").addClass('shortageItem');
             }
             else {
-                shortage = getShortageItemHTML(item.Brand, item.Dosage, item.NDC, item.CurrentStatus);
+                shortage = getShortageItemHTML(item.Brand, item.Generic, item.Dosage, item.NDC, item.CurrentStatus);
                 $(shortage).appendTo('#' + appendTarget + 'List').addClass(appendTarget + "Item").addClass('shortageItem');
             }
         }
@@ -130,10 +130,10 @@
             var shortage;
 
             if ($.inArray(item.NDC, watchListNdcs) != -1) {
-                shortage = getShortageItemHTMLWatchList(item.Brand, item.Dosage, item.NDC, item.CurrentStatus);
+                shortage = getShortageItemHTMLWatchList(item.Brand, item.Generic, item.Dosage, item.NDC, item.CurrentStatus);
             }
             else {
-                shortage = getShortageItemHTML(item.Brand, item.Dosage, item.NDC, item.CurrentStatus);
+                shortage = getShortageItemHTML(item.Brand, item.Generic, item.Dosage, item.NDC, item.CurrentStatus);
             }
 
             if (item.CurrentStatus === "severe") {
@@ -284,22 +284,22 @@
                 </li>';
     }
 
-    function getShortageItemHTML(brand, dosage, ndc, currentStatus) {
+    function getShortageItemHTML(brand, generic, dosage, ndc, currentStatus) {
         return '<li id="' + ndc + '"> \
                    <ul class="shortageCard"> \
                        <li class="left"> \
-                           <span><a href=/DrugEntriesList/Details/' + ndc + ">" + checkBadge(ndc)  + brand + ' ' + dosage + '</a></span> \
+                           <span><a href=/DrugEntriesList/Details/' + ndc + ">" + checkBadge(ndc) + ((brand != "" && brand != null) ? brand : generic) + ' ' + dosage + '</a></span> \
                        </li>' +
                            getNonWatchListShortageCardButtonHtml(ndc, currentStatus) +
                        '</ul> \
                 </li>';
     };
 
-    function getShortageItemHTMLWatchList(brand, dosage, ndc, currentStatus) {
+    function getShortageItemHTMLWatchList(brand, generic, dosage, ndc, currentStatus) {
         return '<li id="' + ndc + '"> \
                 <ul class="shortageCard"> \
                     <li class="left"> \
-                        <span><a href=/DrugEntriesList/Details/' + ndc + ">" + checkBadge(ndc) + brand + ' ' + dosage + '</a></span> \
+                        //<span><a href=/DrugEntriesList/Details/' + ndc + ">" + checkBadge(ndc) + ((brand != "" && brand != null) ? brand : generic) + ' ' + dosage + '</a></span> \
                     </li>' +
                         getWatchListShortageCardButtonHtml(ndc, currentStatus) +
                     '</ul> \

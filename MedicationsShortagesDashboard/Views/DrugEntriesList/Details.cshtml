@@ -25,7 +25,6 @@
             <img src="~/Images/loading.gif">
     </div>
     <div id="secondaryTitle" style="display: none">
-        @Html.DisplayFor(tuple => tuple.Item1.Brand)
     </div>
     <div id="basicDrugInformation" style="display: none">
         <ul>
@@ -64,6 +63,14 @@
 <script type="text/javascript">
     var shortageHistoryPlotData = Array();
     var loginType = '@Html.Encode(ViewData["Type"])'
+
+    var brandTitle = '@Model.Item1.Brand';
+    var genericTitle = '@Model.Item1.Generic';
+
+    if (brandTitle != null && brandTitle != "")
+        $('#secondaryTitle').append(brandTitle);
+    else
+        $('#secondaryTitle').append(genericTitle);
 
     $('#attach_memo_submit').click(function (e) {
         e.preventDefault();

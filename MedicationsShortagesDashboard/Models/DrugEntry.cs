@@ -81,6 +81,7 @@ namespace MedicationsShortagesDashboard.Models
         /// <param name="dosage">Dosage of the drug</param>
         /// <param name="brand">Brand name</param>
         /// <param name="generic">Generic name</param>
+        /// <param name="description">Description of drug</param>
         /// <param name="currentStatus">Current Status of the drug</param>
         /// <param name="lastUpdated">The most recent time in which the drug was updated</param>
         /// <param name="lastPost">The most recent time in which a message was posted</param>

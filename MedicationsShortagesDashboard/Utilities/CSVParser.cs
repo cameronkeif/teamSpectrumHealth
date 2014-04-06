@@ -49,26 +49,23 @@ namespace MedicationsShortagesDashboard.Utilities
         /// <returns>Array of drug entries constructed from the csv file.</returns>
         public List<DrugEntry> ParseCSV(string path)
         {
-            //this.engine = new FileHelperEngine(typeof(DrugEntry));
-            //this.drugs = this.engine.ReadFile(path) as DrugEntry[];
-
-            int counter = 0;
+            bool firstLineSkipped = false;
             string line;
-            drugs = new List<DrugEntry>();
+            this.drugs = new List<DrugEntry>();
             System.IO.StreamReader file = new System.IO.StreamReader(path);
 
-            // NDC - DESC - BRAND - GENERIC - DOSAGE (amount+measurement)
             while ((line = file.ReadLine()) != null)
             {
-                if (counter != 0)
+                if (firstLineSkipped)
                 {
                     string[] words = line.Split(',');
-                    System.Diagnostics.Debug.WriteLine("Brand: '" + words[42] + "'");
-                    //System.Diagnostics.Debug.WriteLine(words[1] + " - " + words[34] + " - " + words[42] + " - " + words[43] + " - " + words[16] + words[17]);
                     DrugEntry newDrug = new DrugEntry(words[1], words[16] + words[17], words[42], words[43], words[34], "good", DateTime.Now, DateTime.Now);
-                    drugs.Add(newDrug);
+                    this.drugs.Add(newDrug);
                 }
-                counter++;
+                else
+                {
+                    firstLineSkipped = true;
+                }
             }
 
             return this.drugs;

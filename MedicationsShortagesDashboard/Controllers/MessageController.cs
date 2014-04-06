@@ -111,22 +111,11 @@ namespace MedicationsShortagesDashboard.Controllers
         }
 
         /// <summary>
-        /// Gets message info (for debug)
-        /// </summary>
-        /// <param name="ndc">national drug code</param>
-        /// <param name="text">text contained in message</param>
-        public void GetMessageInfo(string ndc, string text)
-        {
-            System.Diagnostics.Debug.WriteLine(ndc + " - " + text);
-        }
-
-        /// <summary>
         /// Updates a drug's last updated time to now
         /// </summary>
         /// <param name="ndc">National drug code</param>
         public void UpdateDrugLastPostTime(string ndc)
         {
-            System.Diagnostics.Debug.WriteLine("UPDATING LAST POST");
             this.drugEntryRepository.UpdateDrugLastPostTime(ndc);
         }
     }

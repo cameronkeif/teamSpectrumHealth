@@ -76,8 +76,6 @@ namespace MedicationsShortagesDashboard.Controllers
         /// to add to the database</param>
         public void Post([FromBody] DrugVisit drugVisit)
         {
-            System.Diagnostics.Debug.WriteLine(drugVisit.Username + " - " + drugVisit.NDC);
-
             DrugVisit previousVisit = null;
             foreach (DrugVisit dv in this.drugVisitRepository.GetAllDrugVisits())
             {

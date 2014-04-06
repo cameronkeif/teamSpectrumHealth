@@ -53,7 +53,7 @@ namespace MedicationsShortagesDashboard.Controllers
         {
             if (!Request.Content.IsMimeMultipartContent())
             {
-                System.Diagnostics.Debug.WriteLine("UNSUPPORTED MEDIA I DONT KNOW");
+                throw new System.Exception("Unsupported file type for input .CSV file!");
             }
 
             string root = HttpContext.Current.Server.MapPath("~/App_Data");
@@ -69,12 +69,8 @@ namespace MedicationsShortagesDashboard.Controllers
                     CSVParser parser = new CSVParser();
                     drugs = parser.ParseCSV(file.LocalFileName);
 
-                    System.Diagnostics.Debug.WriteLine("DRUGS LENGTH: " + drugs.Count);
-
                     foreach (DrugEntry d in drugs)
                     {
-                        System.Diagnostics.Debug.WriteLine("DRUG FROM FILE: " + d.NDC);
-
                         DrugEntry existingDrug = this.drugEntryRepository.GetDrug(d.NDC);
                         if (existingDrug != null)
                         {

@@ -2,6 +2,10 @@
 {
     background-color:#E9E9E9;
     font-family: Arial;
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
 }
 
 /*Items that fit with spectrum's style guide*/
@@ -59,20 +63,39 @@
 }
 
 /*Menu Bar*/
-#menu 
-{
-    display:table;
-    list-style-type:none;
-    width:100%;
-    margin:0 auto;
-    height:60px;
-    text-align:center;
-    border-radius:4px;
-    background: -webkit-linear-gradient(#303844, #262c36); /* For Safari */
-    background: -o-linear-gradient(#303844, #262c36); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(#303844, #262c36); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(#4D545C, #303338); /* Standard syntax */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4D545C', endColorstr='#303338',GradientType=0 ); /* IE6-9 */
+@media screen and (min-width: 600px) {
+    #menu {
+        display: table;
+        list-style-type: none;
+        width: 100%;
+        margin: 0 auto;
+        height: 60px;
+        text-align: center;
+        border-radius: 4px;
+        background: -webkit-linear-gradient(#303844, #262c36); /* For Safari */
+        background: -o-linear-gradient(#303844, #262c36); /* For Opera 11.1 to 12.0 */
+        background: -moz-linear-gradient(#303844, #262c36); /* For Firefox 3.6 to 15 */
+        background: linear-gradient(#4D545C, #303338); /* Standard syntax */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4D545C', endColorstr='#303338',GradientType=0 ); /* IE6-9 */
+    }
+}
+
+@media screen and (max-width: 600px) {
+    #menu {
+        display: table;
+        list-style-type: none;
+        width: 100%;
+        margin: 0px;
+        height: 40px;
+        font-size: 80%;
+        text-align: center;
+        border-radius: 0px;
+        background: -webkit-linear-gradient(#303844, #262c36); /* For Safari */
+        background: -o-linear-gradient(#303844, #262c36); /* For Opera 11.1 to 12.0 */
+        background: -moz-linear-gradient(#303844, #262c36); /* For Firefox 3.6 to 15 */
+        background: linear-gradient(#4D545C, #303338); /* Standard syntax */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4D545C', endColorstr='#303338',GradientType=0 ); /* IE6-9 */
+    }
 }
 
 #menu ul 
@@ -88,7 +111,7 @@
     text-align:center;
     list-style-type:none;
     padding:0;
-    margin:5px;
+    margin:2px;
     font-family:Arial
 }
 
@@ -97,10 +120,18 @@
     float:right;
 }
 
-#menu li.rightMost 
-{
-    float:right;
-    padding-right:20px;
+@media screen and (min-width: 600px) {
+    #menu li.rightMost {
+        float: right;
+        padding-right: 20px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    #menu li.rightMost {
+        float: right;
+        padding-right: 3px;
+    }
 }
 
 #menu li.left 
@@ -108,10 +139,18 @@
     float:left;
 }
 
-#menu li.leftMost 
-{
-    float:left;
-    padding-left:20px;
+@media screen and (min-width: 600px) {
+    #menu li.leftMost {
+        float: left;
+        padding-left: 20px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    #menu li.leftMost {
+        float: left;
+        padding-left: 3px;
+    }
 }
 
 #menu .button 
@@ -195,9 +234,18 @@
     width:10%;
 }
 
-#pageTitleBar .pageTitle
-{
-    width: 80%;
+@media screen and (max-width: 600px) {
+    #pageTitleBar .pageTitle {
+        font-size: 30px;
+    }
+
+    #pageTitleBar .logo {
+        display: none;
+    }
+
+    #pageTitleBar .search {
+        display: none;
+    }
 }
 
 /*Shortages List*/
@@ -344,10 +392,26 @@ div.container
     list-style: none;
     padding: 0px;
 }
+
+@media screen and (min-width: 600px) {
     #basicDrugInformation > ul {
         list-style: none;
         padding: 0px;
     }
+}
+
+@media screen and (max-width: 600px) {
+    #basicDrugInformation > ul {
+        list-style: none;
+        padding: 0px;
+        margin: 0;
+    }
+}
+
+#submit_create_shortage {
+    margin: 10px 0px;
+}
+
 .shortageLinks a {
     padding-left: 5px;
     color: #0ca9fa;
@@ -363,68 +427,157 @@ div.container
 }
 
     #shortageHistory > ul {
-        margin-top: 0px;
+        margin: 0px;
+        padding: 0px;
         list-style-type: none;
     }
 
-#shortageHistoryChart {
-    margin-left: auto;
-    margin-right: auto;
+    @media screen and (max-width: 600px) {
+        #shortageHistory > ul > li {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #shortageHistory > ul > li > .shortageLinks {
+            display: block;
+        }
+    }
+
+@media screen and (min-width: 600px) {
+    #shortageHistoryChart {
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    #shortageHistoryChart {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    textarea {
+        width: 96%;
+        margin: 2%;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    #submit_discussion {
+        margin: 0px 10px;
+    }
 }
 
 /* Message List stuff */
-#messageListing {
-    width: 70%;
-    font-family: Arial;
-    list-style-type: none;
-    padding-left: 15%;
-    padding-right: 15%;
+@media screen and (min-width: 600px) {
+    #messageListing {
+        width: 70%;
+        font-family: Arial;
+        list-style-type: none;
+        padding-left: 15%;
+        padding-right: 15%;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    #messageListing {
+        width: 100%;
+        font-family: Arial;
+        list-style-type: none;
+        padding: 0px;
+        margin: 1px;
+    }
 }
 
     #messageListing > ul {
         list-style-type: none;
+        padding: 0px;
     }
-        #messageListing > ul > li > .messageEntry > .messageTitle {
-            width: 100%;
-            display: inline-block;
-            background: -webkit-linear-gradient(#303844, #262c36); /* For Safari */
-            background: -o-linear-gradient(#303844, #262c36); /* For Opera 11.1 to 12.0 */
-            background: -moz-linear-gradient(#303844, #262c36); /* For Firefox 3.6 to 15 */
-            background: linear-gradient(#4D545C, #303338); /* Standard syntax */
-            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4D545C', endColorstr='#303338',GradientType=0 ); /* IE6-9 */
-            color: #FFFFFF;
-            padding: 5px 10px;
-            border-top: 1px solid black;
-            border-left: 1px solid black;
-            border-right: 1px solid black;
-            border-bottom: 1px solid black;
-            border-top-right-radius: 5px;
-            border-top-left-radius: 5px;
-            margin-bottom: -4px;
-        }
+
+            @media screen and (min-width: 600px) {
+                #messageListing > ul > li > .messageEntry > .messageTitle {
+                    width: 100%;
+                    display: inline-block;
+                    background: -webkit-linear-gradient(#303844, #262c36); /* For Safari */
+                    background: -o-linear-gradient(#303844, #262c36); /* For Opera 11.1 to 12.0 */
+                    background: -moz-linear-gradient(#303844, #262c36); /* For Firefox 3.6 to 15 */
+                    background: linear-gradient(#4D545C, #303338); /* Standard syntax */
+                    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4D545C', endColorstr='#303338',GradientType=0 ); /* IE6-9 */
+                    color: #FFFFFF;
+                    padding: 5px 10px;
+                    border-top: 1px solid black;
+                    border-left: 1px solid black;
+                    border-right: 1px solid black;
+                    border-bottom: 1px solid black;
+                    border-top-right-radius: 5px;
+                    border-top-left-radius: 5px;
+                    margin-bottom: -4px;
+                }
+            }
+
+            @media screen and (max-width: 600px) {
+                #messageListing > ul > li > .messageEntry > .messageTitle {
+                    width: 100%;
+                    display: inline-block;
+                    background: -webkit-linear-gradient(#303844, #262c36); /* For Safari */
+                    background: -o-linear-gradient(#303844, #262c36); /* For Opera 11.1 to 12.0 */
+                    background: -moz-linear-gradient(#303844, #262c36); /* For Firefox 3.6 to 15 */
+                    background: linear-gradient(#4D545C, #303338); /* Standard syntax */
+                    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4D545C', endColorstr='#303338',GradientType=0 ); /* IE6-9 */
+                    color: #FFFFFF;
+                    font-size: 70%;
+                    padding: 2px 4px;
+                    border-top: 1px solid black;
+                    border-left: 1px solid black;
+                    border-right: 1px solid black;
+                    border-bottom: 1px solid black;
+                    border-top-right-radius: 5px;
+                    border-top-left-radius: 5px;
+                    margin-bottom: -4px;
+                }
+            }
     
             #messageListing > ul > li > .messageEntry > .messageTitle > .messageInfo {
-                width:100%;
+                width: auto;
             }
         
             #messageListing > ul > li > .messageEntry > .messageTitle > .messageBadge {
                 float: right;
             }
-    
-        #messageListing > ul > li > .messageEntry > .messageText {
-            width: 100%;
-            display: inline-block;
-            padding: 5px 10px;
-            border-bottom: 1px solid black;
-            border-left: 1px solid black;
-            border-right: 1px solid black;
-            border-bottom-right-radius: 5px;
-            border-bottom-left-radius: 5px;
-            margin-bottom: 5px;
-        }
-.messageDate {
-    float: right;
-}
+
+            .messageDate {
+                float: right;
+            }
+
+            @media screen and (min-width: 600px) {
+                #messageListing > ul > li > .messageEntry > .messageText {
+                    width: 100%;
+                    display: inline-block;
+                    padding: 5px 10px;
+                    border-bottom: 1px solid black;
+                    border-left: 1px solid black;
+                    border-right: 1px solid black;
+                    border-bottom-right-radius: 5px;
+                    border-bottom-left-radius: 5px;
+                    margin-bottom: 5px;
+                }
+            }
+
+            @media screen and (max-width: 600px) {
+                #messageListing > ul > li > .messageEntry > .messageText {
+                    width: 100%;
+                    display: inline-block;
+                    font-size: 70%;
+                    padding: 2px 4px;
+                    border-bottom: 1px solid black;
+                    border-left: 1px solid black;
+                    border-right: 1px solid black;
+                    border-bottom-right-radius: 5px;
+                    border-bottom-left-radius: 5px;
+                    margin-bottom: 5px;
+                }
+            }
 
 #postDiscussionForm {
     padding-top: 20px;

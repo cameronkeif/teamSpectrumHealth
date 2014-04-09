@@ -91,7 +91,8 @@
                 // Only process items which are not ignored.
                 if (ignoredIDs.indexOf(item.Id) == -1) {
                     // ID from the ASHP website, which is at the end of the source URL
-                    sourceUrl = "http://www.ashp.org/DrugShortages/Current/Bulletin.aspx?Source=Current&Type=Rss&Id=" + item.Id
+
+                    sourceUrl = "http://www.ashp.org/menu/DrugShortages/CurrentShortages/Bulletin.aspx?id=" + item.Id
                     $('#pending_shortages').append("<li id='ps_" + item.Id + "' class=pending_shortage><span class=pending_shortage_title onClick='showPreview(\"" + sourceUrl + '", "' + item.Id + '", "' + item.DrugName + "\")'>" + item.DrugName +
                         "<span class=pending_shortage_expand_icon id=expand_" + item.Id + ">+</span></span><br><span class='preview' id=" + item.Id + "></span></li>");
 

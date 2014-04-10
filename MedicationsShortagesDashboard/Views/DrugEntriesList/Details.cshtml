@@ -28,10 +28,11 @@
     </div>
     <div id="basicDrugInformation" style="display: none">
         <ul>
-            <li>Dosage: @Html.DisplayFor(tuple => tuple.Item1.Dosage)</li>
             <li>NDC: @Html.DisplayFor(tuple => tuple.Item1.NDC)</li>
-            <li>Generic Name: @Html.DisplayFor(tuple => tuple.Item1.Generic)</li>
+            <li id="dosageLabel">Dosage: @Html.DisplayFor(tuple => tuple.Item1.Dosage)</li>
+            <li id="genericLabel">Generic Name: @Html.DisplayFor(tuple => tuple.Item1.Generic)</li>
             <li>Current Status: @Html.DisplayFor(tuple => tuple.Item1.CurrentStatus)</li>
+            <li>Description: @Html.DisplayFor(tuple => tuple.Item1.Description)</li>
         </ul>
         <div id="submitButtonContainer"><button class="submitButton" id="submit_create_shortage" type="button">Create Shortage</button></div>
     </div>
@@ -66,11 +67,19 @@
 
     var brandTitle = '@Model.Item1.Brand';
     var genericTitle = '@Model.Item1.Generic';
+    var dosage = '@Model.Item1.Dosage';
 
+    // Hide missing information
     if (brandTitle != null && brandTitle != "")
         $('#secondaryTitle').append(brandTitle);
-    else
+    else {
         $('#secondaryTitle').append(genericTitle);
+        $('#genericLabel').hide()
+    }
+
+    if (dosage == null || dosage == "") {
+        $('#dosageLabel').hide()
+    }
 
     $('#attach_memo_submit').click(function (e) {
         e.preventDefault();

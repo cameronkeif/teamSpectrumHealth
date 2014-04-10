@@ -187,7 +187,8 @@
         hours = dateTime.substr(11, 2);
         minutes = dateTime.substr(14, 2);
         seconds = dateTime.substr(17, 2);
-        dateObject = new Date(year, month, day, hours, minutes, seconds);
+        dateObject = new Date(year, month - 1, day, hours, minutes, seconds, 0);
+
         return dateObject.toLocaleTimeString() + " on " + dateObject.toLocaleDateString();
     }
 

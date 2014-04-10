@@ -5,11 +5,11 @@
 
 <div id="body">
     <form id="create_drug_form">
-        <p><span class='formErrorNotification' id="ndcError">*</span>NDC: <input id="ndc" type="text" name="ndc" /></p>
-        <p><span class='formErrorNotification' id="dosageError">*</span>Dosage: <input id="dosage" type="text" name="dosage" /></p>
-        Brand Name: <input id="brand" type="text" name="brand" />
-        <p><span class='formErrorNotification' id="genericError">*</span>Generic Name: <input id="generic" type="text" name="generic" /></p>
-        <p><span class='formErrorNotification' id="descriptionError">*</span>Description: <input id="description" type="text" name="description" /></p>
+        <p><span class='formErrorNotification' id="ndcError">*</span>NDC: <input id="ndc" type="text" maxlength="20" name="ndc" /></p>
+        <p><span class='formErrorNotification' id="dosageError">*</span>Dosage: <input id="dosage" type="text" maxlength="100" name="dosage" /></p>
+        Brand Name: <input id="brand" type="text" maxlength="100" name="brand" />
+        <p><span class='formErrorNotification' id="genericError">*</span>Generic Name: <input id="generic" type="text" maxlength="100" name="generic" /></p>
+        <p><span class='formErrorNotification' id="descriptionError">*</span>Description: <input id="description" maxlength="1000" type="text" name="description" /></p>
         <p><button class="submitButton" id="submit" type="button">Create Drug</button></p>
     </form>
     <div id="invalidFormNotification" class="formErrorNotification">Please fill in all fields marked with *</div>

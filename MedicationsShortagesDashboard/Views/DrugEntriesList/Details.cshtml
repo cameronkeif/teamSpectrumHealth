@@ -83,10 +83,6 @@
         $('#dosageLabel').hide()
     }
 
-    $('#attach_memo_submit').click(function (e) {
-        e.preventDefault();
-    });
-
     $.getJSON('/api/Shortage/' + '@Model.Item1.NDC', function (shortagesJsonPayload) {
         $(shortagesJsonPayload).each(function (i, item) {
             var memo_link = ''

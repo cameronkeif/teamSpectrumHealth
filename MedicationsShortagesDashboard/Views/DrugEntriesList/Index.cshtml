@@ -65,7 +65,7 @@
     // Number of items to show in the recent column
     var numRecentItems = 10;
     // Number of items to show per page
-    var itemsPerPage = 5;
+    var itemsPerPage = 20;
 
     // Store items that don't match the filter
     var recentArchive = [];
@@ -93,7 +93,7 @@
             $("#" + name + "First").removeClass('disabled');
             $("#" + name + "Previous").removeClass('disabled');
         }
-        if (index == itemsPerPage * Math.ceil(list.length / itemsPerPage) - itemsPerPage) {
+        if (index == itemsPerPage * Math.ceil(list.length / itemsPerPage) - itemsPerPage || list.length == 0) {
             $("#" + name + "Last").addClass('disabled');
             $("#" + name + "Next").addClass('disabled');
         }
@@ -114,11 +114,11 @@
             var item = list[i];
             var shortage;
             if ($.inArray(item.NDC, watchListNdcs) != -1) {
-                shortage = getShortageItemHTMLWatchList(item.Brand, item.Generic, item.Dosage, item.NDC, item.CurrentStatus);
+                shortage = getShortageItemHTMLWatchList(item.Description, item.NDC, item.CurrentStatus);
                 $(shortage).appendTo('#' + appendTarget + 'WatchList').addClass(appendTarget + "Item").addClass('shortageItem');
             }
             else {
-                shortage = getShortageItemHTML(item.Brand, item.Generic, item.Dosage, item.NDC, item.CurrentStatus);
+                shortage = getShortageItemHTML(item.Description, item.NDC, item.CurrentStatus);
                 $(shortage).appendTo('#' + appendTarget + 'List').addClass(appendTarget + "Item").addClass('shortageItem');
             }
         }
@@ -130,10 +130,10 @@
             var shortage;
 
             if ($.inArray(item.NDC, watchListNdcs) != -1) {
-                shortage = getShortageItemHTMLWatchList(item.Brand, item.Generic, item.Dosage, item.NDC, item.CurrentStatus);
+                shortage = getShortageItemHTMLWatchList(item.Description, item.NDC, item.CurrentStatus);
             }
             else {
-                shortage = getShortageItemHTML(item.Brand, item.Generic, item.Dosage, item.NDC, item.CurrentStatus);
+                shortage = getShortageItemHTML(item.Description, item.NDC, item.CurrentStatus);
             }
 
             if (item.CurrentStatus === "severe") {
@@ -148,10 +148,10 @@
         }
     }
 
-    function sortByBrandName(a, b) {
-        if (a.Brand < b.Brand)
+    function sortByDescriptionName(a, b) {
+        if (a.Description.toLowerCase() < b.Description.toLowerCase())
             return -1;
-        else if (a.Brand > b.Brand)
+        else if (a.Description.toLowerCase() > b.Description.toLowerCase())
             return 1;
         return 0;
     }
@@ -170,8 +170,8 @@
             }
         }
 
-        notWatchList.sort(sortByBrandName);
-        watchList.sort(sortByBrandName);
+        notWatchList.sort(sortByDescriptionName);
+        watchList.sort(sortByDescriptionName);
 
         list = [];
 
@@ -284,22 +284,22 @@
                 </li>';
     }
 
-    function getShortageItemHTML(brand, generic, dosage, ndc, currentStatus) {
+    function getShortageItemHTML(description, ndc, currentStatus) {
         return '<li id="' + ndc + '"> \
                    <ul class="shortageCard"> \
                        <li class="left"> \
-                           <span><a href=/DrugEntriesList/Details/' + ndc + ">" + checkBadge(ndc) + ((brand != "" && brand != null) ? brand : generic) + ' ' + dosage + '</a></span> \
+                           <span><a href=/DrugEntriesList/Details/' + ndc + ">" + description + '</a></span> \
                        </li>' +
                            getNonWatchListShortageCardButtonHtml(ndc, currentStatus) +
                        '</ul> \
                 </li>';
     };
 
-    function getShortageItemHTMLWatchList(brand, generic, dosage, ndc, currentStatus) {
+    function getShortageItemHTMLWatchList(description, ndc, currentStatus) {
         return '<li id="' + ndc + '"> \
                 <ul class="shortageCard"> \
                     <li class="left"> \
-                        <span><a href=/DrugEntriesList/Details/' + ndc + ">" + checkBadge(ndc) + ((brand != "" && brand != null) ? brand : generic) + ' ' + dosage + '</a></span> \
+                        <span><a href=/DrugEntriesList/Details/' + ndc + ">" + description + '</a></span> \
                     </li>' +
                         getWatchListShortageCardButtonHtml(ndc, currentStatus) +
                     '</ul> \
@@ -431,25 +431,25 @@
 
         for (var i in recentItems) {
             var item = recentItems[i];
-            if ((item.Brand.toLowerCase().indexOf(query) == -1 && item.Dosage.toLowerCase().indexOf(query) == -1)) {
+            if (item.Description.toLowerCase().indexOf(query) == -1) {
                 removeNdcs.push(item.NDC);
             }
         }
         for (var i in goodItems) {
             var item = goodItems[i];
-            if ((item.Brand.toLowerCase().indexOf(query) == -1 && item.Dosage.toLowerCase().indexOf(query) == -1)) {
+            if (item.Description.toLowerCase().indexOf(query) == -1) {
                 removeNdcs.push(item.NDC);
             }
         }
         for (var i in warningItems) {
             var item = warningItems[i];
-            if ((item.Brand.toLowerCase().indexOf(query) == -1 && item.Dosage.toLowerCase().indexOf(query) == -1)) {
+            if (item.Description.toLowerCase().indexOf(query)) {
                 removeNdcs.push(item.NDC);
             }
         }
         for (var i in severeItems) {
             var item = severeItems[i];
-            if ((item.Brand.toLowerCase().indexOf(query) == -1 && item.Dosage.toLowerCase().indexOf(query) == -1)) {
+            if (item.Description.toLowerCase().indexOf(query) == -1) {
                 removeNdcs.push(item.NDC);
             }
         }

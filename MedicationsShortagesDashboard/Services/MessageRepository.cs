@@ -46,7 +46,7 @@ namespace MedicationsShortagesDashboard.Services
         {
             List<Message> messages = new List<Message>();
 
-            foreach (Message message in this.db.Messages.ToList())
+            foreach (Message message in this.db.Messages.OrderByDescending(message => message.Date).ToList())
             {
                 messages.Add(message);
             }

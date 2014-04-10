@@ -7,7 +7,7 @@
     <ul id="drug_entries"></ul>
 </div>
 
-<form name="form1" method="post" enctype="multipart/form-data" action="~/api/DrugEntry">
+<form name="form1" method="post" enctype="multipart/form-data" target="submitTarget" action="~/api/DrugEntry">
     <div>
         <label for="input">Upload a new .CSV file:</label>
         <input name="memo" type="file" />
@@ -16,3 +16,5 @@
         <input type="submit" value="Submit" />
     </div>
 </form>
+
+<iframe id="submitTarget" name="submitTarget" height="0", width="0"></iframe>

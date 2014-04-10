@@ -61,9 +61,13 @@ namespace MedicationsShortagesDashboard.Controllers
                         File.Delete(desiredPath);
                     }
 
-                    // Rename to an easily accessible filename
-                    File.Move(currentPath, desiredPath);
-                    this.shortageRepository.AttachMemoToShortage(id, "memo_" + id + extension);
+                    // Only attach if its a valid file
+                    if (string.IsNullOrWhiteSpace(extension))
+                    {
+                        // Rename to an easily accessible filename
+                        File.Move(currentPath, desiredPath);
+                        this.shortageRepository.AttachMemoToShortage(id, "memo_" + id + extension);
+                    }
                 }
 
                 return Request.CreateResponse(HttpStatusCode.OK);

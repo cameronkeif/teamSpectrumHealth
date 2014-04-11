@@ -266,9 +266,9 @@
         }
 
         return '<li class="right"> \
-                    <a href="#" onClick="addToWatchList(' + '\'' + loggedInAs + '\',\'' + ndc + '\', \'' + currentStatus + '\')"> \
+                    <div onClick="addToWatchList(' + '\'' + loggedInAs + '\',\'' + ndc + '\', \'' + currentStatus + '\')"> \
                         <img src="/images/not_favorite.png"> \
-                    </a> \
+                    </div> \
                </li>';
     }
 
@@ -278,9 +278,9 @@
         }
 
         return '<li class="right"> \
-                    <a href="#" onClick="removeFromWatchList(' + '\'' + loggedInAs + '\',\'' + ndc + '\', \'' + currentStatus + '\')"> \
+                    <div onClick="removeFromWatchList(' + '\'' + loggedInAs + '\',\'' + ndc + '\', \'' + currentStatus + '\')"> \
                         <img src="/images/favorite.png"> \
-                    </a> \
+                    </div> \
                 </li>';
     }
 

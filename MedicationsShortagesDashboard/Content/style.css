@@ -257,9 +257,10 @@ div.container
     height:37px;
 }
 
-    .shortageCard a img {
-        border: 0;
-    }
+.shortageCard div img {
+    border: 0;
+    cursor:pointer;
+}
 
 .shortageCard span 
 {

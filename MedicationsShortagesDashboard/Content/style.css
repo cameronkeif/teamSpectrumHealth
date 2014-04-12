@@ -232,22 +232,26 @@ div.container
 
 .shortageCard li 
 {
-    text-align:center;
     list-style-type:none;
     padding:0;
     font-family:Arial;
+    display:inline-block;
 }
 
 .shortageCard li.right
 {
    float:right;
    padding-right:2px;
+   width:10%;
 }
 
 .shortageCard li.left
 {
+    text-align:left;
+    text-indent:-20px;
     float:left;
-    padding-left:5px;
+    padding-left:25px;
+    width:80%;
 }
 
 .shortageCard li.left
@@ -326,6 +330,12 @@ div.container
     text-decoration:none;
     cursor:pointer;
     display:inline-block;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .pagingButton:hover {

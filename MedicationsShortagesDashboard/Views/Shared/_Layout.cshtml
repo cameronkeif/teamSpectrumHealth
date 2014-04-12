@@ -73,7 +73,7 @@
         <li class="pageTitle">@Html.Encode(ViewData["PageTitle"])</li>
         <li class="search">
             @{
-                if (ViewData["PageTitle"] == "Current Shortages" || ViewData["PageTitle"] == "All Shortages" || ViewData["PageTitle"] == "Pending Shortages")
+                if (ViewData["PageTitle"] == "Current Shortages")
                 {
                     <input id="searchbar" type="search" placeholder="search"/>
                 }

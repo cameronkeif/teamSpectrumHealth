@@ -183,6 +183,7 @@
     display:table;
     list-style-type:none;
     padding:0;
+    width:100%;
 }
 
 #pageTitleBar li
@@ -192,12 +193,18 @@
     vertical-align: middle;
     padding: 0;
     margin: 0;
-    width:10%;
+    width:20%;
+}
+
+#pageTitleBar .search input
+{
+    float:right;
 }
 
 #pageTitleBar .pageTitle
 {
-    width: 80%;
+    list-style-type:none;
+    width: 60%;
 }
 
 /*Shortages List*/

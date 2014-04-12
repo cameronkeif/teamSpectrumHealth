@@ -25,14 +25,15 @@
             <img src="~/Images/loading.gif">
     </div>
     <div id="secondaryTitle" style="display: none">
+        @Html.DisplayFor(tuple => tuple.Item1.Description)
     </div>
     <div id="basicDrugInformation" style="display: none">
         <ul>
             <li>NDC: @Html.DisplayFor(tuple => tuple.Item1.NDC)</li>
             <li id="dosageLabel">Dosage: @Html.DisplayFor(tuple => tuple.Item1.Dosage)</li>
+            <li id="brandLabel">Brand Name: @Html.DisplayFor(tuple => tuple.Item1.Brand)</li>
             <li id="genericLabel">Generic Name: @Html.DisplayFor(tuple => tuple.Item1.Generic)</li>
             <li>Current Status: @Html.DisplayFor(tuple => tuple.Item1.CurrentStatus)</li>
-            <li>Description: @Html.DisplayFor(tuple => tuple.Item1.Description)</li>
         </ul>
         <div id="submitButtonContainer"><button class="submitButton" id="submit_create_shortage" type="button">Create Shortage</button></div>
     </div>
@@ -72,10 +73,10 @@
     var dosage = '@Model.Item1.Dosage';
 
     // Hide missing information
-    if (brandTitle != null && brandTitle != "")
-        $('#secondaryTitle').append(brandTitle);
-    else {
-        $('#secondaryTitle').append(genericTitle);
+    if (brandTitle == null || brandTitle == "") {
+        $('#brandLabel').hide()
+    }
+    if (genericTitle == null || genericTitle == "") {
         $('#genericLabel').hide()
     }
 

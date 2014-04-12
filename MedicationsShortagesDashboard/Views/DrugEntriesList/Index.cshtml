@@ -426,6 +426,16 @@
     $("#searchbar").keyup(function () {
         mergeLists();
         var query = $("#searchbar").val().toLowerCase();
+        
+        // Move back to the front of the list
+        recentIndex = 0;
+        goodIndex = 0;
+        warningIndex = 0;
+        severeIndex = 0;
+
+        $("#goodPageNumber").text(1);
+        $("#severePageNumber").text(1);
+        $("#warningPageNumber").text(1);
 
         var removeNdcs = [];
 

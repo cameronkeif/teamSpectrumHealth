@@ -284,6 +284,10 @@ div.container
     margin:0;
 }
 
+.unreadBadge {
+    padding-right: 5px;
+}
+
 .goodItem .shortageCard
 {
     border-top-color:#8DB987;

@@ -285,10 +285,11 @@
     }
 
     function getShortageItemHTML(description, ndc, currentStatus) {
+        var badgeHTML = checkBadge(ndc);
         return '<li id="' + ndc + '"> \
                    <ul class="shortageCard"> \
                        <li class="left"> \
-                           <span><a href=/DrugEntriesList/Details/' + ndc + ">" + description + '</a></span> \
+                           <span><a href=/DrugEntriesList/Details/' + ndc + ">" + badgeHTML + description + '</a></span> \
                        </li>' +
                            getNonWatchListShortageCardButtonHtml(ndc, currentStatus) +
                        '</ul> \
@@ -296,10 +297,11 @@
     };
 
     function getShortageItemHTMLWatchList(description, ndc, currentStatus) {
+        var badgeHTML = checkBadge(ndc);
         return '<li id="' + ndc + '"> \
                 <ul class="shortageCard"> \
                     <li class="left"> \
-                        <span><a href=/DrugEntriesList/Details/' + ndc + ">" + description + '</a></span> \
+                        <span><a href=/DrugEntriesList/Details/' + ndc + ">" + badgeHTML + description + '</a></span> \
                     </li>' +
                         getWatchListShortageCardButtonHtml(ndc, currentStatus) +
                     '</ul> \
@@ -569,10 +571,10 @@
                     break;
                 }
             }
-        
+
             if (foundNdcInLastPostIndex > -1) { 
                 if (foundNdcUserVisitIndex < 0 || lastPosts[foundNdcInLastPostIndex][1] > lastVisits[foundNdcUserVisitIndex][1]) {
-                    return '<img style="padding-right:5px;" src="/Images/message_badge.png">';
+                    return '<img class="unreadBadge" src="/Images/message_badge.png">';
                 }
             
             }

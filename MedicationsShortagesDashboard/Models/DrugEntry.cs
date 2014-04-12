@@ -85,7 +85,7 @@ namespace MedicationsShortagesDashboard.Models
         /// <param name="currentStatus">Current Status of the drug</param>
         /// <param name="lastUpdated">The most recent time in which the drug was updated</param>
         /// <param name="lastPost">The most recent time in which a message was posted</param>
-        public DrugEntry(string ndc, string dosage, string brand, string generic, string description, string currentStatus, DateTime lastUpdated, DateTime lastPost)
+        public DrugEntry(string ndc, string dosage, string brand, string generic, string description, string currentStatus, DateTime lastUpdated, DateTime? lastPost)
         {
             this.ndc = ndc;
             this.dosage = dosage;

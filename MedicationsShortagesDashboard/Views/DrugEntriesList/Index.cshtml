@@ -557,7 +557,7 @@
         var foundNdcUserVisitIndex = -1;
         var foundNdcInLastPostIndex = -1
 
-        if (userType == "pharmadmin") {         
+        if (userType == "pharmadmin" || userType == "pharm") {
             for (var i = 0; i < lastPosts.length; i++) {
                 if (lastPosts[i][0] == ndc) {
                     foundNdcInLastPostIndex = i;

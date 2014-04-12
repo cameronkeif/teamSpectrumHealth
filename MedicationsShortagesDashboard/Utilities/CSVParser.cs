@@ -58,7 +58,8 @@ namespace MedicationsShortagesDashboard.Utilities
             {
                 if (firstLineSkipped)
                 {
-                    string[] words = line.Split(',');
+                    line = line.Replace("\"", "");
+                    string[] words = line.Split('\t');
                     DrugEntry newDrug = new DrugEntry(words[1], words[16] + words[17], words[42], words[43], words[34], "good", DateTime.Now, DateTime.Now);
                     this.drugs.Add(newDrug);
                 }

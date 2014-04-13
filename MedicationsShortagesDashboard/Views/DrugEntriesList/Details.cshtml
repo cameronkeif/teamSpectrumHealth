@@ -16,7 +16,7 @@
 
 <div id="body">
     <div id="attach_memo" title="Attach Memo" >
-        <form id="attach_memo_form" method="post" target="submitTarget" action="~/api/AttachMemo/1" enctype="multipart/form-data">
+        <form id="attach_memo_form" method="post" target="submitTarget" action="~@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "AttachMemo/1", })" enctype="multipart/form-data">
             <input type="file" name = "memo" id="memo" />
             <p><input type="submit" value="Submit" /></p>
         </form>
@@ -84,7 +84,7 @@
         $('#dosageLabel').hide()
     }
 
-    $.getJSON('/api/Shortage/' + '@Model.Item1.NDC', function (shortagesJsonPayload) {
+    $.getJSON('@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "Shortage", })' + '@Model.Item1.NDC', function (shortagesJsonPayload) {
         $(shortagesJsonPayload).each(function (i, item) {
             var memo_link = ''
             if (item.Memo) {
@@ -147,7 +147,7 @@
     function Upload(id) {
         // Dynamically change the form submit action to include the shortage ID. That way the file can be linked to the ID in the database.
         $('#attach_memo').empty()
-        $("#attach_memo").append('<form id="attach_memo_form" method="post" target="submitTarget" action="/api/AttachMemo/' + id + '" enctype="multipart/form-data">' +
+        $("#attach_memo").append('<form id="attach_memo_form" method="post" target="submitTarget" action="@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "AttachMemo", })' + id + '" enctype="multipart/form-data">' +
             '<input type="file" name = "memo" id="memo" />' + 
             '<p><input type="submit" value="Submit" /></p>'+
         '</form>');

@@ -117,7 +117,6 @@
             plotShortageHistory();
         }
         else {
-            console.log("else");
             $('#shortageHistory').prepend('No shortages have been reported for this medication.');
         }
 
@@ -275,7 +274,7 @@
 
     $('#submit').click(function (e) {
         var submitData = $('#postDiscussionForm').serialize();
-        console.log(submitData);
+        //console.log(submitData);
         $.post('@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "Message", })', submitData)
         .success(function () {
             updateLastVisit();

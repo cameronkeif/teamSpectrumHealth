@@ -92,13 +92,14 @@
                     '<img src="/images/memo.png" hspace="5">' +
                     '</a>';
             }
-            $('#shortageHistory > ul').append('<li id=shortage_' + item.Id + '>' + memo_link + item.Status + " at " + formatDateForOutput(item.DateTime) + '<span class="shortageLinks" >' +
+
+            $('#shortageHistory > ul').append('<li id=shortage_' + item.Id + '>' + memo_link + item.Status + " at " + formatDateForOutput(item.DateTime) + '<span class="shortageLinks">' +
                 '<a href="/ShortagesList/Details/' + item.Id + '">Details</a>' + 
                 '<span class="adminLinks">' +
                 '<a href="/ShortagesList/Edit/' + item.Id + '">Edit</a>' +
                 '<a onclick="Delete(' + item.Id + ', ' + i + ')" href="#">Delete</a>' + 
                 '<a onclick="Upload(' + item.Id + ' )" href="javascript:void(0);">Upload Memo</a></span>' +
-                '</span></li></div></li>');
+                '</span></li>');
 
             if (item.Status == "severe") {
                 shortageHistoryPlotData.push([item.DateTime.replace("T", " "), 0]);

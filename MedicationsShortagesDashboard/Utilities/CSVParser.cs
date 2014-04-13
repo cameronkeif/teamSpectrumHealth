@@ -45,8 +45,8 @@ namespace MedicationsShortagesDashboard.Utilities
         /// <summary>
         /// Parses a CSV file
         /// </summary>
-        /// <param name="path">The path to the .csv file</param>
-        /// <returns>Array of drug entries constructed from the csv file.</returns>
+        /// <param name="path">The path to the tab delimited file</param>
+        /// <returns>Array of drug entries constructed from the tab delimited file.</returns>
         public List<DrugEntry> ParseCSV(string path)
         {
             bool firstLineSkipped = false;
@@ -58,7 +58,7 @@ namespace MedicationsShortagesDashboard.Utilities
             {
                 if (firstLineSkipped)
                 {
-                    line = line.Replace("\"", "");
+                    line = line.Replace("\"", string.Empty);
                     string[] words = line.Split('\t');
                     DrugEntry newDrug = new DrugEntry(words[1], words[16] + words[17], words[42], words[43], words[34], "good", DateTime.Now, null);
                     this.drugs.Add(newDrug);

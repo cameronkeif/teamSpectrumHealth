@@ -10,13 +10,15 @@
 
 <div id="body">
     <div id="secondaryTitle">
-        @Html.DisplayFor(model => model.Brand)
+        @Html.DisplayFor(model => model.Description)
     </div>
     <div id="basicDrugInformation">
         <ul>
             <li>NDC: @Html.DisplayFor(model => model.NDC)</li>
-            <li>Dosage: @Html.DisplayFor(model => model.Dosage)</li>
-            <li>Generic Name: @Html.DisplayFor(model => model.Generic)</li>
+            <li id="dosageLabel">Dosage: @Html.DisplayFor(model => model.Dosage)</li>
+            <li id="brandLabel">Brand Name: @Html.DisplayFor(model => model.Brand)</li>
+            <li id="genericLabel">Generic Name: @Html.DisplayFor(model => model.Generic)</li>
+            <li>Current Status: @Html.DisplayFor(model => model.CurrentStatus)</li>
         </ul>
     </div>
     <form id="create_shortage_form">

@@ -17,10 +17,7 @@
             @{       
                 if(ViewData["Username"] == "Guest")
                 {
-                    <li class="rightMost">
-                        <a href="~/Login" class="button">Debug Login</a>
-                    </li>
-                    <li class="right" id="loginMenuButton">
+                    <li class="rightMost" id="loginMenuButton">
                         <div class="button">Login</div>
                     </li>
                 }
@@ -49,7 +46,7 @@
         <li class="pageTitle">@Html.Encode(ViewData["PageTitle"])</li>
         <li class="search">
             @{
-                if (ViewData["PageTitle"] == "Current Shortages" || ViewData["PageTitle"] == "All Shortages" || ViewData["PageTitle"] == "Pending Shortages")
+                if (ViewData["PageTitle"] == "Current Shortages")
                 {
                     <input id="searchbar" type="search" placeholder="search"/>
                 }

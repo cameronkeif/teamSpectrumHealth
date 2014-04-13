@@ -16,7 +16,7 @@
 
 <div id="body">
     <div id="attach_memo" title="Attach Memo" >
-        <form id="attach_memo_form" method="post" action="~/api/AttachMemo/1" enctype="multipart/form-data">
+        <form id="attach_memo_form" method="post" target="submitTarget" action="~/api/AttachMemo/1" enctype="multipart/form-data">
             <input type="file" name = "memo" id="memo" />
             <p><input type="submit" value="Submit" /></p>
         </form>
@@ -25,13 +25,14 @@
             <img src="~/Images/loading.gif">
     </div>
     <div id="secondaryTitle" style="display: none">
-        @Html.DisplayFor(tuple => tuple.Item1.Brand)
+        @Html.DisplayFor(tuple => tuple.Item1.Description)
     </div>
     <div id="basicDrugInformation" style="display: none">
         <ul>
-            <li>Dosage: @Html.DisplayFor(tuple => tuple.Item1.Dosage)</li>
             <li>NDC: @Html.DisplayFor(tuple => tuple.Item1.NDC)</li>
-            <li>Generic Name: @Html.DisplayFor(tuple => tuple.Item1.Generic)</li>
+            <li id="dosageLabel">Dosage: @Html.DisplayFor(tuple => tuple.Item1.Dosage)</li>
+            <li id="brandLabel">Brand Name: @Html.DisplayFor(tuple => tuple.Item1.Brand)</li>
+            <li id="genericLabel">Generic Name: @Html.DisplayFor(tuple => tuple.Item1.Generic)</li>
             <li>Current Status: @Html.DisplayFor(tuple => tuple.Item1.CurrentStatus)</li>
         </ul>
         <div id="submitButtonContainer"><button class="submitButton" id="submit_create_shortage" type="button">Create Shortage</button></div>
@@ -58,6 +59,8 @@
     <div id="messageListing">
         <ul></ul>
     </div>
+
+    <iframe id="submitTarget" name="submitTarget" height="0", width="0"></iframe>
 </div>
 
 @section scripts{
@@ -65,13 +68,21 @@
     var shortageHistoryPlotData = Array();
     var loginType = '@Html.Encode(ViewData["Type"])'
 
-    if (loginType == "pharmadmin") {
-        $("#submitButtonContainer").show();
+    var brandTitle = '@Model.Item1.Brand';
+    var genericTitle = '@Model.Item1.Generic';
+    var dosage = '@Model.Item1.Dosage';
+
+    // Hide missing information
+    if (brandTitle == null || brandTitle == "") {
+        $('#brandLabel').hide()
+    }
+    if (genericTitle == null || genericTitle == "") {
+        $('#genericLabel').hide()
     }
 
-    $('#attach_memo_submit').click(function (e) {
-        e.preventDefault();
-    });
+    if (dosage == null || dosage == "") {
+        $('#dosageLabel').hide()
+    }
 
     $.getJSON('/api/Shortage/' + '@Model.Item1.NDC', function (shortagesJsonPayload) {
         $(shortagesJsonPayload).each(function (i, item) {
@@ -86,7 +97,7 @@
                 '<span class="adminLinks">' +
                 '<a href="/ShortagesList/Edit/' + item.Id + '">Edit</a>' +
                 '<a onclick="Delete(' + item.Id + ', ' + i + ')" href="#">Delete</a>' + 
-                '<a onclick="Upload(' + item.Id + ' )" href="javascript:void(0);">Upload</a></span>' +
+                '<a onclick="Upload(' + item.Id + ' )" href="javascript:void(0);">Upload Memo</a></span>' +
                 '</span></li></div></li>');
 
             if (item.Status == "severe") {
@@ -136,7 +147,7 @@
     function Upload(id) {
         // Dynamically change the form submit action to include the shortage ID. That way the file can be linked to the ID in the database.
         $('#attach_memo').empty()
-        $("#attach_memo").append('<form id="attach_memo_form" method="post" action="/api/AttachMemo/' + id +'" enctype="multipart/form-data">' + 
+        $("#attach_memo").append('<form id="attach_memo_form" method="post" target="submitTarget" action="/api/AttachMemo/' + id + '" enctype="multipart/form-data">' +
             '<input type="file" name = "memo" id="memo" />' + 
             '<p><input type="submit" value="Submit" /></p>'+
         '</form>');
@@ -184,7 +195,8 @@
         hours = dateTime.substr(11, 2);
         minutes = dateTime.substr(14, 2);
         seconds = dateTime.substr(17, 2);
-        dateObject = new Date(year, month, day, hours, minutes, seconds);
+        dateObject = new Date(year, month - 1, day, hours, minutes, seconds, 0);
+
         return dateObject.toLocaleTimeString() + " on " + dateObject.toLocaleDateString();
     }
 

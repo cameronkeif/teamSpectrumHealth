@@ -31,15 +31,15 @@
             <p><span class="create_shortage_warning_label"><input id="warning" name="status" value="warning" type="radio" onclick="javascript: statusCheck();" /> Warning </span></p>
             <p><span class="create_shortage_severe_label"><input id="severe" name="status" type="radio" value="severe" onclick="javascript: statusCheck();" /> Severe </span></p>
             <div id="additionalInfo">
-                <p><span class='formErrorNotification' id="sevenDaySupplyError">*</span>Seven day supply (250 character limit):</p>
-                <p><textarea class="createShortageTextArea" id="sevenDaySupply" name="sevenDaySupply" rows="5" cols="50" ></textarea></p>
-                <p><span class='formErrorNotification' id="sevenDayUsageError">*</span>Seven day usage (250 character limit):</p>
-                <p><textarea class="createShortageTextArea" id="sevenDayUsage" name="sevenDayUsage" rows="5" cols="50" ></textarea></p>
-                <p><span class='formErrorNotification' id="mitigationActionsError">*</span>Migitation Actions (5000 character limit):</p>
-                <p><textarea class="createShortageTextArea" id="mitigationActions" name="mitigationActions" rows="5" cols="50" ></textarea></p>
-                <p><span class='formErrorNotification' id="backorderInformationError">*</span>Backorder Information (5000 character limit):</p>
-                <p><textarea class="createShortageTextArea" id="backorderInformation" name="backorderInformation" rows="5" cols="50" ></textarea></p>
-                <p><span class='formErrorNotification' id="greyMarketVendorError">*</span>Grey Market Vendor: <input id="greyMarketVendor" type="text" name="greyMarketVendor" /></p>
+                <p><span class='formErrorNotification' id="sevenDaySupplyError">*</span>Seven day supply:</p>
+                <p><textarea class="createShortageTextArea" id="sevenDaySupply" name="sevenDaySupply" maxlength="250" rows="5" cols="50" ></textarea></p>
+                <p><span class='formErrorNotification' id="sevenDayUsageError">*</span>Seven day usage:</p>
+                <p><textarea class="createShortageTextArea" id="sevenDayUsage" name="sevenDayUsage" maxlength="250" rows="5" cols="50" ></textarea></p>
+                <p><span class='formErrorNotification' id="mitigationActionsError">*</span>Migitation Actions:</p>
+                <p><textarea class="createShortageTextArea" id="mitigationActions" name="mitigationActions" maxlength="5000" rows="5" cols="50" ></textarea></p>
+                <p><span class='formErrorNotification' id="backorderInformationError">*</span>Backorder Information:</p>
+                <p><textarea class="createShortageTextArea" id="backorderInformation" name="backorderInformation" maxlength="5000" rows="5" cols="50" ></textarea></p>
+                <p><span class='formErrorNotification' id="greyMarketVendorError">*</span>Grey Market Vendor: <input id="greyMarketVendor" maxlength="250" type="text" name="greyMarketVendor" /></p>
                 <p><span class='formErrorNotification' id="expectedResolutionDateError">*</span>Expected Resolution Date: <input readonly="readonly" id="expectedResolutionDate" type="text" name="expectedResolutionDate" /></p>
             </div>
             <p><button id="submit" type="button">Create Shortage</button></p>
@@ -91,7 +91,8 @@
                 // Only process items which are not ignored.
                 if (ignoredIDs.indexOf(item.Id) == -1) {
                     // ID from the ASHP website, which is at the end of the source URL
-                    sourceUrl = "http://www.ashp.org/DrugShortages/Current/Bulletin.aspx?Source=Current&Type=Rss&Id=" + item.Id
+
+                    sourceUrl = "http://www.ashp.org/menu/DrugShortages/CurrentShortages/Bulletin.aspx?id=" + item.Id
                     $('#pending_shortages').append("<li id='ps_" + item.Id + "' class=pending_shortage><span class=pending_shortage_title onClick='showPreview(\"" + sourceUrl + '", "' + item.Id + '", "' + item.DrugName + "\")'>" + item.DrugName +
                         "<span class=pending_shortage_expand_icon id=expand_" + item.Id + ">+</span></span><br><span class='preview' id=" + item.Id + "></span></li>");
 

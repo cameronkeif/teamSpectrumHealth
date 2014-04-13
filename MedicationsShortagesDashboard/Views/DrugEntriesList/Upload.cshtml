@@ -9,10 +9,12 @@
 
 <form name="form1" method="post" enctype="multipart/form-data" action='@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "DrugEntry", })'>
     <div>
-        <label for="input">Upload a new .CSV file:</label>
+        <label for="input">Upload a new formulary file (tab delimited):</label>
         <input name="memo" type="file" />
     </div>
     <div>
         <input type="submit" value="Submit" />
     </div>
 </form>
+
+<iframe id="submitTarget" name="submitTarget" height="0", width="0"></iframe>

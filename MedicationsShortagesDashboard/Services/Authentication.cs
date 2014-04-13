@@ -14,7 +14,6 @@ namespace MedicationsShortagesDashboard.Services
     /// </summary>
     public class Authentication
     {
-
         /// <summary>
         /// Gets or sets a value indicating whether a user is authenticated
         /// </summary>
@@ -48,6 +47,7 @@ namespace MedicationsShortagesDashboard.Services
                 {
                     return (string)HttpContext.Current.Cache["Type"];
                 }
+
                 return string.Empty;
             }
 
@@ -68,6 +68,7 @@ namespace MedicationsShortagesDashboard.Services
                 {
                     return (string)HttpContext.Current.Cache["Username"];
                 }
+
                 return "Guest";
             }
 

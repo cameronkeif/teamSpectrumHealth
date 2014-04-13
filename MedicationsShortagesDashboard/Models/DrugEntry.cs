@@ -38,6 +38,11 @@ namespace MedicationsShortagesDashboard.Models
         private string generic;
 
         /// <summary>
+        /// Description of drug
+        /// </summary>
+        private string description;
+
+        /// <summary>
         /// Current shortage status of this drug
         /// </summary>
         [FieldOptional]
@@ -63,6 +68,7 @@ namespace MedicationsShortagesDashboard.Models
             this.dosage = string.Empty;
             this.brand = string.Empty;
             this.generic = string.Empty;
+            this.description = string.Empty;
             this.currentStatus = "good"; // By default, a drug has no shortages associated with it, and thus is considered 'good'
             this.lastUpdated = DateTime.Today;
             this.lastPost = null;
@@ -75,15 +81,17 @@ namespace MedicationsShortagesDashboard.Models
         /// <param name="dosage">Dosage of the drug</param>
         /// <param name="brand">Brand name</param>
         /// <param name="generic">Generic name</param>
+        /// <param name="description">Description of drug</param>
         /// <param name="currentStatus">Current Status of the drug</param>
         /// <param name="lastUpdated">The most recent time in which the drug was updated</param>
         /// <param name="lastPost">The most recent time in which a message was posted</param>
-        public DrugEntry(string ndc, string dosage, string brand, string generic, string currentStatus, DateTime lastUpdated, DateTime lastPost)
+        public DrugEntry(string ndc, string dosage, string brand, string generic, string description, string currentStatus, DateTime lastUpdated, DateTime? lastPost)
         {
             this.ndc = ndc;
             this.dosage = dosage;
             this.brand = brand;
             this.generic = generic;
+            this.description = description;
             this.currentStatus = currentStatus;
             this.lastUpdated = lastUpdated;
             this.lastPost = lastPost;
@@ -155,6 +163,23 @@ namespace MedicationsShortagesDashboard.Models
             set
             {
                 this.generic = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the description
+        /// </summary>
+        [Column("DESCRIPTION")]
+        public string Description
+        {
+            get
+            {
+                return this.description;
+            }
+
+            set
+            {
+                this.description = value;
             }
         }
 

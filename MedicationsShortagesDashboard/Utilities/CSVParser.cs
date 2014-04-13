@@ -5,7 +5,8 @@
 //-----------------------------------------------------------------------
 namespace MedicationsShortagesDashboard.Utilities
 {
-    using FileHelpers;
+    using System;
+    using System.Collections.Generic;
     using MedicationsShortagesDashboard.Models;
 
     /// <summary>
@@ -14,14 +15,9 @@ namespace MedicationsShortagesDashboard.Utilities
     public class CSVParser
     {
         /// <summary>
-        /// Engine used to parse CSV file
-        /// </summary>
-        private FileHelperEngine engine;
-
-        /// <summary>
         /// Array holding extracted drugs
         /// </summary>
-        private DrugEntry[] drugs;
+        private List<DrugEntry> drugs;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CSVParser"/> class
@@ -33,7 +29,7 @@ namespace MedicationsShortagesDashboard.Utilities
         /// <summary>
         /// Gets or sets the drug list
         /// </summary>
-        public DrugEntry[] Drugs
+        public List<DrugEntry> Drugs
         {
             get
             {
@@ -49,17 +45,28 @@ namespace MedicationsShortagesDashboard.Utilities
         /// <summary>
         /// Parses a CSV file
         /// </summary>
-        /// <param name="path">The path to the .csv file</param>
-        /// <returns>Array of drug entries constructed from the csv file.</returns>
-        public DrugEntry[] ParseCSV(string path)
+        /// <param name="path">The path to the tab delimited file</param>
+        /// <returns>Array of drug entries constructed from the tab delimited file.</returns>
+        public List<DrugEntry> ParseCSV(string path)
         {
-            this.engine = new FileHelperEngine(typeof(DrugEntry));
-            this.drugs = this.engine.ReadFile(path) as DrugEntry[];
+            bool firstLineSkipped = false;
+            string line;
+            this.drugs = new List<DrugEntry>();
+            System.IO.StreamReader file = new System.IO.StreamReader(path);
 
-            // this.engine.WriteFile("OutCSV.txt", this.drugs);
-            foreach (DrugEntry d in this.drugs)
+            while ((line = file.ReadLine()) != null)
             {
-                System.Diagnostics.Debug.WriteLine(d.ToString());
+                if (firstLineSkipped)
+                {
+                    line = line.Replace("\"", string.Empty);
+                    string[] words = line.Split('\t');
+                    DrugEntry newDrug = new DrugEntry(words[1], words[16] + words[17], words[42], words[43], words[34], "good", DateTime.Now, null);
+                    this.drugs.Add(newDrug);
+                }
+                else
+                {
+                    firstLineSkipped = true;
+                }
             }
 
             return this.drugs;

@@ -50,7 +50,6 @@ namespace MedicationsShortagesDashboard.Services
             foreach (DrugEntry drugEntry in this.db.DrugEntries.ToList())
             {
                 drugEntries.Add(drugEntry);
-                System.Diagnostics.Debug.WriteLine("DRUG: " + drugEntry.NDC);
             }
 
             return drugEntries.ToArray();
@@ -124,13 +123,11 @@ namespace MedicationsShortagesDashboard.Services
         public void UpdateDrugLastPostTime(string ndc)
         {
             DrugEntry d = this.db.DrugEntries.Find(ndc);
-            System.Diagnostics.Debug.WriteLine("Date of NDC to be modified");
             if (d != null)
             {
                 d.LastPost = DateTime.Now;
                 this.db.Entry(d).State = EntityState.Modified;
                 this.db.SaveChanges();
-                System.Diagnostics.Debug.WriteLine("Date of NDC " + ndc + " modified!");
             }
         }
     }

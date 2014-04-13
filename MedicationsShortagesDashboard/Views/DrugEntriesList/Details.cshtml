@@ -84,7 +84,7 @@
         $('#dosageLabel').hide()
     }
 
-    $.getJSON('@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "Shortage", })' + '@Model.Item1.NDC', function (shortagesJsonPayload) {
+    $.getJSON('@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "Shortage/", })' + '@Model.Item1.NDC', function (shortagesJsonPayload) {
         $(shortagesJsonPayload).each(function (i, item) {
             var memo_link = ''
             if (item.Memo) {

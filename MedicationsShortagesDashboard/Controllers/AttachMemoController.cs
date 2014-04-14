@@ -62,7 +62,7 @@ namespace MedicationsShortagesDashboard.Controllers
                     }
 
                     // Only attach if its a valid file
-                    if (string.IsNullOrWhiteSpace(extension))
+                    if (!string.IsNullOrWhiteSpace(extension))
                     {
                         // Rename to an easily accessible filename
                         File.Move(currentPath, desiredPath);

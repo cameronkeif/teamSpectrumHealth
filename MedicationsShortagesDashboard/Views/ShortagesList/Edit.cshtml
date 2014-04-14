@@ -50,13 +50,13 @@
     $("#expectedResolutionDate").datepicker({ minDate: 0, dateFormat: "m/d/yy" });
 
     // Pre populate form based on current information
-    $('#expectedResolutionDate').val('@Html.DisplayFor(tuple => tuple.Item1.ExpectedResolutionDate)')
+    $('#expectedResolutionDate').val('@Model.Item1.ExpectedResolutionDate')
     $('#expectedResolutionDate').val($('#expectedResolutionDate').val().split(" ")[0]);
 
-    $('#sevenDaySupply').val('@Html.DisplayFor(tuple => tuple.Item1.SevenDaySupply)').text();
-    $('#sevenDayUsage').val('@Html.DisplayFor(tuple => tuple.Item1.SevenDayUsage)').text();
-    $('#mitigationActions').val('@Html.DisplayFor(tuple => tuple.Item1.MitigationActions)').text();
-    $('#backorderInformation').val('@Html.DisplayFor(tuple => tuple.Item1.BackorderInformation)').text();
+    $('#sevenDaySupply').val('@Model.Item1.SevenDaySupply.Replace("\r\n", "<br>")'.replace(/&lt;br&gt;/g, "\n"));
+    $('#sevenDayUsage').val('@Model.Item1.SevenDayUsage.Replace("\r\n", "<br>")'.replace(/&lt;br&gt;/g, "\n"));
+    $('#mitigationActions').val('@Model.Item1.MitigationActions.Replace("\r\n", "<br>")'.replace(/&lt;br&gt;/g, "\n"));
+    $('#backorderInformation').val('@Model.Item1.BackorderInformation.Replace("\r\n", "<br>")'.replace(/&lt;br&gt;/g, "\n"));
 
     $('#greyMarketVendor').val('@Html.DisplayFor(tuple => tuple.Item1.GreyMarketVendor)').text();
 

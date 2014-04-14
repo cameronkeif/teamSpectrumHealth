@@ -261,7 +261,7 @@ function validateForm() {
         $("#ndcNotFoundError").hide();
         validForm = false;
     }
-    else if (validNDCs.indexOf($.trim($('#ndc').val()) == -1)) {
+    else if (validNDCs.indexOf($.trim($('#ndc').val())) == -1) {
         //console.log('her');
         // NDC was not found in the database
         $('#ndcError').show();
@@ -279,7 +279,7 @@ function validateForm() {
 
     // If the user selected warning or severe, make sure they filled in all that information
     if (!document.getElementById('good').checked) {
-        var selectors = ['sevenDaySupply', 'sevenDayUsage', 'mitigationActions', 'backorderInformation', 'greyMarketVendor', 'expectedResolutionDate']
+        var selectors = ['sevenDaySupply', 'sevenDayUsage', 'mitigationActions', 'backorderInformation', 'greyMarketVendor', 'expectedResolutionDate'];
 
         for (var x in selectors) {
             var selector = selectors[x];

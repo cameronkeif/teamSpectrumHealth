@@ -51,15 +51,14 @@
 
     // Pre populate form based on current information
     $('#expectedResolutionDate').val('@Html.DisplayFor(tuple => tuple.Item1.ExpectedResolutionDate)')
-    $('#expectedResolutionDate').val($('#expectedResolutionDate').html('@Html.DisplayFor(tuple => tuple.Item1.ExpectedResolutionDate)').text().split(" ")[0]);
+    $('#expectedResolutionDate').val($('#expectedResolutionDate').val().split(" ")[0]);
 
-    $('#sevenDaySupply').html('@Html.DisplayFor(tuple => tuple.Item1.SevenDaySupply)').text()
-    $('#sevenDayUsage').html('@Html.DisplayFor(tuple => tuple.Item1.SevenDayUsage)').text();
-    $('#mitigationActions').html('@Html.DisplayFor(tuple => tuple.Item1.MitigationActions)').text();
-    $('#backorderInformation').html('@Html.DisplayFor(tuple => tuple.Item1.BackorderInformation)').text();
+    $('#sevenDaySupply').val('@Html.DisplayFor(tuple => tuple.Item1.SevenDaySupply)').text();
+    $('#sevenDayUsage').val('@Html.DisplayFor(tuple => tuple.Item1.SevenDayUsage)').text();
+    $('#mitigationActions').val('@Html.DisplayFor(tuple => tuple.Item1.MitigationActions)').text();
+    $('#backorderInformation').val('@Html.DisplayFor(tuple => tuple.Item1.BackorderInformation)').text();
 
-    $('#greyMarketVendor').html('@Html.DisplayFor(tuple => tuple.Item1.GreyMarketVendor)').text()
-    $('#greyMarketVendor').val($('#greyMarketVendor').html('@Html.DisplayFor(tuple => tuple.Item1.GreyMarketVendor)').text());
+    $('#greyMarketVendor').val('@Html.DisplayFor(tuple => tuple.Item1.GreyMarketVendor)').text();
 
     var status = '@Html.DisplayFor(tuple => tuple.Item1.Status)';
     if (status == 'good')
@@ -74,6 +73,7 @@
         $('#severe').prop('checked', true);
         $('#additionalInfo').show()
     }
+
 
     $('#submit').click(function (e) {
         $('#invalidFormNotification').hide();
@@ -117,16 +117,17 @@
         var validForm = true;
         // If the user selected warning or severe, make sure they filled in all that information
         if (!document.getElementById('good').checked) {
-            var selectors = ['sevenDaySupply', 'sevenDayUsage', 'mitigationActions', 'backorderInformation', 'greyMarketVendor', 'expectedResolutionDate']
+            var selectors = ['sevenDaySupply', 'sevenDayUsage', 'mitigationActions', 'backorderInformation', 'greyMarketVendor', 'expectedResolutionDate'];
 
-            selectors.forEach(function (selector) {
+            for (var x in selectors) {
+                var selector = selectors[x];
                 if (isBlank($('#' + selector).val())) {
                     $('#' + selector + 'Error').show();
                     validForm = false;
                 } else {
                     $('#' + selector + 'Error').hide();
                 }
-            });
+            }
         }
 
         return validForm;

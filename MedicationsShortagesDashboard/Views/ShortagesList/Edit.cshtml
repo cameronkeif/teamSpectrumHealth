@@ -10,13 +10,15 @@
 
 <div id="body">
     <div id="secondaryTitle">
-        @Html.DisplayFor(tuple => tuple.Item2.Brand)
+        @Html.DisplayFor(tuple => tuple.Item2.Description)
     </div>
     <div id="basicDrugInformation">
         <ul>
             <li>NDC: @Html.DisplayFor(tuple => tuple.Item2.NDC)</li>
             <li>Dosage: @Html.DisplayFor(tuple => tuple.Item2.Dosage)</li>
             <li>Generic Name: @Html.DisplayFor(tuple => tuple.Item2.Generic)</li>
+            <li>Brand: @Html.DisplayFor(tuple => tuple.Item2.Brand)</li>
+        
         </ul>
     </div>
     <form id="create_shortage_form">

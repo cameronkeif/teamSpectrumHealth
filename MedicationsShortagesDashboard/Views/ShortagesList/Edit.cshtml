@@ -74,6 +74,7 @@
         $('#additionalInfo').show()
     }
 
+
     $('#submit').click(function (e) {
         $('#invalidFormNotification').hide();
         if (validateForm()) {
@@ -117,7 +118,7 @@
         var validForm = true;
         // If the user selected warning or severe, make sure they filled in all that information
         if (!document.getElementById('good').checked) {
-            var selectors = ['sevenDaySupply', 'sevenDayUsage', 'mitigationActions', 'backorderInformation', 'greyMarketVendor', 'expectedResolutionDate']
+            var selectors = ['sevenDaySupply', 'sevenDayUsage', 'mitigationActions', 'backorderInformation', 'greyMarketVendor', 'expectedResolutionDate'];
 
             for (var x = 0; x < selectors.length; x++) {
                 var selector = selectors[x];

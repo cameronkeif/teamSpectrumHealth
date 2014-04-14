@@ -138,23 +138,31 @@ function scrapeHtml(url, id, drugName) {
 
                   // Get the affected products
                   affectedProducts = data.split("Products Affected - Description")[1];
-                  affectedProducts = affectedProducts.split("<!-- End Products Affected  -->")[0];
 
-                  var indexOfNdc = affectedProducts.indexOf("NDC ");
+                  // Invalid preview.
+                  if (typeof affectedProducts == 'undefined') {
+                      preview = "<p>Unable to load preview. Please try viewing the full report \
+                                on the ASHP website by clicking the link below.</p>"
+                  } else {
+                      affectedProducts = affectedProducts.split("<!-- End Products Affected  -->")[0];
 
-                  while (indexOfNdc != -1) {
-                      // + 4 because of the length of 'NDC '
-                      // length of 13 because an NDC contains 10 numbers and two -'s
-                      NDCs.push(affectedProducts.substr(indexOfNdc + 4, 13));
+                      var indexOfNdc = affectedProducts.indexOf("NDC ");
 
-                      indexOfNdc = affectedProducts.indexOf("NDC ", indexOfNdc + 4);
+                      while (indexOfNdc != -1) {
+                          // + 4 because of the length of 'NDC '
+                          // length of 13 because an NDC contains 10 numbers and two -'s
+                          NDCs.push(affectedProducts.substr(indexOfNdc + 4, 13));
+
+                          indexOfNdc = affectedProducts.indexOf("NDC ", indexOfNdc + 4);
+                      }
+
+                      preview = "<p><b>Products Affected</b>" + affectedProducts + "</p>"
+                      // Get the reasons for the shortage
+                      reasons = data.split('Reason for the Shortage')[2];
+                      reasons = reasons.split('<!-- End Reason for the Shortage -->')[0];
+                      preview = preview + "<p><b>Reason for the Shortage</b>" + reasons + "</p>";
                   }
                   
-                  preview = "<p><b>Products Affected</b>" + affectedProducts + "</p>"
-                  // Get the reasons for the shortage
-                  reasons = data.split('Reason for the Shortage')[2];
-                  reasons = reasons.split('<!-- End Reason for the Shortage -->')[0];
-                  preview = preview + "<p><b>Reason for the Shortage</b>" + reasons + "</p>";
 
                   $("#" + id).children('#loadingAnimation').hide();
                   $("#" + id).prepend(preview);
@@ -253,7 +261,7 @@ function validateForm() {
         $("#ndcNotFoundError").hide();
         validForm = false;
     }
-    else if (validNDCs.indexOf($('#ndc').val().trim()) == -1) {
+    else if (validNDCs.indexOf($.trim($('#ndc').val())) == -1) {
         //console.log('her');
         // NDC was not found in the database
         $('#ndcError').show();
@@ -271,7 +279,7 @@ function validateForm() {
 
     // If the user selected warning or severe, make sure they filled in all that information
     if (!document.getElementById('good').checked) {
-        var selectors = ['sevenDaySupply', 'sevenDayUsage', 'mitigationActions', 'backorderInformation', 'greyMarketVendor', 'expectedResolutionDate']
+        var selectors = ['sevenDaySupply', 'sevenDayUsage', 'mitigationActions', 'backorderInformation', 'greyMarketVendor', 'expectedResolutionDate'];
 
         for (var x = 0; x < selectors.length; x++) {
             var selector = selectors[x];

@@ -254,7 +254,7 @@ function validateForm() {
         validForm = false;
     }
     else if (validNDCs.indexOf($('#ndc').val().trim()) == -1) {
-        console.log('her');
+        //console.log('her');
         // NDC was not found in the database
         $('#ndcError').show();
         $("#ndcNotFoundError").show();
@@ -273,14 +273,15 @@ function validateForm() {
     if (!document.getElementById('good').checked) {
         var selectors = ['sevenDaySupply', 'sevenDayUsage', 'mitigationActions', 'backorderInformation', 'greyMarketVendor', 'expectedResolutionDate']
 
-        selectors.forEach(function (selector) {
+        for (var x in selectors) {
+            var selector = selectors[x];
             if (isBlank($('#' + selector).val())) {
                 $('#' + selector + 'Error').show();
                 validForm = false;
             } else {
                 $('#' + selector + 'Error').hide();
             }
-        });
+        }
     }
 
     return validForm;

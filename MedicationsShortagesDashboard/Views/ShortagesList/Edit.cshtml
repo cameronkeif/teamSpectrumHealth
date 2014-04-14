@@ -119,7 +119,7 @@
         if (!document.getElementById('good').checked) {
             var selectors = ['sevenDaySupply', 'sevenDayUsage', 'mitigationActions', 'backorderInformation', 'greyMarketVendor', 'expectedResolutionDate']
 
-            for (var x in selectors) {
+            for (var x = 0; x < selectors.length; x++) {
                 var selector = selectors[x];
                 if (isBlank($('#' + selector).val())) {
                     $('#' + selector + 'Error').show();

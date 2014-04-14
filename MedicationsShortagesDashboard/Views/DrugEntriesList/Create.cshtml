@@ -42,14 +42,15 @@
         var validForm = true;
         var selectors = ['ndc', 'dosage', 'generic', 'description']
 
-        selectors.forEach(function (selector) {
+        for (var x = 0; x < selectors.length; x++) {
+            var selector = selectors[x];
             if (isBlank($('#' + selector).val())) {
                 $('#' + selector + 'Error').show();
                 validForm = false;
             } else {
                 $('#' + selector + 'Error').hide();
             }
-        });
+        }
         return validForm;
     }
 </script>

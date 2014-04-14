@@ -4,6 +4,10 @@
     font-family: Arial;
 }
 
+pre { 
+    font-family: Arial;
+}
+
 /*Items that fit with spectrum's style guide*/
 .submitButton {
     color:white;

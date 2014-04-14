@@ -109,7 +109,7 @@ namespace MedicationsShortagesDashboard.Controllers
 
             this.ViewData["Username"] = Authentication.Username;
             this.ViewData["Type"] = Authentication.Type;
-            this.ViewData["PageTitle"] = "Details";
+            this.ViewData["PageTitle"] = "Shortage Details";
             return this.View(shortage);
         }
     }

@@ -230,7 +230,7 @@
                         if (item.NDC == '@Model.Item1.NDC') {
                             var badge = '';
                             // Check (if user logged in) if unread, update DrugVisit entry
-                            if (loginType == "pharmadmin") {
+                            if (loginType == "pharmadmin" || loginType == "pharm") {
                                 if (dateLastSeen != null) {
                                     if (item.Date > dateLastSeen) {
                                         badge = '<img style="padding-right:5px;" src="/Images/message_badge_large.png">';

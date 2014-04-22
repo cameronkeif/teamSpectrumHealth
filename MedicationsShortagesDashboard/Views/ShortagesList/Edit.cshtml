@@ -53,10 +53,17 @@
     $('#expectedResolutionDate').val('@Model.Item1.ExpectedResolutionDate')
     $('#expectedResolutionDate').val($('#expectedResolutionDate').val().split(" ")[0]);
 
-    $('#sevenDaySupply').val('@Model.Item1.SevenDaySupply.Replace("\r\n", "<br>")'.replace(/&lt;br&gt;/g, "\n"));
-    $('#sevenDayUsage').val('@Model.Item1.SevenDayUsage.Replace("\r\n", "<br>")'.replace(/&lt;br&gt;/g, "\n"));
-    $('#mitigationActions').val('@Model.Item1.MitigationActions.Replace("\r\n", "<br>")'.replace(/&lt;br&gt;/g, "\n"));
-    $('#backorderInformation').val('@Model.Item1.BackorderInformation.Replace("\r\n", "<br>")'.replace(/&lt;br&gt;/g, "\n"));
+    @{
+        string sevenDaySupply = @Model.Item1.SevenDaySupply ?? String.Empty;
+        string sevenDayUsage = @Model.Item1.SevenDayUsage ?? String.Empty;
+        string mitigationActions = @Model.Item1.MitigationActions ?? String.Empty;
+        string backorderInformation = @Model.Item1.BackorderInformation ?? String.Empty;
+    }
+
+    $('#sevenDaySupply').val('@sevenDaySupply.Replace("\r\n", "<br>")'.replace(/&lt;br&gt;/g, "\n"));
+    $('#sevenDayUsage').val('@sevenDayUsage.Replace("\r\n", "<br>")'.replace(/&lt;br&gt;/g, "\n"));
+    $('#mitigationActions').val('@mitigationActions.Replace("\r\n", "<br>")'.replace(/&lt;br&gt;/g, "\n"));
+    $('#backorderInformation').val('@backorderInformation.Replace("\r\n", "<br>")'.replace(/&lt;br&gt;/g, "\n"));
 
     $('#greyMarketVendor').val('@Html.DisplayFor(tuple => tuple.Item1.GreyMarketVendor)').text();
 
